@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}
+    LOGIN
+{% endblock %}
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="corpo">
+        <div class="login-container">
+            <h2>Login</h2>
+            <form action="/login" method="post">
+                {% csrf_token %}
+                <div class="input-group">
+                    <label for="username">Usuário</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Entrar</button>
+                {% if alerta %}
+                    <p class="warn">{{alerta}}</p>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+    
+{% endblock %}

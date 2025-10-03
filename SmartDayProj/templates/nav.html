@@ -15,28 +15,33 @@
         </div>
         
         {% if request.user.is_authenticated %}
-            {% if user.groups.all.0.name == "Gerente" %}
-                <ul class="nav-menu" id="navMenu">
-                    <li class="nav-item">
-                        <a href="{% url 'quartos' %}" class="nav-link">QUARTOS</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'addColaborador' %}" class="nav-link">ADD COLABORADOR</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'logout' %}" class="nav-link">LOGOUT</a>
-                    </li>
-                </ul>
-            {% else %}
-                <ul class="nav-menu" id="navMenu">
-                    <li class="nav-item">
-                        <a href="{% url 'quartos' %}" class="nav-link">QUARTOS</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'logout' %}" class="nav-link">LOGOUT</a>
-                    </li>
-                </ul>
-            {% endif %}
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item">
+                    <a href="{% url '' %}" class="nav-link">Finanças</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url '' %}" class="nav-link">To-Do</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url '' %}" class="nav-link">Lista De Compras</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url '' %}" class="nav-link">Calendário</a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a href="{% url '' %}" class="nav-link">Minhas Casas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url '' %}" class="nav-link">Meu Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url '' %}" class="nav-link">Configurações</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'logout' %}" class="nav-link">LOGOUT</a>
+                </li>
+            </ul>
         {% else %}
             <ul class="nav-menu" id="navMenu">
                 <li class="nav-item">
