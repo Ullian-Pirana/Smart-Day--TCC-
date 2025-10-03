@@ -1,0 +1,79 @@
+/* Fundo geral */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #FFFCEF ;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container do login */
+.login-container {
+    background: #EAE0C8;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+    width: 300px;
+    text-align: center;
+}
+
+/* Título */
+.login-container h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+/* Campos de input */
+.input-group {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: bold;
+    font-size: 14px;
+    color: #444;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #74b9ff;
+}
+
+/* Botão */
+button {
+    width: 100%;
+    padding: 0.7rem;
+    border: none;
+    border-radius: 6px;
+    background: #74b9ff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #0984e3;
+}
+
+/* Mensagem de alerta */
+.warn {
+    margin-top: 1rem;
+    color: #d63031;
+    font-size: 14px;
+}

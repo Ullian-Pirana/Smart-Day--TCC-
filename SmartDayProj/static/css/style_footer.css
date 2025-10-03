@@ -1,3 +1,4 @@
+/* FOOTER FIXO NO RODAPÉ */
 .site-footer {
   background-color: #2e2e2e; /* cor escura no rodapé */
   color: white;
@@ -5,13 +6,20 @@
   padding: 15px 0;
   font-size: 14px;
   font-family: sans-serif;
- 
+
+  position: fixed;  /* fixa no rodapé */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
-p{
-  margin-bottom: 30px;
+/* Texto dentro do footer */
+.site-footer p {
+  margin: 0; /* sem espaçamento extra */
 }
 
-.footer_logo{
+/* Logo dentro do footer */
+.footer_logo {
   height: 55px;
 }

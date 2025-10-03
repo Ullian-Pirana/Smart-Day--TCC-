@@ -5,17 +5,23 @@
     box-sizing: border-box;
 }
 
+
+
+
 body {
     font-family: Arial, sans-serif;
 }
 
 /* NAV PRINCIPAL */
+/* NAV PRINCIPAL */
 .main-nav {
-    background-color: #DFC185;;
+    background-color: #659BB9;
     color: #fff;
     padding: 0.75rem 1.5rem;
-    position: sticky;
+    position: fixed;   /* Fixa no topo */
     top: 0;
+    left: 0;
+    width: 100%;       /* Largura total */
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
