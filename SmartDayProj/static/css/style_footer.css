@@ -1,0 +1,13 @@
+.site-footer {
+  background-color: #2e2e2e; /* cor escura no rodapé */
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 14px;
+  font-family: sans-serif;
+ 
+}
+
+p{
+  margin-bottom: 30px ;
+}

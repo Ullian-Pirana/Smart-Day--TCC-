@@ -1,0 +1,60 @@
+{% load static %}
+
+<nav class="main-nav">
+    <div class="nav-container">
+        <div class="nav-logo">
+            <a href="/">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" class="nav-logo-img">
+            </a>
+        </div>
+        
+        <div class="nav-toggle" id="navToggle">
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+        </div>
+        
+        {% if request.user.is_authenticated %}
+            {% if user.groups.all.0.name == "Gerente" %}
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item">
+                        <a href="{% url 'quartos' %}" class="nav-link">QUARTOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'addColaborador' %}" class="nav-link">ADD COLABORADOR</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'logout' %}" class="nav-link">LOGOUT</a>
+                    </li>
+                </ul>
+            {% else %}
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item">
+                        <a href="{% url 'quartos' %}" class="nav-link">QUARTOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'logout' %}" class="nav-link">LOGOUT</a>
+                    </li>
+                </ul>
+            {% endif %}
+        {% else %}
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item">
+                    <a href="/login" class="nav-link">LOGIN</a>
+                </li>
+            </ul>
+        {% endif %}
+    </div>
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        navToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('show');
+            navToggle.classList.toggle('active');
+        });
+    });
+</script>

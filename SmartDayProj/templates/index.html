@@ -1,12 +1,48 @@
-<!-- templates/home.html -->
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+
+    {% block head %}
+    {% endblock %}
+
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" href="{% static 'css/messages.css' %}">
+    <link rel="icon" href="{% static 'img/logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/style_footer.css' %}">
+     <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+
 </head>
 <body>
-    <p>Olá, Django!</p>
+
+    {% include 'nav.html' %}
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    {{ message }}
+                    <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block body %}
+    {% endblock %}
+
+    {% include 'footer.html' %}
+
+    <script src="{% static 'js/nav.js' %}"></script>
+    <script src="{% static 'js/messages.js' %}"></script>
+
 </body>
 </html>
