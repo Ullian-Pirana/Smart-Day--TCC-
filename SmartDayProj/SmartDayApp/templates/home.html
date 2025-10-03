@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}
+    HOMEPAGE
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/homepage.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="homepage-container">
+        {% for dados in dados_home %}
+            <div class="homepage-card">
+                <h1 class="titulo-home">Hotel Aría</h1>
+                <div class="homepage-content">
+                    <div class="homepage-text">
+                        <p class="homepage-description">{{dados.descricao}}</p>
+                    </div>
+                    <div class="homepage-image">
+                        {% if dados.logo %}
+                            <img src="{{ dados.logo.url }}" alt="{{ dados.titulo }}" class="homepage-logo">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

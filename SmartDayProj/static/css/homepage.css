@@ -1,0 +1,91 @@
+/* Reset básico */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #e0e0e0;
+}
+
+/* Container principal */
+.homepage-container {
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Cada card de conteúdo */
+.homepage-card {
+    background-color: #ffffff;
+    width: 90%;
+    max-width: 1100px;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s;
+}
+
+.homepage-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Título */
+.titulo-home{
+    font-size: 28px;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #dea223;
+}
+
+/* Conteúdo flexível */
+.homepage-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* Texto */
+.homepage-text {
+    flex: 1 1 58%;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    line-height: 1.7;
+    color: #444444;
+}
+
+/* Imagem */
+.homepage-image {
+    flex: 1 1 35%;
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.homepage-logo {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .homepage-content {
+        flex-direction: column;
+    }
+
+    .homepage-image {
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    .homepage-text,
+    .homepage-image {
+        width: 100%;
+    }
+}
