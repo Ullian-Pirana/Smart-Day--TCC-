@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    HOMEPAGE
+    Smart Day - Homepage
 {% endblock %}
 
 {% block head %}
@@ -11,16 +11,47 @@
 
 {% block body %}
     <div class="homepage-container">
+        <!-- Primeiro Card -->
         <div class="homepage-card">
             <h1 class="titulo-home">Smart Day</h1>
             <div class="homepage-content">
                 <div class="homepage-text">
-                    <p class="homepage-description">{{dados.descricao}}</p>
+                    <p class="homepage-description">
+                        {% if dados.descricao %}
+                            {{ dados.descricao }}
+                        {% else %}
+                            Bem-vindo ao Smart Day! Aqui você encontra soluções inteligentes para o seu dia a dia.
+                        {% endif %}
+                    </p>
                 </div>
                 <div class="homepage-image">
                     {% if dados.logo %}
-                        <img src="{{ dados.logo.url }}" alt="{{ dados.titulo }}" class="homepage-logo">
+                        <img src="{{ dados.logo.url }}" alt="Logo Smart Day" class="homepage-logo">
+                    {% else %}
+                        <img src="{% static 'images/default-logo.png' %}" alt="Logo Smart Day" class="homepage-logo">
                     {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Segundo Card - Serviços -->
+        <div class="homepage-card">
+            <h2 class="titulo-home">Nossos Serviços</h2>
+            <div class="homepage-content">
+                <div class="homepage-text">
+                    <ul>
+                        <li>
+                            <strong>Open</strong>
+                            Organize suas tarefas de forma simples
+                        </li>
+                        <!-- Adicione mais serviços aqui conforme necessário -->
+                    </ul>
+                    <div class="homepage-footer">
+                        Todos os direitos reservados - 2025
+                    </div>
+                </div>
+                <div class="homepage-image">
+                    <img src="{% static 'images/services.jpg' %}" alt="Nossos Serviços" class="homepage-logo">
                 </div>
             </div>
         </div>

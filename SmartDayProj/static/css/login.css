@@ -1,26 +1,45 @@
-/* Fundo geral */
+.buttons-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    padding: 0.7rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
-    height: 100vh;
+    background: #FFFCEF;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-top: 80px;
+    box-sizing: border-box;
 }
 
 /* Container do login */
 .login-container {
-    background: #fff;
+    background: #EAE0C8;
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
-    width: 300px;
+    width: 350px;
     text-align: center;
 }
 
-/* Título */
 .login-container h2 {
     margin-bottom: 1.5rem;
     color: #333;
@@ -48,27 +67,72 @@ body {
     font-size: 14px;
     outline: none;
     transition: border-color 0.3s ease;
+    box-sizing: border-box;
 }
 
 .input-group input:focus {
-    border-color: #74b9ff;
+    border-color: #567C8D;
 }
 
-/* Botão */
-button {
-    width: 100%;
+/* Link "Esqueci minha senha" */
+.forgot-password-row {
+    text-align: right;
+    margin: 0.5rem 0 1.5rem 0;
+}
+
+.forgot-link {
+    color: #567C8D;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.forgot-link:hover {
+    color: #567C8D;
+    text-decoration: underline;
+}
+
+/* Container dos botões lado a lado */
+.form_submit {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+/* Botão de cadastro */
+.link_a {
+    flex: 1;
+    padding: 0.7rem;
+    color: #5E83AE;
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.link_a:hover {
+    background: #2d3436;
+}
+
+/* Botão de entrar */
+.form_submit button {
+    flex: 1;
     padding: 0.7rem;
     border: none;
     border-radius: 6px;
-    background: #74b9ff;
+    background: #567C8D;
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: bold;
     cursor: pointer;
     transition: background 0.3s ease;
 }
 
-button:hover {
-    background: #0984e3;
+.form_submit button:hover {
+    background: #3e5b68;
 }
 
 /* Mensagem de alerta */
@@ -76,4 +140,44 @@ button:hover {
     margin-top: 1rem;
     color: #d63031;
     font-size: 14px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    body {
+        padding-top: 70px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .login-container {
+        width: 100%;
+        max-width: 350px;
+    }
+    
+    .form_submit {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .link_a, 
+    .form_submit button {
+        width: 100%;
+        min-height: 45px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-top: 60px;
+    }
+    
+    .login-container {
+        padding: 1.5rem;
+    }
+    
+    .forgot-password-row {
+        text-align: center;
+        margin: 1rem 0;
+    }
 }
