@@ -1,183 +1,166 @@
-.buttons-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 1.5rem;
-}
-
-.btn {
-    padding: 0.7rem;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: none;
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #FFFCEF;
-    min-height: 100vh;
+/* login.css */
+.corpo {
+    min-height: calc(100vh - 80px);
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding-top: 80px;
-    box-sizing: border-box;
+    justify-content: center;
+    background: linear-gradient(135deg, #659BB9 0%, #8BB8D6 100%);
+    padding: 20px;
 }
 
-/* Container do login */
 .login-container {
-    background: #EAE0C8;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
-    width: 350px;
-    text-align: center;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
 }
 
 .login-container h2 {
-    margin-bottom: 1.5rem;
-    color: #333;
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 700;
 }
 
-/* Campos de input */
 .input-group {
-    margin-bottom: 1rem;
-    text-align: left;
+    margin-bottom: 20px;
 }
 
 .input-group label {
     display: block;
-    margin-bottom: 0.3rem;
-    font-weight: bold;
-    font-size: 14px;
-    color: #444;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 0.95rem;
 }
 
 .input-group input {
     width: 100%;
-    padding: 0.6rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.3s ease;
-    box-sizing: border-box;
+    padding: 12px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
 .input-group input:focus {
-    border-color: #567C8D;
+    outline: none;
+    border-color: #659BB9;
+    box-shadow: 0 0 0 3px rgba(101, 155, 185, 0.1);
 }
 
-/* Link "Esqueci minha senha" */
-.forgot-password-row {
-    text-align: right;
-    margin: 0.5rem 0 1.5rem 0;
+.form_submit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
 }
 
-.forgot-link {
-    color: #567C8D;
+.link_a {
+    color: #659BB9;
     text-decoration: none;
-    font-size: 14px;
+    font-weight: 600;
     transition: color 0.3s ease;
 }
 
-.forgot-link:hover {
-    color: #567C8D;
+.link_a:hover {
+    color: #4a7a99;
     text-decoration: underline;
 }
 
-/* Container dos botões lado a lado */
-.form_submit {
-    display: flex;
-    gap: 15px;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-}
-
-/* Botão de cadastro */
-.link_a {
-    flex: 1;
-    padding: 0.7rem;
-    color: #5E83AE;
-    text-decoration: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.link_a:hover {
-    background: #2d3436;
-}
-
-/* Botão de entrar */
 .form_submit button {
-    flex: 1;
-    padding: 0.7rem;
+    background: linear-gradient(135deg, #659BB9 0%, #8BB8D6 100%);
+    color: white;
     border: none;
-    border-radius: 6px;
-    background: #567C8D;
-    color: #fff;
-    font-size: 14px;
-    font-weight: bold;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .form_submit button:hover {
-    background: #3e5b68;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(101, 155, 185, 0.4);
 }
 
-/* Mensagem de alerta */
 .warn {
-    margin-top: 1rem;
-    color: #d63031;
-    font-size: 14px;
+    background: #ffeaa7;
+    color: #e17055;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 600;
+    border-left: 4px solid #e17055;
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
-    body {
-        padding-top: 70px;
-        padding-left: 15px;
-        padding-right: 15px;
+    .corpo {
+        min-height: calc(100vh - 70px);
+        padding: 15px;
     }
     
     .login-container {
-        width: 100%;
-        max-width: 350px;
+        padding: 30px 25px;
     }
     
-    .form_submit {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .link_a, 
-    .form_submit button {
-        width: 100%;
-        min-height: 45px;
+    .login-container h2 {
+        font-size: 1.8rem;
     }
 }
 
 @media (max-width: 480px) {
-    body {
-        padding-top: 60px;
-    }
-    
     .login-container {
-        padding: 1.5rem;
+        padding: 25px 20px;
     }
     
-    .forgot-password-row {
-        text-align: center;
-        margin: 1rem 0;
+    .login-container h2 {
+        font-size: 1.6rem;
     }
+    
+    .form_submit {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .link_a {
+        text-align: center;
+        order: 2;
+    }
+    
+    .form_submit button {
+        order: 1;
+    }
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-container {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Efeitos de foco melhorados */
+.input-group input:invalid:not(:focus):not(:placeholder-shown) {
+    border-color: #e74c3c;
+}
+
+.input-group input:valid:not(:focus):not(:placeholder-shown) {
+    border-color: #27ae60;
 }

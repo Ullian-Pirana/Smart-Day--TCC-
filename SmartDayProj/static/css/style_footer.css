@@ -1,25 +1,23 @@
-/* FOOTER FIXO NO RODAPÉ */
+/* FOOTER */
 .site-footer {
-  background-color: #2e2e2e; /* cor escura no rodapé */
-  color: white;
-  text-align: center;
-  padding: 15px 0;
-  font-size: 14px;
-  font-family: sans-serif;
-
-  position: fixed;  /* fixa no rodapé */
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
+    background-color: #2e2e2e;
+    color: white;
+    text-align: center;
+    padding: 25px 0;
+    font-size: 14px;
+    font-family: sans-serif;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
 }
 
-/* Texto dentro do footer */
 .site-footer p {
-  margin: 0; /* sem espaçamento extra */
+    margin: 8px 0;
 }
 
-/* Logo dentro do footer */
 .footer_logo {
-  height: 55px;
+    height: 55px;
+    display: block;
+    margin: 0 auto 10px auto;
 }
