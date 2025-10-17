@@ -101,23 +101,28 @@ def listar_tarefas(request):
 
     return JsonResponse({'tarefas': tarefas_json, 'usuario': usuario, 'is_responsavel': is_responsavel_user})
 
-
 @login_required
 @require_POST
 def criar_tarefa(request):
     data = json.loads(request.body)
     try:
+        data_inicio = parse_date(data.get('data_inicio'))
+        data_fim = parse_date(data.get('data_fim'))
+
+        # 🚫 Validação de datas
+        if data_inicio and data_fim and data_fim < data_inicio:
+            return JsonResponse({'erro': 'A data de término não pode ser anterior à data de início.'}, status=400)
+
         tarefa = Tarefa.objects.create(
             titulo=data.get('titulo'),
             descricao=data.get('descricao', ''),
-            data_inicio=parse_date(data.get('data_inicio')),
-            data_fim=parse_date(data.get('data_fim')),
+            data_inicio=data_inicio,
+            data_fim=data_fim,
             criado_por=request.user,
         )
         return JsonResponse({'mensagem': 'Tarefa criada com sucesso!'})
     except Exception as e:
         return JsonResponse({'erro': str(e)}, status=400)
-
 
 @login_required
 @require_POST
@@ -135,21 +140,27 @@ def excluir_tarefa(request, id):
     except Exception as e:
         return JsonResponse({"erro": str(e)}, status=400)
 
-
 @login_required
 @require_POST
 def editar_tarefa(request, id):
     try:
         tarefa = Tarefa.objects.get(id=id)
-        # Permissão: Responsável pode tudo, outros só se forem criadores
+
         if not (is_responsavel(request.user) or tarefa.criado_por == request.user):
             return JsonResponse({"erro": "Você não tem permissão para editar esta tarefa."}, status=403)
 
         data = json.loads(request.body)
+        data_inicio = parse_date(data.get("data_inicio")) or tarefa.data_inicio
+        data_fim = parse_date(data.get("data_fim")) or tarefa.data_fim
+
+        # 🚫 Validação de datas
+        if data_fim < data_inicio:
+            return JsonResponse({"erro": "A data de término não pode ser anterior à data de início."}, status=400)
+
         tarefa.titulo = data.get("titulo", tarefa.titulo)
         tarefa.descricao = data.get("descricao", tarefa.descricao)
-        tarefa.data_inicio = parse_date(data.get("data_inicio")) or tarefa.data_inicio
-        tarefa.data_fim = parse_date(data.get("data_fim")) or tarefa.data_fim
+        tarefa.data_inicio = data_inicio
+        tarefa.data_fim = data_fim
         tarefa.save()
 
         return JsonResponse({"mensagem": "Tarefa atualizada com sucesso!"})
@@ -157,7 +168,6 @@ def editar_tarefa(request, id):
         return JsonResponse({"erro": "Tarefa não encontrada."}, status=404)
     except Exception as e:
         return JsonResponse({"erro": str(e)}, status=400)
-
 
 @login_required
 @require_POST

@@ -26,9 +26,9 @@
                 </div>
                 <div class="homepage-image">
                     {% if dados.logo %}
-                        <img src="{{ dados.logo.url }}" alt="Logo Smart Day" class="homepage-logo">
+                        <img src="{% static 'img/logo.png' %}" alt="Logo" class="nav-logo-img">
                     {% else %}
-                        <img src="{% static 'images/default-logo.png' %}" alt="Logo Smart Day" class="homepage-logo">
+                        <img src="{% static 'img/logo.png' %}" alt="Logo" class="nav-logo-img">
                     {% endif %}
                 </div>
             </div>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="homepage-image">
-                    <img src="{% static 'images/services.jpg' %}" alt="Nossos Serviços" class="homepage-logo">
+                    <img src="{% static 'img/services.jpg' %}" alt="Nossos Serviços" class="homepage-logo">
                 </div>
             </div>
         </div>

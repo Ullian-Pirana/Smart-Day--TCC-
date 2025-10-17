@@ -26,32 +26,6 @@
   font-weight: 700;
 }
 
-.input-group label {
-  color: var(--text-primary);
-}
-
-.input-group input {
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  border: 2px solid var(--border-color);
-}
-
-/* Garantir que os inputs herdem as cores corretamente */
-.input-group input::placeholder {
-  color: var(--text-secondary);
-  opacity: 0.7;
-}
-
-.input-group input:focus {
-  border-color: var(--accent-color);
-  background: var(--bg-primary);
-  color: var(--text-primary);
-}
-
-/* ... resto do css atual... */
-
-
-
 /* login.css */
 .corpo {
     min-height: calc(100vh - 80px);

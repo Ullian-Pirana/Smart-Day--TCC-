@@ -16,8 +16,8 @@
   /* Dark Mode - CORES INVERTIDAS */
   --bg-primary: #2C2F33;           /* Preto no lugar do bege */
   --bg-secondary: #2d2d2d;         /* Cinza escuro */
-  --bg-tertiary: #3a3a3a;          /* Cinza mais escuro */
-  --text-primary: #1e1919;         /* Bege no lugar do preto */
+  --bg-tertiary: #FEFECC;          /* Cinza mais escuro */
+  --text-primary: #010101;         /* Bege no lugar do preto */
   --text-secondary: #ffffff;       /* Bege mais claro */
   --accent-color: #8BB8D6;         /* Azul mais claro */
   --accent-hover: #6a9bb9;         /* Azul médio */

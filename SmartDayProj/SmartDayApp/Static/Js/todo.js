@@ -323,6 +323,21 @@ document.addEventListener("DOMContentLoaded", () => {
         return "";
     }
 
+    // ====== BLOQUEAR DATAS INVÁLIDAS ======
+    const dataInicioInput = document.getElementById("dataInicio");
+    const dataFimInput = document.getElementById("dataFim");
+
+    // Impede selecionar data de fim anterior à de início
+    dataInicioInput.addEventListener("change", () => {
+        const dataInicio = dataInicioInput.value;
+        dataFimInput.min = dataInicio; // 🔒 impede seleção de datas anteriores
+
+        // Se o usuário já tinha escolhido uma data inválida, limpa o campo
+        if (dataFimInput.value && dataFimInput.value < dataInicio) {
+            dataFimInput.value = "";
+        }
+    });
+
     // ====== INICIALIZAÇÃO ======
     gerarCalendario(dataAtual.getFullYear(), dataAtual.getMonth());
     carregarTarefas();
