@@ -1,65 +1,104 @@
-/* Reset básico */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #e0e0e0;
-}
-
-/* Container principal */
+/* homepage.css */
 .homepage-container {
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 40px 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 40px;
 }
 
-/* Cada card de conteúdo */
 .homepage-card {
-    background-color: #ffffff;
-    width: 90%;
-    max-width: 1100px;
+    background: white;
     border-radius: 12px;
-    padding: 30px;
-    margin-bottom: 40px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-    transition: transform 0.3s;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .homepage-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Título */
-.titulo-home{
-    font-size: 28px;
-    margin-bottom: 25px;
+.titulo-home {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
     text-align: center;
-    color: #dea223;
+    font-weight: 700;
+    position: relative;
 }
 
-/* Conteúdo flexível */
+.titulo-home::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, #659BB9, #8BB8D6);
+    border-radius: 2px;
+}
+
 .homepage-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
 }
 
-/* Texto */
 .homepage-text {
-    flex: 1 1 58%;
-    background-color: #f5f5f5;
-    padding: 20px;
-    border-radius: 10px;
-    line-height: 1.7;
-    color: #444444;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-/* Imagem */
+.homepage-description {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.homepage-text ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.homepage-text li {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 4px solid #659BB9;
+    transition: background-color 0.3s ease;
+}
+
+.homepage-text li:hover {
+    background: #e9ecef;
+}
+
+.homepage-text strong {
+    display: block;
+    font-size: 1.3rem;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.homepage-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+    text-align: center;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
 .homepage-image {
-    flex: 1 1 35%;
-    margin-left: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,24 +107,315 @@ body {
 .homepage-logo {
     max-width: 100%;
     height: auto;
-    border-radius: 10px;
-    object-fit: cover;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.homepage-logo:hover {
+    transform: scale(1.05);
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
+    .homepage-container {
+        padding: 20px 15px;
+        gap: 30px;
+    }
+    
+    .homepage-card {
+        padding: 30px 20px;
+    }
+    
+    .titulo-home {
+        font-size: 2rem;
+    }
+    
     .homepage-content {
-        flex-direction: column;
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
     }
+    
+    .homepage-description {
+        font-size: 1.1rem;
+        text-align: left;
+    }
+    
+    .homepage-text li {
+        text-align: left;
+    }
+}
 
-    .homepage-image {
-        margin-left: 0;
-        margin-top: 20px;
+@media (max-width: 480px) {
+    .homepage-card {
+        padding: 20px 15px;
     }
+    
+    .titulo-home {
+        font-size: 1.8rem;
+    }
+    
+    .homepage-description {
+        font-size: 1rem;
+    }
+    
+    .homepage-text li {
+        padding: 15px;
+    }
+    
+    .homepage-text strong {
+        font-size: 1.1rem;
+    }
+}
 
-    .homepage-text,
-    .homepage-image {
-        width: 100%;
+/* Animações suaves */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.homepage-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.homepage-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+/* Estados de loading para imagens */
+.homepage-logo {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.homepage-logo[src] {
+    animation: none;
+    background: transparent;
+}/* homepage.css */
+.homepage-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.homepage-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.homepage-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.titulo-home {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 700;
+    position: relative;
+}
+
+.titulo-home::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, #659BB9, #8BB8D6);
+    border-radius: 2px;
+}
+
+.homepage-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.homepage-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.homepage-description {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.homepage-text ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.homepage-text li {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 4px solid #659BB9;
+    transition: background-color 0.3s ease;
+}
+
+.homepage-text li:hover {
+    background: #e9ecef;
+}
+
+.homepage-text strong {
+    display: block;
+    font-size: 1.3rem;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.homepage-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+    text-align: center;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.homepage-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.homepage-logo {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.homepage-logo:hover {
+    transform: scale(1.05);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .homepage-container {
+        padding: 20px 15px;
+        gap: 30px;
+    }
+    
+    .homepage-card {
+        padding: 30px 20px;
+    }
+    
+    .titulo-home {
+        font-size: 2rem;
+    }
+    
+    .homepage-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+    
+    .homepage-description {
+        font-size: 1.1rem;
+        text-align: left;
+    }
+    
+    .homepage-text li {
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    .homepage-card {
+        padding: 20px 15px;
+    }
+    
+    .titulo-home {
+        font-size: 1.8rem;
+    }
+    
+    .homepage-description {
+        font-size: 1rem;
+    }
+    
+    .homepage-text li {
+        padding: 15px;
+    }
+    
+    .homepage-text strong {
+        font-size: 1.1rem;
+    }
+}
+
+/* Animações suaves */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.homepage-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.homepage-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+/* Estados de loading para imagens */
+.homepage-logo {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.homepage-logo[src] {
+    animation: none;
+    background: transparent;
 }

@@ -1,23 +1,47 @@
-/* Reset básico */
+/* Reset e configurações gerais */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
     font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 80px; /* Espaço para a navbar fixa */
+}
+
+main {
+    flex: 1;
+    display: block;
+    position: relative;
+    z-index: 0;
+}
+
+section {
+    margin-bottom: 40px; /* garante espaço antes do footer */
 }
 
 /* NAV PRINCIPAL */
 .main-nav {
-    background-color: #DFC185;;
+    background-color: #659BB9;
     color: #fff;
     padding: 0.75rem 1.5rem;
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    width: 100%;
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    height: 80px;
 }
 
 .nav-container {
@@ -26,6 +50,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 100%;
 }
 
 /* LOGO */
@@ -82,25 +107,3 @@ body {
     transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* RESPONSIVO */
-@media (max-width: 768px) {
-    .nav-menu {
-        position: absolute;
-        top: 70px;
-        right: 0;
-        background-color: #333;
-        flex-direction: column;
-        align-items: flex-start;
-        width: 200px;
-        padding: 1rem;
-        display: none;
-    }
-
-    .nav-menu.show {
-        display: flex;
-    }
-
-    .nav-toggle {
-        display: flex;
-    }
-}

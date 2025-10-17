@@ -1,3 +1,41 @@
 body{
     background-color: #f0e8d5;
 }
+/* static/css/index.css */
+:root {
+  /* Light Mode (default) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-tertiary: #EAE0C8;
+  --text-primary: #2c3e50;
+  --text-secondary: #666666;
+  --accent-color: #659BB9;
+  --accent-hover: #4a7a99;
+  --border-color: #e9ecef;
+  --warn-bg: #ffeaa7;
+  --warn-text: #e17055;
+}
+
+[data-theme="dark"] {
+  /* Dark Mode */
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --bg-tertiary: #3a3a3a;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --accent-color: #8BB8D6;
+  --accent-hover: #6a9bb9;
+  --border-color: #404040;
+  --warn-bg: #4a3c27;
+  --warn-text: #ffa726;
+}
+
+/* Transições suaves para todo o site */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}

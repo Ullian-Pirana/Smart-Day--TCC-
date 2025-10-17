@@ -117,3 +117,291 @@
     cursor: pointer;
     box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.month-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.month-selector button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+#monthLabel {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.toast-msg {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #333;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    z-index: 9999;
+    display: none;
+    transition: opacity 0.3s ease;
+}
+.toast-msg.sucesso { background: #4CAF50; }
+.toast-msg.erro { background: #E53935; }
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-danger {
+    background-color: #E53935;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-danger:hover {
+    background-color: #b71c1c;
+}
+
+.confirm-modal {
+    max-width: 320px;
+    text-align: center;
+}
+
+.btn-secondary {
+    background-color: #ccc;
+    color: #333;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: #bdbdbd;
+}
+
+.modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000; /* Garantido */
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    z-index: 1001;
+    width: 90%;
+    max-width: 420px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.btn-danger {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-danger:hover {
+    background-color: #c9302c;
+}
+
+.btn-primary {
+    background-color: #3a7be0;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #2d5fb6;
+}
+
+/* garante que o overlay bloqueie o fundo, mas o conteúdo receba cliques */
+.modal {
+    position: fixed;
+    inset: 0;
+    display: none; /* o JS define display:flex */
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    z-index: 10000;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    width: 92%;
+    max-width: 480px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+    transform-origin: center;
+    animation: modalFadeIn 200ms ease-out;
+    z-index: 10001;
+}
+
+/* fade in animation */
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* fade out class (aplicada antes de remover) */
+.modal-content.fade-out {
+    animation: modalFadeOut 180ms ease-in forwards;
+}
+@keyframes modalFadeOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.98); }
+}
+.modal.fade-out-backdrop {
+    animation: backdropFadeOut 180ms ease-in forwards;
+}
+@keyframes backdropFadeOut {
+    from { background: rgba(0,0,0,0.6); }
+    to { background: rgba(0,0,0,0); }
+}
+
+/* botão shake (curto) para chamar atenção */
+@keyframes shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
+}
+.shake {
+  animation: shake 0.6s;
+}
+
+/* botões - garantir pointer events e visual */
+.modal .modal-actions button {
+  pointer-events: auto;
+}
+
+/* estilos de botão já sugeridos (ex): */
+.btn-danger { background-color: #E53935; color: #fff; border-radius: 8px; padding: 8px 12px; border: none; cursor: pointer; }
+.btn-secondary { background: #ccc; color:#222; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
+.btn-primary { background:#3a7be0; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
+
+/* === MODAL DE CONFIRMAÇÃO === */
+.confirm-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 20000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.confirm-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.confirm-modal {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 340px;
+    text-align: center;
+    animation: popIn 0.25s ease-out;
+}
+
+.confirm-text {
+    font-size: 1.05rem;
+    margin-bottom: 16px;
+    color: #333;
+}
+
+.confirm-actions {
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn-confirmar {
+    background-color: #E53935;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn-confirmar:hover {
+    background-color: #c62828;
+}
+
+.btn-cancelar {
+    background-color: #ccc;
+    color: #222;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn-cancelar:hover {
+    background-color: #bdbdbd;
+}
+
+/* animações */
+@keyframes popIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+.confirm-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+}

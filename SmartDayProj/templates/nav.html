@@ -17,9 +17,6 @@
         {% if request.user.is_authenticated %}
             <ul class="nav-menu" id="navMenu">
                 <li class="nav-item">
-                    <a href="{% url 'todo' %}" class="nav-link">To-Do</a>
-                </li>
-                <li class="nav-item">
                     <a href="{% url 'logout' %}" class="nav-link">LOGOUT</a>
                 </li>
             </ul>

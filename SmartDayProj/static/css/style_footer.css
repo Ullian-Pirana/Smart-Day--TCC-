@@ -1,17 +1,23 @@
+/* FOOTER */
 .site-footer {
-  background-color: #2e2e2e; /* cor escura no rodapé */
-  color: white;
-  text-align: center;
-  padding: 15px 0;
-  font-size: 14px;
-  font-family: sans-serif;
- 
+    background-color: #2e2e2e;
+    color: white;
+    text-align: center;
+    padding: 25px 0;
+    font-size: 14px;
+    font-family: sans-serif;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
 }
 
-p{
-  margin-bottom: 30px;
+.site-footer p {
+    margin: 8px 0;
 }
 
-.footer_logo{
-  height: 55px;
+.footer_logo {
+    height: 55px;
+    display: block;
+    margin: 0 auto 10px auto;
 }

@@ -57,6 +57,7 @@ def listar_tarefas(request):
         return JsonResponse({'erro': 'Data não informada'}, status=400)
 
     data_obj = parse_date(data)
+
     tarefas = Tarefa.objects.filter(
         data_inicio__lte=data_obj,
         data_fim__gte=data_obj
@@ -92,6 +93,20 @@ def criar_tarefa(request):
         return JsonResponse({'mensagem': 'Tarefa criada com sucesso!'})
     except Exception as e:
         return JsonResponse({'erro': str(e)}, status=400)
+    
+from django.views.decorators.http import require_http_methods
+
+from django.views.decorators.http import require_POST
+
+@require_POST
+@login_required
+def excluir_tarefa(request, id):
+    try:
+        tarefa = Tarefa.objects.get(id=id, criado_por=request.user)
+        tarefa.delete()
+        return JsonResponse({"status": "ok"})
+    except Tarefa.DoesNotExist:
+        return JsonResponse({"erro": "Tarefa não encontrada."}, status=404)
 
 @login_required
 @require_POST

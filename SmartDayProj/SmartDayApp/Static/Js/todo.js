@@ -6,77 +6,234 @@ document.addEventListener("DOMContentLoaded", () => {
     const salvarBtn = document.getElementById("salvarTarefa");
     const cancelarBtn = document.getElementById("cancelarTarefa");
     const searchInput = document.getElementById("searchInput");
+    const monthLabel = document.getElementById("monthLabel");
 
     let dataAtual = new Date();
+
+    // ====== ELEMENTO DE NOTIFICAÇÃO ======
+    const notificacao = document.createElement("div");
+    notificacao.classList.add("toast-msg");
+    document.body.appendChild(notificacao);
+
+    function mostrarNotificacao(mensagem, tipo = "sucesso") {
+        notificacao.textContent = mensagem;
+        notificacao.className = `toast-msg ${tipo}`;
+        notificacao.style.display = "block";
+        setTimeout(() => (notificacao.style.display = "none"), 3000);
+    }
+
+    // ====== MODAL DE CONFIRMAÇÃO ======
+    function mostrarConfirmacao(mensagem, onConfirm) {
+        // remove modais antigas (caso múltiplas sejam abertas por erro)
+        const antiga = document.querySelector(".confirm-overlay");
+        if (antiga) antiga.remove();
+
+        // cria overlay + conteúdo
+        const overlay = document.createElement("div");
+        overlay.classList.add("confirm-overlay");
+        overlay.innerHTML = `
+            <div class="confirm-modal">
+                <p class="confirm-text">${mensagem}</p>
+                <div class="confirm-actions">
+                    <button class="btn-confirmar">Sim</button>
+                    <button class="btn-cancelar">Não</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+
+        // animação de entrada
+        requestAnimationFrame(() => {
+            overlay.classList.add("show");
+        });
+
+        const btnSim = overlay.querySelector(".btn-confirmar");
+        const btnNao = overlay.querySelector(".btn-cancelar");
+
+        btnSim.addEventListener("click", () => {
+            overlay.classList.add("fade-out");
+            setTimeout(() => {
+                overlay.remove();
+                onConfirm();
+            }, 200);
+        });
+
+        btnNao.addEventListener("click", () => {
+            overlay.classList.add("fade-out");
+            setTimeout(() => overlay.remove(), 200);
+        });
+    }
 
     // ====== GERA O CALENDÁRIO ======
     function gerarCalendario(ano, mes) {
         calendarBar.innerHTML = "";
-        const dias = new Date(ano, mes + 1, 0).getDate();
+        const diasNoMes = new Date(ano, mes + 1, 0).getDate();
+        const hoje = new Date();
+        const nomesMeses = [
+            "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+            "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+        ];
+        monthLabel.textContent = `${nomesMeses[mes]} ${ano}`;
 
-        for (let d = 1; d <= dias; d++) {
+        for (let d = 1; d <= diasNoMes; d++) {
             const diaEl = document.createElement("div");
             diaEl.textContent = d;
-            if (d === dataAtual.getDate()) diaEl.classList.add("active");
+            if (
+                d === hoje.getDate() &&
+                mes === hoje.getMonth() &&
+                ano === hoje.getFullYear()
+            ) {
+                diaEl.classList.add("active");
+            }
+
             diaEl.addEventListener("click", () => {
                 document.querySelectorAll(".calendar-bar div").forEach(el => el.classList.remove("active"));
                 diaEl.classList.add("active");
                 dataAtual = new Date(ano, mes, d);
                 carregarTarefas();
             });
+
             calendarBar.appendChild(diaEl);
         }
+
+        // Scroll automático até o dia atual
+        const activeDay = document.querySelector(".calendar-bar .active");
+        if (activeDay) activeDay.scrollIntoView({ behavior: "smooth", inline: "center" });
     }
+
+    // ====== SELETOR DE MÊS (sem setas) ======
+    const seletorMes = document.createElement("input");
+    seletorMes.type = "month";
+    seletorMes.style.display = "none";
+    document.body.appendChild(seletorMes);
+
+    monthLabel.style.cursor = "pointer";
+    monthLabel.title = "Clique para escolher outro mês";
+
+    monthLabel.addEventListener("click", () => {
+        seletorMes.value = `${dataAtual.getFullYear()}-${String(dataAtual.getMonth() + 1).padStart(2, "0")}`;
+        seletorMes.showPicker();
+    });
+
+    seletorMes.addEventListener("change", () => {
+        const [ano, mes] = seletorMes.value.split("-");
+        dataAtual = new Date(parseInt(ano), parseInt(mes) - 1, 1);
+        gerarCalendario(dataAtual.getFullYear(), dataAtual.getMonth());
+        carregarTarefas();
+    });
 
     // ====== BUSCA TAREFAS ======
     async function carregarTarefas() {
         const dataISO = dataAtual.toISOString().split("T")[0];
-        const resp = await fetch(`/todo/listar/?data=${dataISO}`);
-        const json = await resp.json();
+        try {
+            const resp = await fetch(`/todo/listar/?data=${dataISO}`);
+            const json = await resp.json();
 
-        tarefasContainer.innerHTML = "";
+            tarefasContainer.innerHTML = "";
 
-        json.tarefas
-            .filter(t => t.titulo.toLowerCase().includes(searchInput.value.toLowerCase()))
-            .forEach(t => {
-                const card = document.createElement("div");
-                card.className = "tarefa-card";
-                card.innerHTML = `
-                    <h4>${t.titulo}</h4>
-                    <span class="status ${t.concluida ? 'concluida' : 'pendente'}"></span>
-                `;
-                card.addEventListener("click", () => abrirCardDetalhe(t));
-                tarefasContainer.appendChild(card);
-            });
+            if (!json.tarefas || json.tarefas.length === 0) {
+                tarefasContainer.innerHTML = "<p>Nenhuma tarefa para este dia.</p>";
+                return;
+            }
+
+            json.tarefas
+                .filter(t => t.titulo.toLowerCase().includes(searchInput.value.toLowerCase()))
+                .forEach(t => {
+                    const card = document.createElement("div");
+                    card.className = "tarefa-card";
+                    card.innerHTML = `
+                        <h4>${t.titulo}</h4>
+                        <span class="status ${t.concluida ? 'concluida' : 'pendente'}"></span>
+                    `;
+                    card.addEventListener("click", () => abrirCardDetalhe(t));
+                    tarefasContainer.appendChild(card);
+                });
+
+        } catch (error) {
+            console.error("Erro ao carregar tarefas:", error);
+            mostrarNotificacao("Erro ao carregar tarefas.", "erro");
+        }
     }
 
-    // ====== MODAL DE DETALHES ======
     function abrirCardDetalhe(tarefa) {
+        // cria overlay + conteúdo
         const overlay = document.createElement("div");
         overlay.classList.add("modal");
         overlay.style.display = "flex";
+        overlay.style.zIndex = "10000"; // alto para evitar interferência
         overlay.innerHTML = `
-            <div class="modal-content">
+            <div class="modal-content" style="z-index:10001;">
                 <h3>${tarefa.titulo}</h3>
-                <p><strong>Descrição:</strong> ${tarefa.descricao}</p>
+                <p><strong>Descrição:</strong> ${tarefa.descricao || '-'}</p>
                 <p><strong>Adicionado por:</strong> ${tarefa.criado_por}</p>
                 <p><strong>Início:</strong> ${tarefa.data_inicio}</p>
                 <p><strong>Fim:</strong> ${tarefa.data_fim}</p>
-                <button id="toggleStatus">${tarefa.concluida ? 'Marcar como pendente' : 'Marcar como concluída'}</button>
-                <button id="fecharModal">Fechar</button>
+                <div class="modal-actions">
+                    <button id="toggleStatus" class="btn-primary">${tarefa.concluida ? 'Marcar como pendente' : 'Marcar como concluída'}</button>
+                    <button id="excluirTarefa" class="btn-danger">Excluir</button>
+                    <button id="fecharModal" class="btn-secondary">Fechar</button>
+                </div>
             </div>
         `;
         document.body.appendChild(overlay);
 
-        overlay.querySelector("#fecharModal").addEventListener("click", () => overlay.remove());
-        overlay.querySelector("#toggleStatus").addEventListener("click", async () => {
-            await fetch(`/todo/status/${tarefa.id}/`, { method: "POST", headers: { "X-CSRFToken": getCSRF() } });
-            overlay.remove();
-            carregarTarefas();
+        // Use requestAnimationFrame para garantir que o elemento já esteja no DOM
+        requestAnimationFrame(() => {
+            const btnFechar = overlay.querySelector("#fecharModal");
+            const btnStatus = overlay.querySelector("#toggleStatus");
+            const btnExcluir = overlay.querySelector("#excluirTarefa");
+
+            // fechar (com animação fadeOut)
+            btnFechar.addEventListener("click", () => {
+                overlay.querySelector(".modal-content").classList.add("fade-out");
+                overlay.classList.add("fade-out-backdrop");
+                setTimeout(() => overlay.remove(), 220);
+            });
+
+            // alternar status
+            btnStatus.addEventListener("click", async () => {
+                try {
+                    const resp = await fetch(`/todo/status/${tarefa.id}/`, {
+                        method: "POST",
+                        headers: { "X-CSRFToken": getCSRF() }
+                    });
+                    if (!resp.ok) throw new Error();
+                    mostrarNotificacao("Status atualizado!");
+                    overlay.remove();
+                    carregarTarefas();
+                } catch (err) {
+                    console.error(err);
+                    mostrarNotificacao("Erro ao atualizar status.", "erro");
+                }
+            });
+
+            // excluir -> abre modal de confirmação estilizado com shake
+            btnExcluir.addEventListener("click", () => {
+                // anima botão para chamar atenção
+                btnExcluir.classList.add("shake");
+                setTimeout(() => btnExcluir.classList.remove("shake"), 600);
+
+                mostrarConfirmacao("Deseja realmente excluir esta tarefa?", async () => {
+                    try {
+                        const resp = await fetch(`/todo/excluir/${tarefa.id}/`, {
+                            method: "POST",
+                            headers: { "X-CSRFToken": getCSRF() }
+                        });
+                        if (!resp.ok) throw new Error();
+                        mostrarNotificacao("Tarefa removida com sucesso!");
+                        overlay.remove();
+                        carregarTarefas();
+                    } catch (err) {
+                        console.error(err);
+                        mostrarNotificacao("Erro ao excluir tarefa.", "erro");
+                    }
+                });
+            });
         });
     }
 
-    // ====== CRIAR TAREFA ======
+    // ====== MODAL DE CRIAÇÃO ======
     btnCriar.addEventListener("click", () => modal.style.display = "flex");
     cancelarBtn.addEventListener("click", () => modal.style.display = "none");
 
@@ -87,15 +244,30 @@ document.addEventListener("DOMContentLoaded", () => {
             data_inicio: document.getElementById("dataInicio").value,
             data_fim: document.getElementById("dataFim").value
         };
-        await fetch("/todo/criar/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json", "X-CSRFToken": getCSRF() },
-            body: JSON.stringify(data)
-        });
-        modal.style.display = "none";
-        carregarTarefas();
+        if (!data.titulo || !data.data_inicio || !data.data_fim) {
+            mostrarNotificacao("Por favor, preencha todos os campos obrigatórios.", "erro");
+            return;
+        }
+
+        try {
+            const resp = await fetch("/todo/criar/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "X-CSRFToken": getCSRF() },
+                body: JSON.stringify(data)
+            });
+
+            if (!resp.ok) throw new Error("Erro ao salvar");
+
+            modal.style.display = "none";
+            mostrarNotificacao("Tarefa criada com sucesso!");
+            carregarTarefas();
+        } catch (error) {
+            console.error("Erro ao criar tarefa:", error);
+            mostrarNotificacao("Erro ao criar tarefa.", "erro");
+        }
     });
 
+    // ====== FILTRO DE PESQUISA ======
     searchInput.addEventListener("input", carregarTarefas);
 
     // ====== CSRF ======
@@ -110,7 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return "";
     }
 
-    // Inicialização
+    // ====== INICIALIZAÇÃO ======
     gerarCalendario(dataAtual.getFullYear(), dataAtual.getMonth());
     carregarTarefas();
 });
