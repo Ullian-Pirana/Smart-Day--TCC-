@@ -215,35 +215,83 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            // 🔧 Edição (somente se permitido)
             if (btnEditar) {
                 btnEditar.addEventListener("click", async () => {
-                    const novoTitulo = prompt("Novo título:", tarefa.titulo);
-                    if (!novoTitulo) return;
+                    // Criar inputs de edição com restrição de data
+                    const overlayEdit = document.createElement("div");
+                    overlayEdit.classList.add("modal");
+                    overlayEdit.style.display = "flex";
+                    overlayEdit.innerHTML = `
+                        <div class="modal-content" style="z-index:10001;">
+                            <h3>Editar Tarefa</h3>
+                            <label>Título:</label>
+                            <input type="text" id="editTitulo" value="${tarefa.titulo}">
+                            <label>Descrição:</label>
+                            <textarea id="editDescricao">${tarefa.descricao || ""}</textarea>
+                            <label>Data de início:</label>
+                            <input type="date" id="editInicio" value="${tarefa.data_inicio}">
+                            <label>Data de fim:</label>
+                            <input type="date" id="editFim" value="${tarefa.data_fim}">
+                            <div class="modal-actions">
+                                <button id="salvarEdicao" class="btn-primary">Salvar</button>
+                                <button id="cancelarEdicao" class="btn-secondary">Cancelar</button>
+                            </div>
+                        </div>
+                    `;
+                    document.body.appendChild(overlayEdit);
 
-                    const novoDescricao = prompt("Nova descrição:", tarefa.descricao || "");
-                    const novoInicio = prompt("Data de início (YYYY-MM-DD):", tarefa.data_inicio);
-                    const novoFim = prompt("Data de fim (YYYY-MM-DD):", tarefa.data_fim);
+                    const editInicio = overlayEdit.querySelector("#editInicio");
+                    const editFim = overlayEdit.querySelector("#editFim");
+                    const btnSalvar = overlayEdit.querySelector("#salvarEdicao");
+                    const btnCancelar = overlayEdit.querySelector("#cancelarEdicao");
 
-                    try {
-                        const resp = await fetch(`/todo/editar/${tarefa.id}/`, {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json", "X-CSRFToken": getCSRF() },
-                            body: JSON.stringify({
-                                titulo: novoTitulo,
-                                descricao: novoDescricao,
-                                data_inicio: novoInicio,
-                                data_fim: novoFim
-                            })
-                        });
-                        if (!resp.ok) throw new Error();
-                        mostrarNotificacao("Tarefa editada com sucesso!");
-                        overlay.remove();
-                        carregarTarefas();
-                    } catch (err) {
-                        console.error(err);
-                        mostrarNotificacao("Erro ao editar tarefa.", "erro");
-                    }
+                    // 🔒 Impede selecionar fim antes do início
+                    editInicio.addEventListener("change", () => {
+                        editFim.min = editInicio.value;
+                        if (editFim.value && editFim.value < editInicio.value) {
+                            editFim.value = "";
+                        }
+                    });
+                    editFim.min = editInicio.value;
+
+                    btnCancelar.addEventListener("click", () => overlayEdit.remove());
+
+                    btnSalvar.addEventListener("click", async () => {
+                        const novoTitulo = overlayEdit.querySelector("#editTitulo").value;
+                        const novoDescricao = overlayEdit.querySelector("#editDescricao").value;
+                        const novoInicio = editInicio.value;
+                        const novoFim = editFim.value;
+
+                        if (!novoTitulo || !novoInicio || !novoFim) {
+                            mostrarNotificacao("Preencha todos os campos obrigatórios.", "erro");
+                            return;
+                        }
+                        if (novoFim < novoInicio) {
+                            mostrarNotificacao("A data de fim não pode ser anterior à de início.", "erro");
+                            return;
+                        }
+
+                        try {
+                            const resp = await fetch(`/todo/editar/${tarefa.id}/`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json", "X-CSRFToken": getCSRF() },
+                                body: JSON.stringify({
+                                    titulo: novoTitulo,
+                                    descricao: novoDescricao,
+                                    data_inicio: novoInicio,
+                                    data_fim: novoFim
+                                })
+                            });
+                            if (!resp.ok) throw new Error();
+                            mostrarNotificacao("Tarefa editada com sucesso!");
+                            overlay.remove();
+                            overlayEdit.remove();
+                            carregarTarefas();
+                        } catch (err) {
+                            console.error(err);
+                            mostrarNotificacao("Erro ao editar tarefa.", "erro");
+                        }
+                    });
                 });
             }
 
@@ -307,7 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
             mostrarNotificacao("Erro ao criar tarefa.", "erro");
         }
     });
-
+    
     // ====== FILTRO DE PESQUISA ======
     searchInput.addEventListener("input", carregarTarefas);
 
