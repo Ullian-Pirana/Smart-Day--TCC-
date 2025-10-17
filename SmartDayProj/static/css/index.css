@@ -1,13 +1,9 @@
-body{
-    background-color: #f0e8d5;
-}
 /* static/css/index.css */
 :root {
-  /* Light Mode (default) */
-  --bg-primary: #ffffff;
+  --bg-primary: #f0e8d5;  
   --bg-secondary: #f5f5f5;
   --bg-tertiary: #EAE0C8;
-  --text-primary: #2c3e50;
+  --text-primary: #000000;
   --text-secondary: #666666;
   --accent-color: #659BB9;
   --accent-hover: #4a7a99;
@@ -17,25 +13,27 @@ body{
 }
 
 [data-theme="dark"] {
-  /* Dark Mode */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #2d2d2d;
-  --bg-tertiary: #3a3a3a;
-  --text-primary: #ffffff;
-  --text-secondary: #b0b0b0;
-  --accent-color: #8BB8D6;
-  --accent-hover: #6a9bb9;
-  --border-color: #404040;
-  --warn-bg: #4a3c27;
-  --warn-text: #ffa726;
+  /* Dark Mode - CORES INVERTIDAS */
+  --bg-primary: #2C2F33;           /* Preto no lugar do bege */
+  --bg-secondary: #2d2d2d;         /* Cinza escuro */
+  --bg-tertiary: #3a3a3a;          /* Cinza mais escuro */
+  --text-primary: #1e1919;         /* Bege no lugar do preto */
+  --text-secondary: #d0c8b5;       /* Bege mais claro */
+  --accent-color: #8BB8D6;         /* Azul mais claro */
+  --accent-hover: #6a9bb9;         /* Azul médio */
+  --border-color: #555555;         /* Cinza para bordas */
+  --warn-bg: #4a3c27;              /* Marrom escuro */
+  --warn-text: #ffa726;            /* Laranja para contraste */
+}
+
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Transições suaves para todo o site */
 * {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
 }

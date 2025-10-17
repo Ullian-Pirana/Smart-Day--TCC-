@@ -130,6 +130,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const resp = await fetch(`/todo/listar/?data=${dataISO}`);
             const json = await resp.json();
 
+            window.usuarioAtual = json.usuario;
+            window.isResponsavel = json.is_responsavel;
+
             tarefasContainer.innerHTML = "";
 
             if (!json.tarefas || json.tarefas.length === 0) {
@@ -157,11 +160,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function abrirCardDetalhe(tarefa) {
-        // cria overlay + conteúdo
         const overlay = document.createElement("div");
         overlay.classList.add("modal");
         overlay.style.display = "flex";
-        overlay.style.zIndex = "10000"; // alto para evitar interferência
+        overlay.style.zIndex = "10000";
+
+        // Checa permissões
+        const usuarioAtual = window.usuarioAtual;
+        const isResponsavel = window.isResponsavel;
+        const podeEditar = (usuarioAtual === tarefa.criado_por) || isResponsavel;
+
         overlay.innerHTML = `
             <div class="modal-content" style="z-index:10001;">
                 <h3>${tarefa.titulo}</h3>
@@ -171,27 +179,26 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p><strong>Fim:</strong> ${tarefa.data_fim}</p>
                 <div class="modal-actions">
                     <button id="toggleStatus" class="btn-primary">${tarefa.concluida ? 'Marcar como pendente' : 'Marcar como concluída'}</button>
-                    <button id="excluirTarefa" class="btn-danger">Excluir</button>
+                    ${podeEditar ? '<button id="editarTarefa" class="btn-warning">Editar</button>' : ''}
+                    ${podeEditar ? '<button id="excluirTarefa" class="btn-danger">Excluir</button>' : ''}
                     <button id="fecharModal" class="btn-secondary">Fechar</button>
                 </div>
             </div>
         `;
         document.body.appendChild(overlay);
 
-        // Use requestAnimationFrame para garantir que o elemento já esteja no DOM
         requestAnimationFrame(() => {
             const btnFechar = overlay.querySelector("#fecharModal");
             const btnStatus = overlay.querySelector("#toggleStatus");
             const btnExcluir = overlay.querySelector("#excluirTarefa");
+            const btnEditar = overlay.querySelector("#editarTarefa");
 
-            // fechar (com animação fadeOut)
             btnFechar.addEventListener("click", () => {
                 overlay.querySelector(".modal-content").classList.add("fade-out");
                 overlay.classList.add("fade-out-backdrop");
                 setTimeout(() => overlay.remove(), 220);
             });
 
-            // alternar status
             btnStatus.addEventListener("click", async () => {
                 try {
                     const resp = await fetch(`/todo/status/${tarefa.id}/`, {
@@ -208,28 +215,62 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            // excluir -> abre modal de confirmação estilizado com shake
-            btnExcluir.addEventListener("click", () => {
-                // anima botão para chamar atenção
-                btnExcluir.classList.add("shake");
-                setTimeout(() => btnExcluir.classList.remove("shake"), 600);
+            // 🔧 Edição (somente se permitido)
+            if (btnEditar) {
+                btnEditar.addEventListener("click", async () => {
+                    const novoTitulo = prompt("Novo título:", tarefa.titulo);
+                    if (!novoTitulo) return;
 
-                mostrarConfirmacao("Deseja realmente excluir esta tarefa?", async () => {
+                    const novoDescricao = prompt("Nova descrição:", tarefa.descricao || "");
+                    const novoInicio = prompt("Data de início (YYYY-MM-DD):", tarefa.data_inicio);
+                    const novoFim = prompt("Data de fim (YYYY-MM-DD):", tarefa.data_fim);
+
                     try {
-                        const resp = await fetch(`/todo/excluir/${tarefa.id}/`, {
+                        const resp = await fetch(`/todo/editar/${tarefa.id}/`, {
                             method: "POST",
-                            headers: { "X-CSRFToken": getCSRF() }
+                            headers: { "Content-Type": "application/json", "X-CSRFToken": getCSRF() },
+                            body: JSON.stringify({
+                                titulo: novoTitulo,
+                                descricao: novoDescricao,
+                                data_inicio: novoInicio,
+                                data_fim: novoFim
+                            })
                         });
                         if (!resp.ok) throw new Error();
-                        mostrarNotificacao("Tarefa removida com sucesso!");
+                        mostrarNotificacao("Tarefa editada com sucesso!");
                         overlay.remove();
                         carregarTarefas();
                     } catch (err) {
                         console.error(err);
-                        mostrarNotificacao("Erro ao excluir tarefa.", "erro");
+                        mostrarNotificacao("Erro ao editar tarefa.", "erro");
                     }
                 });
-            });
+            }
+
+            // 🔧 Exclusão (somente se permitido)
+            if (btnExcluir) {
+                btnExcluir.addEventListener("click", () => {
+                    btnExcluir.classList.add("shake");
+                    setTimeout(() => btnExcluir.classList.remove("shake"), 600);
+
+                    mostrarConfirmacao("Deseja realmente excluir esta tarefa?", async () => {
+                        try {
+                            const resp = await fetch(`/todo/excluir/${tarefa.id}/`, {
+                                method: "POST",
+                                headers: { "X-CSRFToken": getCSRF() }
+                            });
+                            if (!resp.ok) throw new Error();
+                            mostrarNotificacao("Tarefa removida com sucesso!");
+                            overlay.remove();
+                            carregarTarefas();
+                        } catch (err) {
+                            console.error(err);
+                            mostrarNotificacao("Erro ao excluir tarefa.", "erro");
+                            console.error("Resposta do servidor:", erroDetalhe);
+                        }
+                    });
+                });
+            }
         });
     }
 

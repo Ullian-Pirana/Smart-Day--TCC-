@@ -12,4 +12,5 @@ urlpatterns = [
     path('todo/criar/', views.criar_tarefa, name='criar_tarefa'),
     path('todo/status/<int:id>/', views.atualizar_status, name='atualizar_status'),
     path('todo/excluir/<int:id>/', views.excluir_tarefa, name='excluir_tarefa'),
+    path('todo/editar/<int:id>/', views.editar_tarefa, name='editar_tarefa'),
 ]

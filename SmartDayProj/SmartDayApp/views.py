@@ -1,29 +1,45 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, Group
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, authenticate, login
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.dateparse import parse_date
-from django.core.serializers import serialize
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.utils.timezone import now
 from django.db import IntegrityError
 from datetime import datetime, date
 from .models import *
 import json
 
+# ==========================================================
+# 🔧 Função única e robusta para verificar se é Responsável
+# ==========================================================
 def is_responsavel(user):
-    return user.groups.filter(name="Responsavel").exists()
+    """
+    Retorna True se o usuário pertencer a um grupo 'Responsavel', 
+    'Responsaveis' ou 'Responsáveis' (ignorando maiúsculas/minúsculas e acentos).
+    """
+    grupos = user.groups.values_list('name', flat=True)
+    for nome in grupos:
+        nome_normalizado = nome.lower().replace("í", "i").replace("é", "e").replace("ê", "e")
+        if nome_normalizado in ("responsavel", "responsaveis"):
+            return True
+    return False
 
+
+# ==========================================================
+# 🌐 Views da Home
+# ==========================================================
 def Homepage(request):
-    context = {}
-    dados_home = homepage.objects.all()
-    context['dados_home'] = dados_home
+    context = {'dados_home': homepage.objects.all()}
     return render(request, 'homepage.html', context)
 
-#login relate
+
+# ==========================================================
+# 🔐 Autenticação
+# ==========================================================
 def Login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -38,17 +54,21 @@ def Login(request):
             return render(request, 'Login.html')
     return render(request, 'Login.html')
 
+
 @login_required
 def Sair(request):
     logout(request)
     messages.success(request, "Logout realizado com sucesso! 👋")
     return redirect('homepage')
-#end login related
 
-#todo page fuctions
+
+# ==========================================================
+# ✅ Funções da página To-Do
+# ==========================================================
 @login_required
 def todo_page(request):
     return render(request, 'todo.html')
+
 
 @login_required
 def listar_tarefas(request):
@@ -76,7 +96,11 @@ def listar_tarefas(request):
         for t in tarefas
     ]
 
-    return JsonResponse({'tarefas': tarefas_json})
+    usuario = request.user.username
+    is_responsavel_user = is_responsavel(request.user)
+
+    return JsonResponse({'tarefas': tarefas_json, 'usuario': usuario, 'is_responsavel': is_responsavel_user})
+
 
 @login_required
 @require_POST
@@ -93,20 +117,47 @@ def criar_tarefa(request):
         return JsonResponse({'mensagem': 'Tarefa criada com sucesso!'})
     except Exception as e:
         return JsonResponse({'erro': str(e)}, status=400)
-    
-from django.views.decorators.http import require_http_methods
 
-from django.views.decorators.http import require_POST
 
-@require_POST
 @login_required
+@require_POST
 def excluir_tarefa(request, id):
     try:
-        tarefa = Tarefa.objects.get(id=id, criado_por=request.user)
+        tarefa = Tarefa.objects.get(id=id)
+        # Permissão: Responsável pode tudo, outros só se forem criadores
+        if not (is_responsavel(request.user) or tarefa.criado_por == request.user):
+            return JsonResponse({"erro": "Você não tem permissão para excluir esta tarefa."}, status=403)
+
         tarefa.delete()
-        return JsonResponse({"status": "ok"})
+        return JsonResponse({"mensagem": "Tarefa excluída com sucesso!"})
     except Tarefa.DoesNotExist:
         return JsonResponse({"erro": "Tarefa não encontrada."}, status=404)
+    except Exception as e:
+        return JsonResponse({"erro": str(e)}, status=400)
+
+
+@login_required
+@require_POST
+def editar_tarefa(request, id):
+    try:
+        tarefa = Tarefa.objects.get(id=id)
+        # Permissão: Responsável pode tudo, outros só se forem criadores
+        if not (is_responsavel(request.user) or tarefa.criado_por == request.user):
+            return JsonResponse({"erro": "Você não tem permissão para editar esta tarefa."}, status=403)
+
+        data = json.loads(request.body)
+        tarefa.titulo = data.get("titulo", tarefa.titulo)
+        tarefa.descricao = data.get("descricao", tarefa.descricao)
+        tarefa.data_inicio = parse_date(data.get("data_inicio")) or tarefa.data_inicio
+        tarefa.data_fim = parse_date(data.get("data_fim")) or tarefa.data_fim
+        tarefa.save()
+
+        return JsonResponse({"mensagem": "Tarefa atualizada com sucesso!"})
+    except Tarefa.DoesNotExist:
+        return JsonResponse({"erro": "Tarefa não encontrada."}, status=404)
+    except Exception as e:
+        return JsonResponse({"erro": str(e)}, status=400)
+
 
 @login_required
 @require_POST
@@ -118,4 +169,11 @@ def atualizar_status(request, id):
         return JsonResponse({'status': tarefa.concluida})
     except Tarefa.DoesNotExist:
         return JsonResponse({'erro': 'Tarefa não encontrada'}, status=404)
-#end todo page fuctions
+
+
+# ==========================================================
+# 🌙 Tema escuro
+# ==========================================================
+def toggle_theme(request):
+    request.session['dark_mode'] = not request.session.get('dark_mode', False)
+    return HttpResponse('OK')

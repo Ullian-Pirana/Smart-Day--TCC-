@@ -1,5 +1,4 @@
 .todo-container {
-    background: #E1E1D5;
     min-height: 100vh;
     padding: 1rem 2rem;
     position: relative;
@@ -404,4 +403,16 @@
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease-in-out;
+}
+
+.btn-edit {
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+.btn-edit:hover {
+    background-color: #1565c0;
 }

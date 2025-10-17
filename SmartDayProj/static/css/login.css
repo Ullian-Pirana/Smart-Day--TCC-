@@ -1,3 +1,45 @@
+
+/* static/css/login.css */
+.corpo {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  padding: 20px;
+}
+
+.login-container {
+  background: var(--bg-tertiary);
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-container h2 {
+  color: var(--text-primary);
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.input-group label {
+  color: var(--text-primary);
+}
+
+.input-group input {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+}
+
+/* ... resto do css atual... */
+
+
+
 /* login.css */
 .corpo {
     min-height: calc(100vh - 80px);
