@@ -1,0 +1,46 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}TO-DO{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/todo.css' %}">
+<script src="{% static 'js/todo.js' %}" defer></script>
+{% endblock %}
+
+{% block body %}
+<div class="todo-container">
+
+    <!-- Barra de busca -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Pesquisar tarefa..." />
+    </div>
+
+    <!-- Linha do calendário -->
+    <div class="calendar-bar" id="calendarBar"></div>
+
+    <!-- Lista de tarefas -->
+    <div class="tarefas-container" id="tarefasContainer"></div>
+
+    <!-- Botão flutuante -->
+    <button class="btn-criar" id="btnCriar">+ CRIAR</button>
+
+    <!-- Modal de criação -->
+    <div id="modalCriar" class="modal">
+        <div class="modal-content">
+            <h3>Nova Tarefa</h3>
+            <input id="titulo" placeholder="Título" />
+            <textarea id="descricao" placeholder="Descrição"></textarea>
+            <label>Data início:</label>
+            <input type="date" id="dataInicio" />
+            <label>Data fim:</label>
+            <input type="date" id="dataFim" />
+            <div class="modal-actions">
+                <button id="salvarTarefa">Salvar</button>
+                <button id="cancelarTarefa">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

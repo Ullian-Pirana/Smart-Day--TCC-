@@ -7,3 +7,18 @@ class homepage(models.Model):
 
     def __str__(self):
         return self.titulo
+    
+from django.db import models
+from django.contrib.auth.models import User
+
+class Tarefa(models.Model):
+    titulo = models.CharField(max_length=100)
+    descricao = models.TextField(blank=True)
+    data_inicio = models.DateField()
+    data_fim = models.DateField()
+    concluida = models.BooleanField(default=False)
+    criado_por = models.ForeignKey(User, on_delete=models.CASCADE)
+    criado_em = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.titulo
