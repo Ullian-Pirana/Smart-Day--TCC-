@@ -12,26 +12,28 @@
 <div class="minha-casa-container">
     <h2>Minhas Casas</h2>
 
-    {% if casas %}
-        <div class="lista-casas">
-            {% for casa in casas %}
-                <div class="casa-card">
-                    <h3>{{ casa.nome }}</h3>
-                    <p><strong>Responsável:</strong> {{ casa.responsavel.username }}</p>
-
-                    {% if request.user == casa.responsavel %}
-                        <button class="btn-add-user" data-id="{{ casa.id }}">+ Adicionar Usuário</button>
-                        <button class="btn-remover-casa" data-id="{{ casa.id }}">🗑 Remover Casa</button>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p>Você ainda não possui casas.</p>
-        <button class="btn-criar-casa" id="btnCriarCasa">+ Criar Casa</button>
+    {% if casa_ativa %}
+        <p><strong>Casa atual:</strong> {{ casa_ativa.nome }}</p>
     {% endif %}
 
-    <!-- Modal de Criação de Casa -->
+    <!-- Lista de casas -->
+    <div class="lista-casas">
+        {% for casa in casas %}
+        <div class="casa-card">
+            <h3>{{ casa.nome }}</h3>
+            <p><strong>Responsável:</strong> {{ casa.dono.username }}</p>
+            <form action="{% url 'gerenciar_casa' casa.id %}" method="get">
+                <button type="submit" class="btn btn-primary">Entrar</button>
+            </form>
+        </div>
+        {% empty %}
+        <p>Você ainda não possui nenhuma casa. Crie uma!</p>
+        {% endfor %}
+    </div>
+
+    <button class="btn-criar-casa" id="btnCriarCasa">+ Criar Casa</button>
+
+    <!-- Modal de criação -->
     <div id="modalCriarCasa" class="modal">
         <div class="modal-content">
             <h3>Criar Nova Casa</h3>
@@ -42,5 +44,60 @@
             </div>
         </div>
     </div>
+
+    <!-- Seção de gerenciamento -->
+    {% if casa_ativa %}
+    <hr>
+    <div class="gerenciar-casa">
+        <h3>Gerenciar: {{ casa_ativa.nome }}</h3>
+        <p><strong>Dono:</strong> {{ casa_ativa.dono.username }}</p>
+
+        {% if request.user == casa_ativa.dono %}
+        <div class="editar-casa">
+            <h4>Editar Casa</h4>
+            <input id="novoNomeCasa" placeholder="Novo nome" value="{{ casa_ativa.nome }}">
+            <button id="btnEditarCasa" data-casa-id="{{ casa_ativa.id }}" class="btn-primary">Salvar</button>
+            <button id="btnExcluirCasa" data-casa-id="{{ casa_ativa.id }}" class="btn-remover">Excluir</button>
+        </div>
+        {% endif %}
+
+        <hr>
+
+        <!-- Membros -->
+        <h4>Membros</h4>
+        <ul>
+            {% for membro in membros %}
+            <li>
+                <strong>{{ membro.username }}</strong>
+                {% if membro.papel == 'Responsavel' %}
+                    <small>(Responsável)</small>
+                {% else %}
+                    <small>(Usuário)</small>
+                {% endif %}
+
+                {% if request.user == casa_ativa.dono and membro != casa_ativa.dono %}
+                <select class="papel-select" data-user-id="{{ membro.id }}" data-casa-id="{{ casa_ativa.id }}">
+                    <option value="Usuarios" {% if membro.papel == 'Usuarios' %}selected{% endif %}>Usuário</option>
+                    <option value="Responsavel" {% if membro.papel == 'Responsavel' %}selected{% endif %}>Responsável</option>
+                </select>
+                <button class="btn-remover" data-user-id="{{ membro.id }}" data-casa-id="{{ casa_ativa.id }}">Remover</button>
+                {% endif %}
+            </li>
+            {% empty %}
+            <li>Nenhum membro ainda.</li>
+            {% endfor %}
+        </ul>
+
+        {% if usuarios_disponiveis and request.user == casa_ativa.dono %}
+        <h4>Adicionar Membro</h4>
+        <select id="usuarioSelect">
+            {% for user in usuarios_disponiveis %}
+            <option value="{{ user.id }}">{{ user.username }}</option>
+            {% endfor %}
+        </select>
+        <button id="btnAddUsuario" data-casa-id="{{ casa_ativa.id }}" class="btn-add-user">Adicionar</button>
+        {% endif %}
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

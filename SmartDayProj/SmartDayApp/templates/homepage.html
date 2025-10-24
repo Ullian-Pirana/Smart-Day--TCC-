@@ -20,16 +20,13 @@
                         {% if dados.descricao %}
                             {{ dados.descricao }}
                         {% else %}
-                            Bem-vindo ao Smart Day! Aqui você encontra soluções inteligentes para o seu dia a dia.
+                            Bem-vindo ao Smart Day! Sua plataforma inteligente para organizar e otimizar o seu dia a dia. 
+                            Conecte-se com sua família, gerencie tarefas e transforme sua rotina em momentos especiais.
                         {% endif %}
                     </p>
                 </div>
                 <div class="homepage-image">
-                    {% if dados.logo %}
-                        <img src="{% static 'img/logo.png' %}" alt="Logo" class="nav-logo-img">
-                    {% else %}
-                        <img src="{% static 'img/logo.png' %}" alt="Logo" class="nav-logo-img">
-                    {% endif %}
+                    <img src="{% static 'img/logo.png' %}" alt="Smart Day Logo" class="homepage-logo">
                 </div>
             </div>
         </div>
@@ -41,17 +38,58 @@
                 <div class="homepage-text">
                     <ul>
                         <li>
-                            <strong>Open</strong>
-                            Organize suas tarefas de forma simples
+                            <strong>📋 TO-DO Inteligente</strong>
+                            Organize suas tarefas com nosso sistema intuitivo e nunca mais perca prazos importantes.
                         </li>
-                        <!-- Adicione mais serviços aqui conforme necessário -->
+                        <li>
+                            <strong>🏠 Minha Casa</strong>
+                            Conecte sua família em um espaço digital seguro para compartilhar momentos e responsabilidades.
+                        </li>
+                        <li>
+                            <strong>📅 Gestão de Rotina</strong>
+                            Planeje seu dia, semana e mês com ferramentas desenvolvidas para simplificar sua vida.
+                        </li>
+                        <li>
+                            <strong>👨‍👩‍👧‍👦 Conexão Familiar</strong>
+                            Mantenha todos na mesma página, compartilhando conquistas e organizando a vida em família.
+                        </li>
                     </ul>
                     <div class="homepage-footer">
-                        Todos os direitos reservados - 2025
+                        ✨ Transformando dias comuns em experiências extraordinárias ✨
                     </div>
                 </div>
                 <div class="homepage-image">
-                    <img src="{% static 'img/services.jpg' %}" alt="Nossos Serviços" class="homepage-logo">
+                    <img src="{% static 'img/services.jpg' %}" alt="Nossos Serviços" class="homepage-logo" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- Terceiro Card - Destaques -->
+        <div class="homepage-card">
+            <h2 class="titulo-home">Por que Escolher o Smart Day?</h2>
+            <div class="homepage-content">
+                <div class="homepage-image">
+                    <img src="{% static 'img/features.jpg' %}" alt="Destaques" class="homepage-logo" onerror="this.style.display='none'">
+                </div>
+                <div class="homepage-text">
+                    <ul>
+                        <li>
+                            <strong>🎯 Interface Intuitiva</strong>
+                            Design pensado para facilitar sua experiência desde o primeiro uso.
+                        </li>
+                        <li>
+                            <strong>🔒 Segurança em Primeiro Lugar</strong>
+                            Seus dados e informações familiares protegidos com tecnologia avançada.
+                        </li>
+                        <li>
+                            <strong>📱 Multiplataforma</strong>
+                            Acesse de qualquer dispositivo, a qualquer momento.
+                        </li>
+                        <li>
+                            <strong>🚀 Inovação Constante</strong>
+                            Estamos sempre evoluindo para atender melhor suas necessidades.
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

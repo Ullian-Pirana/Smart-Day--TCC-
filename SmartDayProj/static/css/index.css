@@ -2,7 +2,7 @@
 :root {
   --bg-primary: #f0e8d5;  
   --bg-secondary: #f5f5f5;
-  --bg-tertiary: #EAE0C8;
+  --bg-tertiary: #565353;
   --text-primary: #000000;
   --text-secondary: #666666;
   --accent-color: #659BB9;
@@ -16,7 +16,7 @@
   /* Dark Mode - CORES INVERTIDAS */
   --bg-primary: #2C2F33;           /* Preto no lugar do bege */
   --bg-secondary: #2d2d2d;         /* Cinza escuro */
-  --bg-tertiary: #454d5b;          /* Cinza mais escuro */
+  --bg-tertiary: #565353;          /* Cinza mais escuro */
   --text-primary: #010101;         /* Bege no lugar do preto */
   --text-secondary: #ffffff;       /* Bege mais claro */
   --accent-color: #8BB8D6;         /* Azul mais claro */

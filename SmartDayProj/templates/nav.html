@@ -16,28 +16,40 @@
                 <ul class="nav-menu" id="navMenu">
                     <li class="nav-item">
                         <button class="nav-theme-toggle" id="themeToggle" title="Modo Escuro">
-                            <span class="theme-icon">🌙</span>
+                            <i class="bi bi-moon-fill theme-icon"></i>
                         </button>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'todo' %}" class="nav-link">TO-DO</a>
+                        <a href="{% url 'todo' %}" class="nav-link">
+                            <i class="bi bi-check-square"></i>
+                            TO-DO
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'minha_casa' %}" class="nav-link">MINHA CASA</a>
+                        <a href="{% url 'minha_casa' %}" class="nav-link">
+                            <i class="bi bi-house-door"></i>
+                            MINHA CASA
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'logout' %}" class="nav-link">Sair</a>
+                        <a href="{% url 'logout' %}" class="nav-link">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Sair
+                        </a>
                     </li>
                 </ul>
             {% else %}
                 <ul class="nav-menu" id="navMenu">
                     <li class="nav-item">
                         <button class="nav-theme-toggle" id="themeToggle" title="Modo Escuro">
-                            <span class="theme-icon">🌙</span>
+                            <i class="bi bi-moon-fill theme-icon"></i>
                         </button>
                     </li>
                     <li class="nav-item">
-                        <a href="/login" class="nav-link">LOGIN</a>
+                        <a href="/login" class="nav-link">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            LOGIN
+                        </a>
                     </li>
                 </ul>
             {% endif %}

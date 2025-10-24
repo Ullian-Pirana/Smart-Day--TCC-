@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404, Http404
+from django.shortcuts import render, redirect, get_object_or_404, get_object_or_404
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, authenticate, login
@@ -173,9 +173,36 @@ def toggle_theme(request):
 #views relacionadas a criação das casas
 @login_required
 def minha_casa_page(request):
-    # Lista casas que o usuário criou ou participa
     casas = Casa.objects.filter(models.Q(dono=request.user) | models.Q(membros=request.user)).distinct()
-    return render(request, 'minha_casa.html', {'casas': casas})
+
+    casa_ativa = None
+    membros = []
+    usuarios_disponiveis = []
+
+    casa_id = request.session.get('casa_ativa_id')
+    if casa_id:
+        casa_ativa = Casa.objects.filter(id=casa_id).first()
+        if casa_ativa:
+            membros_qs = casa_ativa.membros.all()
+            membros = list(membros_qs)  # transformar em lista para poder setar atributos
+            usuarios_disponiveis = User.objects.exclude(id__in=membros_qs.values_list('id', flat=True))
+
+            # marca o papel em cada membro (evita lógica no template)
+            for membro in membros:
+                if membro.groups.filter(name='Responsavel').exists():
+                    membro.papel = 'Responsavel'
+                elif membro.groups.filter(name='Usuarios').exists():
+                    membro.papel = 'Usuarios'
+                else:
+                    # padrão se não tiver grupo
+                    membro.papel = 'Usuarios'
+
+    return render(request, 'minha_casa.html', {
+        'casas': casas,
+        'casa_ativa': casa_ativa,
+        'membros': membros,
+        'usuarios_disponiveis': usuarios_disponiveis,
+    })
 
 @login_required
 def criar_casa(request):
@@ -199,20 +226,13 @@ def criar_casa(request):
 def gerenciar_casa(request, id):
     casa = get_object_or_404(Casa, id=id)
 
-    if not (casa.dono == request.user or is_responsavel(request.user)):
-        messages.error(request, "Você não tem permissão para gerenciar esta casa.")
-        return redirect('homepage')
+    if not (casa.dono == request.user or casa.membros.filter(id=request.user.id).exists()):
+        messages.error(request, "Você não faz parte desta casa.")
+        return redirect('minha_casa')
 
-    membros = casa.membros.all()
-    todos_usuarios = User.objects.exclude(id__in=membros.values_list('id', flat=True))
-    add_form = AddUserForm()
+    request.session['casa_ativa_id'] = casa.id
 
-    return render(request, 'casa_manage.html', {
-        'casa': casa,
-        'membros': membros,
-        'usuarios_disponiveis': todos_usuarios,
-        'add_form': add_form
-    })
+    return redirect('minha_casa')
 
 @login_required
 @require_POST
@@ -250,3 +270,89 @@ def remover_usuario_casa(request, id, user_id):
     casa.membros.remove(usuario)
 
     return JsonResponse({'mensagem': f'Usuário {usuario.username} removido da casa.'})
+
+@login_required
+@require_POST
+def editar_casa(request, id):
+    try:
+        casa = get_object_or_404(Casa, id=id)
+        if casa.dono != request.user:
+            return JsonResponse({'erro': 'Apenas o dono pode editar a casa.'}, status=403)
+
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            return JsonResponse({'erro': 'JSON inválido.'}, status=400)
+
+        novo_nome = (data.get('nome') or '').strip()
+        if not novo_nome:
+            return JsonResponse({'erro': 'Nome inválido.'}, status=400)
+
+        if Casa.objects.exclude(id=casa.id).filter(nome__iexact=novo_nome).exists():
+            return JsonResponse({'erro': 'Já existe outra casa com esse nome.'}, status=400)
+
+        casa.nome = novo_nome
+        casa.save()
+
+        return JsonResponse({'mensagem': 'Casa atualizada com sucesso.', 'novo_nome': casa.nome})
+    except Exception as e:
+        return JsonResponse({'erro': str(e)}, status=500)
+
+@login_required
+@require_POST
+def excluir_casa(request, id):
+    try:
+        casa = get_object_or_404(Casa, id=id)
+        if casa.dono != request.user:
+            return JsonResponse({'erro': 'Apenas o dono pode excluir a casa.'}, status=403)
+
+        casa.delete()
+
+        if request.session.get('casa_ativa_id') == id:
+            try:
+                del request.session['casa_ativa_id']
+            except KeyError:
+                pass
+
+        return JsonResponse({'mensagem': 'Casa excluída com sucesso.'})
+    except Exception as e:
+        return JsonResponse({'erro': str(e)}, status=500)
+
+@login_required
+@require_POST
+def definir_papel(request, id):
+    try:
+        casa = get_object_or_404(Casa, id=id)
+
+        # somente o dono (ou superuser) pode mudar papéis
+        if not (casa.dono == request.user or request.user.is_superuser):
+            return JsonResponse({'erro': 'Sem permissão.'}, status=403)
+
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            return JsonResponse({'erro': 'JSON inválido.'}, status=400)
+
+        usuario_id = data.get('usuario_id')
+        papel = data.get('papel')
+
+        if not usuario_id or papel not in ('Usuarios', 'Responsavel'):
+            return JsonResponse({'erro': 'Dados inválidos.'}, status=400)
+
+        usuario = get_object_or_404(User, id=usuario_id)
+
+        # garantir grupos
+        usuarios_group, _ = Group.objects.get_or_create(name='Usuarios')
+        responsavel_group, _ = Group.objects.get_or_create(name='Responsavel')
+
+        # remover ambos antes de adicionar o correto
+        usuario.groups.remove(usuarios_group, responsavel_group)
+
+        if papel == 'Responsavel':
+            usuario.groups.add(responsavel_group)
+        else:
+            usuario.groups.add(usuarios_group)
+
+        return JsonResponse({'mensagem': f'{usuario.username} agora é {papel}.'})
+    except Exception as e:
+        return JsonResponse({'erro': str(e)}, status=500)

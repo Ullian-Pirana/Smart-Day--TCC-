@@ -6,7 +6,6 @@ from .models import Casa
 @receiver(post_save, sender=Casa)
 def criar_grupo_para_casa(sender, instance, created, **kwargs):
     if created:
-        Group.objects.get_or_create(name=instance.nome)
-
         grupo, _ = Group.objects.get_or_create(name=instance.nome)
         instance.dono.groups.add(grupo)
+        instance.membros.add(instance.dono)
