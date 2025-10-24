@@ -20,5 +20,4 @@ urlpatterns = [
     path('casa/<int:id>/gerenciar/', views.gerenciar_casa, name='gerenciar_casa'),
     path('casa/<int:id>/adicionar_usuario/', views.adicionar_usuario_casa, name='adicionar_usuario_casa'),
     path('casa/<int:id>/remover_usuario/<int:user_id>/', views.remover_usuario_casa, name='remover_usuario_casa'),
-
 ]

@@ -8,7 +8,8 @@ from django.views.decorators.http import require_POST, require_http_methods
 from django.utils.dateparse import parse_date
 from django.http import HttpResponse, JsonResponse
 from django.utils.timezone import now
-from django.db import IntegrityError
+from django.db.utils import IntegrityError
+from django.db import IntegrityError, transaction
 from datetime import datetime, date
 from .models import *
 from .forms import *
@@ -169,6 +170,7 @@ def toggle_theme(request):
     request.session['dark_mode'] = not request.session.get('dark_mode', False)
     return HttpResponse('OK')
 
+#views relacionadas a criação das casas
 @login_required
 def minha_casa_page(request):
     # Lista casas que o usuário criou ou participa
@@ -178,18 +180,20 @@ def minha_casa_page(request):
 @login_required
 def criar_casa(request):
     if request.method == 'POST':
-        form = CasaForm(request.POST)
-        if form.is_valid():
-            nome = form.cleaned_data['nome']
-            casa = Casa.objects.create(nome=nome, dono=request.user)
-            group, created = Group.objects.get_or_create(name=nome)
+        try:
+            data = json.loads(request.body)
+            nome = data.get('nome')
+            if not nome:
+                return JsonResponse({'erro': 'Nome é obrigatório.'}, status=400)
 
-            request.user.groups.add(group)
-            messages.success(request, f'Casa "{casa.nome}" criada com sucesso.')
-            return redirect('gerenciar_casa', id=casa.id)
+            casa = Casa.objects.create(nome=nome, dono=request.user)
+            Group.objects.get_or_create(name=nome)
+
+            return JsonResponse({'mensagem': f'Casa "{casa.nome}" criada com sucesso!'})
+        except Exception as e:
+            return JsonResponse({'erro': str(e)}, status=400)
     else:
-        form = CasaForm()
-    return render(request, 'casa_create.html', {'form': form})
+        return JsonResponse({'erro': 'Método não permitido.'}, status=405)
 
 @login_required
 def gerenciar_casa(request, id):

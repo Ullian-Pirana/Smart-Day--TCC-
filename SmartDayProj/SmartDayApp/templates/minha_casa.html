@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 {% load static %}
 
-{% block title %}Minha Casa{% endblock %}
+{% block title %}Minhas Casas{% endblock %}
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/minha_casa.css' %}">
@@ -9,55 +9,38 @@
 {% endblock %}
 
 {% block body %}
-<div class="casa-container">
+<div class="minha-casa-container">
+    <h2>Minhas Casas</h2>
 
-  <h2>Minhas Casas</h2>
+    {% if casas %}
+        <div class="lista-casas">
+            {% for casa in casas %}
+                <div class="casa-card">
+                    <h3>{{ casa.nome }}</h3>
+                    <p><strong>Responsável:</strong> {{ casa.responsavel.username }}</p>
 
-  <!-- Listagem de Casas -->
-  <div id="listaCasas">
-    {% for casa in casas %}
-      <div class="casa-card" data-id="{{ casa.id }}">
-        <h3>{{ casa.nome }}</h3>
-        <p><b>Dono:</b> {{ casa.dono.username }}</p>
-        <button class="btn-gerenciar" data-id="{{ casa.id }}">Gerenciar</button>
-      </div>
-    {% empty %}
-      <p>Você ainda não possui casas.</p>
-    {% endfor %}
-  </div>
+                    {% if request.user == casa.responsavel %}
+                        <button class="btn-add-user" data-id="{{ casa.id }}">+ Adicionar Usuário</button>
+                        <button class="btn-remover-casa" data-id="{{ casa.id }}">🗑 Remover Casa</button>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Você ainda não possui casas.</p>
+        <button class="btn-criar-casa" id="btnCriarCasa">+ Criar Casa</button>
+    {% endif %}
 
-  <!-- Botão flutuante -->
-  <button class="btn-criar" id="btnCriarCasa">+ CRIAR CASA</button>
-
-  <!-- Modal: Criar Casa -->
-  <div id="modalCriarCasa" class="modal">
-    <div class="modal-content">
-      <h3>Criar Nova Casa</h3>
-      <input id="nomeCasa" placeholder="Nome da casa" />
-      <div class="modal-actions">
-        <button id="salvarCasa">Salvar</button>
-        <button id="cancelarCasa">Cancelar</button>
-      </div>
+    <!-- Modal de Criação de Casa -->
+    <div id="modalCriarCasa" class="modal">
+        <div class="modal-content">
+            <h3>Criar Nova Casa</h3>
+            <input id="nomeCasa" placeholder="Nome da Casa" />
+            <div class="modal-actions">
+                <button id="salvarCasa">Salvar</button>
+                <button id="cancelarCasa">Cancelar</button>
+            </div>
+        </div>
     </div>
-  </div>
-
-  <!-- Modal: Gerenciar Casa -->
-  <div id="modalGerenciarCasa" class="modal">
-    <div class="modal-content">
-      <h3 id="tituloCasa"></h3>
-      <p id="donoCasa"></p>
-
-      <h4>Membros</h4>
-      <ul id="listaMembros"></ul>
-
-      <h4>Adicionar Usuário</h4>
-      <select id="selectUsuarios"></select>
-      <button id="btnAddUsuario">Adicionar</button>
-
-      <div class="modal-actions">
-        <button id="fecharGerenciar">Fechar</button>
-      </div>
-    </div>
-  </div>
 </div>
 {% endblock %}
