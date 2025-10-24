@@ -63,24 +63,19 @@
 
         <hr>
 
-        <!-- Membros -->
         <h4>Membros</h4>
         <ul>
-            {% for membro in membros %}
+            {% for membro_rel in membros_relacionados %}
             <li>
-                <strong>{{ membro.username }}</strong>
-                {% if membro.papel == 'Responsavel' %}
-                    <small>(Responsável)</small>
-                {% else %}
-                    <small>(Usuário)</small>
-                {% endif %}
+                <strong>{{ membro_rel.usuario.username }}</strong>
+                <small>({{ membro_rel.get_papel_display }})</small>
 
-                {% if request.user == casa_ativa.dono and membro != casa_ativa.dono %}
-                <select class="papel-select" data-user-id="{{ membro.id }}" data-casa-id="{{ casa_ativa.id }}">
-                    <option value="Usuarios" {% if membro.papel == 'Usuarios' %}selected{% endif %}>Usuário</option>
-                    <option value="Responsavel" {% if membro.papel == 'Responsavel' %}selected{% endif %}>Responsável</option>
+                {% if request.user == casa_ativa.dono and membro_rel.usuario != casa_ativa.dono %}
+                <select class="papel-select" data-user-id="{{ membro_rel.usuario.id }}" data-casa-id="{{ casa_ativa.id }}">
+                    <option value="Usuarios" {% if membro_rel.papel == 'Usuarios' %}selected{% endif %}>Usuário</option>
+                    <option value="Responsavel" {% if membro_rel.papel == 'Responsavel' %}selected{% endif %}>Responsável</option>
                 </select>
-                <button class="btn-remover" data-user-id="{{ membro.id }}" data-casa-id="{{ casa_ativa.id }}">Remover</button>
+                <button class="btn-remover" data-user-id="{{ membro_rel.usuario.id }}" data-casa-id="{{ casa_ativa.id }}">Remover</button>
                 {% endif %}
             </li>
             {% empty %}

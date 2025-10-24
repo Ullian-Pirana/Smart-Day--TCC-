@@ -52,12 +52,33 @@ def Sair(request):
     messages.success(request, "Logout realizado com sucesso! 👋")
     return redirect('homepage')
 
+#funções relacionadas a pagina To-Do
 @login_required
 def todo_page(request):
-    return render(request, 'todo.html')
+    casa_ativa = None
+    casa_id = request.session.get('casa_ativa_id')
+    if casa_id:
+        from SmartDayApp.models import Casa
+        casa_ativa = Casa.objects.filter(id=casa_id).first()
+
+    return render(request, 'todo.html', {'casa_ativa': casa_ativa})
+
+def get_casa_ativa(request):
+    casa_id = request.session.get('casa_ativa_id')
+    if not casa_id:
+        return None
+    return Casa.objects.filter(id=casa_id).first()
+
+def is_responsavel_na_casa(user, casa):
+    membro = CasaMembro.objects.filter(usuario=user, casa=casa).first()
+    return membro and membro.papel == "Responsavel"
 
 @login_required
 def listar_tarefas(request):
+    casa = get_casa_ativa(request)
+    if not casa:
+        return JsonResponse({'erro': 'Nenhuma casa ativa selecionada.'}, status=400)
+
     data = request.GET.get('data')
     if not data:
         return JsonResponse({'erro': 'Data não informada'}, status=400)
@@ -65,6 +86,7 @@ def listar_tarefas(request):
     data_obj = parse_date(data)
 
     tarefas = Tarefa.objects.filter(
+        casa=casa,
         data_inicio__lte=data_obj,
         data_fim__gte=data_obj
     ).order_by('concluida', 'data_fim')
@@ -83,19 +105,28 @@ def listar_tarefas(request):
     ]
 
     usuario = request.user.username
-    is_responsavel_user = is_responsavel(request.user)
+    is_responsavel_user = is_responsavel_na_casa(request.user, casa)
 
-    return JsonResponse({'tarefas': tarefas_json, 'usuario': usuario, 'is_responsavel': is_responsavel_user})
+    return JsonResponse({
+        'tarefas': tarefas_json,
+        'usuario': usuario,
+        'is_responsavel': is_responsavel_user,
+        'casa_nome': casa.nome,
+    })
 
 @login_required
 @require_POST
 def criar_tarefa(request):
+    casa = get_casa_ativa(request)
+    if not casa:
+        return JsonResponse({'erro': 'Nenhuma casa ativa selecionada.'}, status=400)
+
     data = json.loads(request.body)
+
     try:
         data_inicio = parse_date(data.get('data_inicio'))
         data_fim = parse_date(data.get('data_fim'))
 
-        # 🚫 Validação de datas
         if data_inicio and data_fim and data_fim < data_inicio:
             return JsonResponse({'erro': 'A data de término não pode ser anterior à data de início.'}, status=400)
 
@@ -105,7 +136,9 @@ def criar_tarefa(request):
             data_inicio=data_inicio,
             data_fim=data_fim,
             criado_por=request.user,
+            casa=casa
         )
+
         return JsonResponse({'mensagem': 'Tarefa criada com sucesso!'})
     except Exception as e:
         return JsonResponse({'erro': str(e)}, status=400)
@@ -114,15 +147,14 @@ def criar_tarefa(request):
 @require_POST
 def excluir_tarefa(request, id):
     try:
-        tarefa = Tarefa.objects.get(id=id)
-        # Permissão: Responsável pode tudo, outros só se forem criadores
-        if not (is_responsavel(request.user) or tarefa.criado_por == request.user):
-            return JsonResponse({"erro": "Você não tem permissão para excluir esta tarefa."}, status=403)
+        tarefa = get_object_or_404(Tarefa, id=id)
+        casa = tarefa.casa
+
+        if not (is_responsavel_na_casa(request.user, casa) or tarefa.criado_por == request.user):
+            return JsonResponse({"erro": "Sem permissão para excluir."}, status=403)
 
         tarefa.delete()
         return JsonResponse({"mensagem": "Tarefa excluída com sucesso!"})
-    except Tarefa.DoesNotExist:
-        return JsonResponse({"erro": "Tarefa não encontrada."}, status=404)
     except Exception as e:
         return JsonResponse({"erro": str(e)}, status=400)
 
@@ -130,18 +162,18 @@ def excluir_tarefa(request, id):
 @require_POST
 def editar_tarefa(request, id):
     try:
-        tarefa = Tarefa.objects.get(id=id)
+        tarefa = get_object_or_404(Tarefa, id=id)
+        casa = tarefa.casa
 
-        if not (is_responsavel(request.user) or tarefa.criado_por == request.user):
-            return JsonResponse({"erro": "Você não tem permissão para editar esta tarefa."}, status=403)
+        if not (is_responsavel_na_casa(request.user, casa) or tarefa.criado_por == request.user):
+            return JsonResponse({"erro": "Sem permissão para editar."}, status=403)
 
         data = json.loads(request.body)
         data_inicio = parse_date(data.get("data_inicio")) or tarefa.data_inicio
         data_fim = parse_date(data.get("data_fim")) or tarefa.data_fim
 
-        # 🚫 Validação de datas
         if data_fim < data_inicio:
-            return JsonResponse({"erro": "A data de término não pode ser anterior à data de início."}, status=400)
+            return JsonResponse({"erro": "Data final não pode ser anterior à inicial."}, status=400)
 
         tarefa.titulo = data.get("titulo", tarefa.titulo)
         tarefa.descricao = data.get("descricao", tarefa.descricao)
@@ -150,8 +182,6 @@ def editar_tarefa(request, id):
         tarefa.save()
 
         return JsonResponse({"mensagem": "Tarefa atualizada com sucesso!"})
-    except Tarefa.DoesNotExist:
-        return JsonResponse({"erro": "Tarefa não encontrada."}, status=404)
     except Exception as e:
         return JsonResponse({"erro": str(e)}, status=400)
 
@@ -159,13 +189,20 @@ def editar_tarefa(request, id):
 @require_POST
 def atualizar_status(request, id):
     try:
-        tarefa = Tarefa.objects.get(id=id)
+        tarefa = get_object_or_404(Tarefa, id=id)
+        casa = tarefa.casa
+
+        if not (is_responsavel_na_casa(request.user, casa) or tarefa.criado_por == request.user):
+            return JsonResponse({"erro": "Sem permissão para alterar status."}, status=403)
+
         tarefa.concluida = not tarefa.concluida
         tarefa.save()
-        return JsonResponse({'status': tarefa.concluida})
-    except Tarefa.DoesNotExist:
-        return JsonResponse({'erro': 'Tarefa não encontrada'}, status=404)
 
+        return JsonResponse({'status': tarefa.concluida})
+    except Exception as e:
+        return JsonResponse({'erro': str(e)}, status=400)
+
+#Realiza a troca do tema do site
 def toggle_theme(request):
     request.session['dark_mode'] = not request.session.get('dark_mode', False)
     return HttpResponse('OK')
@@ -173,34 +210,24 @@ def toggle_theme(request):
 #views relacionadas a criação das casas
 @login_required
 def minha_casa_page(request):
-    casas = Casa.objects.filter(models.Q(dono=request.user) | models.Q(membros=request.user)).distinct()
+    casas = Casa.objects.filter(models.Q(dono=request.user) | models.Q(membros_relacionados__usuario=request.user)).distinct()
 
     casa_ativa = None
-    membros = []
+    membros_relacionados = []
     usuarios_disponiveis = []
 
     casa_id = request.session.get('casa_ativa_id')
     if casa_id:
         casa_ativa = Casa.objects.filter(id=casa_id).first()
         if casa_ativa:
-            membros_qs = casa_ativa.membros.all()
-            membros = list(membros_qs)  # transformar em lista para poder setar atributos
-            usuarios_disponiveis = User.objects.exclude(id__in=membros_qs.values_list('id', flat=True))
-
-            # marca o papel em cada membro (evita lógica no template)
-            for membro in membros:
-                if membro.groups.filter(name='Responsavel').exists():
-                    membro.papel = 'Responsavel'
-                elif membro.groups.filter(name='Usuarios').exists():
-                    membro.papel = 'Usuarios'
-                else:
-                    # padrão se não tiver grupo
-                    membro.papel = 'Usuarios'
+            membros_relacionados = CasaMembro.objects.filter(casa=casa_ativa).select_related('usuario')
+            usuarios_em_casa = [cm.usuario.id for cm in membros_relacionados]
+            usuarios_disponiveis = User.objects.exclude(id__in=usuarios_em_casa)
 
     return render(request, 'minha_casa.html', {
         'casas': casas,
         'casa_ativa': casa_ativa,
-        'membros': membros,
+        'membros_relacionados': membros_relacionados,
         'usuarios_disponiveis': usuarios_disponiveis,
     })
 
@@ -238,38 +265,25 @@ def gerenciar_casa(request, id):
 @require_POST
 def adicionar_usuario_casa(request, id):
     casa = get_object_or_404(Casa, id=id)
-    if not (casa.dono == request.user or is_responsavel(request.user)):
+    if casa.dono != request.user:
         return JsonResponse({'erro': 'Sem permissão.'}, status=403)
 
-    data = json.loads(request.body) if request.body else request.POST
-    usuario_id = data.get('usuario_id') or request.POST.get('usuario_id')
-    try:
-        usuario = User.objects.get(id=int(usuario_id))
-    except (User.DoesNotExist, ValueError, TypeError):
-        return JsonResponse({'erro': 'Usuário inválido.'}, status=400)
+    data = json.loads(request.body)
+    usuario_id = data.get('usuario_id')
+    usuario = get_object_or_404(User, id=usuario_id)
 
-    casa.membros.add(usuario)
-
-    usuarios_group, _ = Group.objects.get_or_create(name='Usuarios')
-    usuario.groups.add(usuarios_group)
-
-    return JsonResponse({'mensagem': f'Usuário {usuario.username} adicionado à casa.'})
+    CasaMembro.objects.get_or_create(casa=casa, usuario=usuario, defaults={'papel': 'Usuarios'})
+    return JsonResponse({'mensagem': f'{usuario.username} foi adicionado como Usuário.'})
 
 @login_required
 @require_POST
 def remover_usuario_casa(request, id, user_id):
     casa = get_object_or_404(Casa, id=id)
-    if not (casa.dono == request.user or is_responsavel(request.user)):
+    if casa.dono != request.user:
         return JsonResponse({'erro': 'Sem permissão.'}, status=403)
 
-    try:
-        usuario = User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'erro': 'Usuário não encontrado.'}, status=404)
-
-    casa.membros.remove(usuario)
-
-    return JsonResponse({'mensagem': f'Usuário {usuario.username} removido da casa.'})
+    CasaMembro.objects.filter(casa=casa, usuario_id=user_id).delete()
+    return JsonResponse({'mensagem': 'Usuário removido com sucesso.'})
 
 @login_required
 @require_POST
@@ -321,38 +335,19 @@ def excluir_casa(request, id):
 @login_required
 @require_POST
 def definir_papel(request, id):
-    try:
-        casa = get_object_or_404(Casa, id=id)
+    casa = get_object_or_404(Casa, id=id)
+    if casa.dono != request.user:
+        return JsonResponse({'erro': 'Sem permissão.'}, status=403)
 
-        # somente o dono (ou superuser) pode mudar papéis
-        if not (casa.dono == request.user or request.user.is_superuser):
-            return JsonResponse({'erro': 'Sem permissão.'}, status=403)
+    data = json.loads(request.body)
+    usuario_id = data.get('usuario_id')
+    papel = data.get('papel')
 
-        try:
-            data = json.loads(request.body)
-        except json.JSONDecodeError:
-            return JsonResponse({'erro': 'JSON inválido.'}, status=400)
+    if papel not in ['Usuarios', 'Responsavel']:
+        return JsonResponse({'erro': 'Papel inválido.'}, status=400)
 
-        usuario_id = data.get('usuario_id')
-        papel = data.get('papel')
+    membro = get_object_or_404(CasaMembro, casa=casa, usuario_id=usuario_id)
+    membro.papel = papel
+    membro.save()
 
-        if not usuario_id or papel not in ('Usuarios', 'Responsavel'):
-            return JsonResponse({'erro': 'Dados inválidos.'}, status=400)
-
-        usuario = get_object_or_404(User, id=usuario_id)
-
-        # garantir grupos
-        usuarios_group, _ = Group.objects.get_or_create(name='Usuarios')
-        responsavel_group, _ = Group.objects.get_or_create(name='Responsavel')
-
-        # remover ambos antes de adicionar o correto
-        usuario.groups.remove(usuarios_group, responsavel_group)
-
-        if papel == 'Responsavel':
-            usuario.groups.add(responsavel_group)
-        else:
-            usuario.groups.add(usuarios_group)
-
-        return JsonResponse({'mensagem': f'{usuario.username} agora é {papel}.'})
-    except Exception as e:
-        return JsonResponse({'erro': str(e)}, status=500)
+    return JsonResponse({'mensagem': f'Permissão atualizada: {membro.usuario.username} agora é {papel}.'})
