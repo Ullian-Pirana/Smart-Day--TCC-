@@ -71,39 +71,66 @@ section {
     transform: scale(1.05);
 }
 
-/* MENU PRINCIPAL - Agora à esquerda */
+/* MENU PRINCIPAL - Escondido por padrão em todas as telas */
 .nav-menu {
+    display: none; /* ← ALTERADO: escondido por padrão */
     list-style: none;
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
     margin: 0;
     padding: 0;
 }
 
+/* Menu quando ativo - visível em todas as telas - OCUPA 40% */
+.nav-menu.show {
+    display: flex; /* ← ALTERADO: visível quando ativo */
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 40%; /* ← ALTERADO: 40% da tela */
+    height: calc(100vh - 80px);
+    background: #565353;
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem 1rem;
+    gap: 0;
+    transform: translateX(0);
+    z-index: 999;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
+}
+
 .nav-item {
     position: relative;
+    width: 100%;
+    text-align: center;
+    margin: 0.5rem 0;
+    animation: slideIn 0.3s ease-out;
 }
 
 .nav-link {
     color: #fff;
     text-decoration: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 25px;
+    padding: 1rem 1.5rem;
+    border-radius: 15px;
     transition: all 0.3s ease;
     font-weight: 500;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+    font-size: 1.1rem;
 }
 
 .nav-link:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px) scale(1.02);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* BOTÃO DARK MODE */
+/* BOTÃO DARK MODE no menu */
 .nav-theme-toggle {
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.3);
@@ -111,12 +138,13 @@ section {
     cursor: pointer;
     padding: 0.5rem;
     transition: all 0.3s ease;
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
+    margin: 1rem auto;
 }
 
 .nav-theme-toggle:hover {
@@ -130,9 +158,9 @@ section {
     transition: transform 0.3s ease;
 }
 
-/* HAMBURGER MENU MODERNO - Agora à esquerda */
+/* HAMBURGER MENU MODERNO - Visível em todas as telas */
 .nav-toggle {
-    display: none;
+    display: flex;
     flex-direction: column;
     cursor: pointer;
     gap: 4px;
@@ -173,7 +201,7 @@ section {
     background-color: #ffd700;
 }
 
-/* RESPONSIVIDADE */
+/* RESPONSIVIDADE - Ajustes para mobile */
 @media (max-width: 768px) {
     body {
         padding-top: 70px;
@@ -188,73 +216,26 @@ section {
         height: 40px;
     }
     
-    .nav-toggle {
-        display: flex;
-    }
-    
-    /* Esconde o menu normal no mobile */
-    .nav-menu {
-        display: none;
-    }
-    
-    /* Menu mobile */
-    .nav-menu {
-        position: fixed;
-        top: 70px;
-        left: 0;
-        width: 100%;
-        height: calc(100vh - 70px);
-        background: linear-gradient(135deg, rgba(101, 155, 185, 0.98) 0%, rgba(118, 75, 162, 0.98) 100%);
-        backdrop-filter: blur(20px);
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 2rem 1rem;
-        gap: 0;
-        transform: translateX(-100%);
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 999;
-    }
-    
+    /* No mobile, ocupa 70% da tela para melhor usabilidade */
     .nav-menu.show {
-        transform: translateX(0);
-        display: flex;
+        top: 70px;
+        height: calc(100vh - 70px);
+        width: 70%; /* ← ALTERADO: 70% no mobile */
     }
     
-    .nav-item {
-        width: 100%;
-        text-align: center;
-        margin: 0.5rem 0;
-    }
-    
-    .nav-link {
-        padding: 1rem 1.5rem;
-        border-radius: 15px;
-        font-size: 1.1rem;
-        justify-content: center;
-        width: 100%;
-        max-width: 280px;
-        margin: 0 auto;
-    }
-    
-    .nav-theme-toggle {
-        width: 50px;
-        height: 50px;
-        margin: 1rem auto;
-    }
-    
-    .nav-link:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: translateY(-2px) scale(1.02);
-    }
-    
-    /* Garante que o hamburger fique à esquerda e logo à direita no mobile */
     .nav-container {
         justify-content: space-between;
     }
     
     .nav-left {
         gap: 1rem;
+    }
+    
+    /* Ajusta os links para caber melhor no menu menor */
+    .nav-link {
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+        max-width: 200px;
     }
 }
 
@@ -267,13 +248,27 @@ section {
         height: 60px;
     }
     
-    .nav-menu {
+    .nav-menu.show {
         top: 60px;
         height: calc(100vh - 60px);
+        width: 80%; /* ← ALTERADO: 80% em telas muito pequenas */
     }
     
     .nav-logo-img {
         height: 35px;
+    }
+    
+    .nav-link {
+        padding: 0.7rem 0.8rem;
+        font-size: 0.95rem;
+        max-width: 180px;
+    }
+}
+
+/* Para telas muito grandes, limitar a 400px */
+@media (min-width: 1200px) {
+    .nav-menu.show {
+        width: min(40%, 400px); /* ← Máximo de 400px em telas grandes */
     }
 }
 
@@ -289,16 +284,11 @@ section {
     }
 }
 
-.nav-item {
-    animation: slideIn 0.3s ease-out;
-}
-
 .nav-item:nth-child(1) { animation-delay: 0.1s; }
 .nav-item:nth-child(2) { animation-delay: 0.2s; }
 .nav-item:nth-child(3) { animation-delay: 0.3s; }
 
 /* Garantir que o menu mobile tenha z-index alto */
 .nav-menu.show {
-    transform: translateX(0);
     z-index: 1002;
 }

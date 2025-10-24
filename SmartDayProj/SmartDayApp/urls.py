@@ -13,4 +13,12 @@ urlpatterns = [
     path('todo/status/<int:id>/', views.atualizar_status, name='atualizar_status'),
     path('todo/excluir/<int:id>/', views.excluir_tarefa, name='excluir_tarefa'),
     path('todo/editar/<int:id>/', views.editar_tarefa, name='editar_tarefa'),
+
+    # Gerenciamento de Casas
+    path('minhacasa/', views.minha_casa_page, name='minha_casa'),
+    path('casa/criar/', views.criar_casa, name='criar_casa'),
+    path('casa/<int:id>/gerenciar/', views.gerenciar_casa, name='gerenciar_casa'),
+    path('casa/<int:id>/adicionar_usuario/', views.adicionar_usuario_casa, name='adicionar_usuario_casa'),
+    path('casa/<int:id>/remover_usuario/<int:user_id>/', views.remover_usuario_casa, name='remover_usuario_casa'),
+
 ]
