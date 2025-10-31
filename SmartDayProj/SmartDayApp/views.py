@@ -351,3 +351,91 @@ def definir_papel(request, id):
     membro.save()
 
     return JsonResponse({'mensagem': f'Permissão atualizada: {membro.usuario.username} agora é {papel}.'})
+
+#Funções referentes a pagina de "Lista de Compras"
+@login_required
+def lista_compras(request):
+    casa_id = request.session.get('casa_ativa_id')  # 🔹 padronizado
+
+    if not casa_id:
+        messages.error(request, "Você precisa selecionar uma casa antes de acessar a lista de compras.")
+        return redirect('minha_casa')
+
+    casa = get_object_or_404(Casa, id=casa_id)
+
+    is_responsavel = CasaMembro.objects.filter(
+        casa=casa, usuario=request.user, papel='Responsavel'
+    ).exists() or request.user == casa.dono
+
+    aguardando = ItemCompra.objects.filter(casa=casa, aprovado=False)
+    aprovados = ItemCompra.objects.filter(casa=casa, aprovado=True)
+
+    return render(request, 'lista_compras.html', {
+        'is_responsavel': is_responsavel,
+        'aguardando': aguardando,
+        'aprovados': aprovados,
+    })
+
+@require_POST
+@login_required
+def criar_item(request):
+    try:
+        data = json.loads(request.body)
+        nome = data.get("nome")
+        valor = data.get("valor_unitario")
+        quantidade = data.get("quantidade", 1)
+
+        casa_id = request.session.get('casa_ativa_id')  # 🔹 padronizado
+        if not casa_id:
+            return JsonResponse({'erro': 'Nenhuma casa ativa selecionada.'}, status=400)
+
+        casa = get_object_or_404(Casa, id=casa_id)
+
+        is_responsavel = CasaMembro.objects.filter(
+            casa=casa, usuario=request.user, papel='Responsavel'
+        ).exists() or request.user == casa.dono
+
+        item = ItemCompra.objects.create(
+            casa=casa,
+            criado_por=request.user,
+            nome=nome,
+            valor_unitario=valor if valor else None,
+            quantidade=quantidade or 1,
+            aprovado=is_responsavel  # vai direto pra lista se for responsável
+        )
+
+        return JsonResponse({
+            'status': 'ok',
+            'item': item.nome,
+            'aprovado': item.aprovado
+        })
+
+    except json.JSONDecodeError:
+        return JsonResponse({'erro': 'JSON inválido.'}, status=400)
+    except Exception as e:
+        return JsonResponse({'erro': str(e)}, status=500)
+
+@login_required
+@require_POST
+def aprovar_item(request, id):
+    item = get_object_or_404(ItemCompra, id=id)
+    item.aprovado = True
+    item.save()
+    return JsonResponse({'status': 'aprovado'})
+
+
+@login_required
+@require_POST
+def recusar_item(request, id):
+    item = get_object_or_404(ItemCompra, id=id)
+    item.delete()
+    return JsonResponse({'status': 'recusado'})
+
+
+@login_required
+@require_POST
+def alternar_status_compra(request, id):
+    item = get_object_or_404(ItemCompra, id=id)
+    item.comprado = not item.comprado
+    item.save()
+    return JsonResponse({'status': item.comprado})

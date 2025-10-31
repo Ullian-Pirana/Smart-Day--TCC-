@@ -1,0 +1,98 @@
+.homepage-wrapper {
+  padding: 60px 8%;
+  background-color: #f4f6f8;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+.homepage-section {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  padding: 50px;
+  margin-bottom: 60px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.homepage-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #255f85;
+  border-left: 6px solid #3d8bfd;
+  padding-left: 12px;
+  margin-bottom: 30px;
+}
+
+.intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.intro .text-content {
+  flex: 1;
+}
+
+.intro .image-content {
+  flex: 1;
+  text-align: center;
+}
+
+.section-image {
+  width: 80%;
+  max-width: 350px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+.service-card, .feature {
+  background: #f9fbfd;
+  border-radius: 12px;
+  padding: 25px;
+  border: 1px solid #e0e6ed;
+  transition: all 0.3s ease;
+}
+
+.service-card:hover, .feature:hover {
+  background: #e7f1ff;
+  border-color: #3d8bfd;
+}
+
+.service-card h3, .feature h3 {
+  color: #255f85;
+  margin-bottom: 12px;
+}
+
+.section-footer {
+  text-align: center;
+  margin-top: 30px;
+  font-weight: 600;
+  color: #3d8bfd;
+}
+
+.features-grid {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .intro {
+    flex-direction: column;
+  }
+
+  .section-image {
+    width: 60%;
+  }
+}

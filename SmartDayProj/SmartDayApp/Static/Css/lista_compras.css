@@ -1,0 +1,77 @@
+.lista-container {
+    padding: 2rem;
+    background: #F0E8D5;
+    min-height: 100vh;
+}
+
+.header-lista {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.header-lista h2 {
+    color: #133C74;
+}
+
+.botoes-header button {
+    margin-left: 10px;
+    background-color: #7c4dff;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.botoes-header button:hover {
+    background-color: #6a3ee0;
+}
+
+.checklist {
+    list-style: none;
+    padding: 0;
+}
+
+.item-compra {
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: 0.2s;
+}
+
+.item-compra.comprado {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.item-compra input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #133C74;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    width: 90%;
+    max-width: 400px;
+}
