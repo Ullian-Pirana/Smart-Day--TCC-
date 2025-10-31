@@ -376,6 +376,43 @@ def lista_compras(request):
         'aprovados': aprovados,
     })
 
+@login_required
+def listar_itens_compras(request):
+    casa_id = request.session.get('casa_ativa_id')
+    if not casa_id:
+        return JsonResponse({'erro': 'Nenhuma casa ativa selecionada.'}, status=400)
+
+    casa = get_object_or_404(Casa, id=casa_id)
+
+    is_responsavel = CasaMembro.objects.filter(
+        casa=casa, usuario=request.user, papel='Responsavel'
+    ).exists() or request.user == casa.dono
+
+    aguardando_qs = ItemCompra.objects.filter(casa=casa, aprovado=False).order_by('-data_criacao')
+    aprovados_qs = ItemCompra.objects.filter(casa=casa, aprovado=True).order_by('-data_criacao')
+
+    def serialize(item):
+        return {
+            'id': item.id,
+            'nome': item.nome,
+            'valor_unitario': str(item.valor_unitario) if item.valor_unitario is not None else None,
+            'quantidade': item.quantidade,
+            'aprovado': item.aprovado,
+            'comprado': item.comprado,
+            'criado_por': item.criado_por.username,
+            'data_criacao': item.data_criacao.isoformat(),
+        }
+
+    aguardando = [serialize(i) for i in aguardando_qs]
+    aprovados = [serialize(i) for i in aprovados_qs]
+
+    return JsonResponse({
+        'aguardando': aguardando,
+        'aprovados': aprovados,
+        'is_responsavel': is_responsavel,
+        'casa_nome': casa.nome,
+    })
+
 @require_POST
 @login_required
 def criar_item(request):
@@ -439,3 +476,42 @@ def alternar_status_compra(request, id):
     item.comprado = not item.comprado
     item.save()
     return JsonResponse({'status': item.comprado})
+
+@login_required
+@require_POST
+def editar_item(request, id):
+    try:
+        item = get_object_or_404(ItemCompra, id=id)
+        casa = item.casa
+        # só responsavel ou dono pode editar (ou quem criou? sua regra)
+        if not (CasaMembro.objects.filter(casa=casa, usuario=request.user, papel='Responsavel').exists() or request.user == casa.dono):
+            return JsonResponse({'erro': 'Sem permissão.'}, status=403)
+
+        data = json.loads(request.body)
+        item.nome = data.get('nome', item.nome)
+        valor = data.get('valor_unitario', None)
+        item.valor_unitario = valor if valor is not None and valor != '' else None
+        item.quantidade = int(data.get('quantidade', item.quantidade))
+        item.save()
+        return JsonResponse({'status': 'ok'})
+    except Exception as e:
+        return JsonResponse({'erro': str(e)}, status=500)
+    
+@login_required
+@require_POST
+def excluir_item(request, id):
+    item = get_object_or_404(ItemCompra, id=id)
+    casa = item.casa
+
+    # Apenas o dono da casa, responsáveis ou o criador do item podem excluir
+    pode_excluir = (
+        request.user == casa.dono or
+        CasaMembro.objects.filter(casa=casa, usuario=request.user, papel='Responsavel').exists() or
+        item.criado_por == request.user
+    )
+
+    if not pode_excluir:
+        return JsonResponse({'erro': 'Você não tem permissão para excluir este item.'}, status=403)
+
+    item.delete()
+    return JsonResponse({'mensagem': 'Item excluído com sucesso!'})

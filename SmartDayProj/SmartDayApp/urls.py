@@ -26,7 +26,10 @@ urlpatterns = [
 
     #Lista de Compras
     path('compras/', views.lista_compras, name='lista_compras'),
+    path('compras/listar/', views.listar_itens_compras, name='listar_itens_compras'),
     path('compras/criar/', views.criar_item, name='criar_item'),
+    path('compras/editar/<int:id>/', views.editar_item, name='editar_item'),
+    path('compras/excluir/<int:id>/', views.excluir_item, name='excluir_item'),
     path('compras/aprovar/<int:id>/', views.aprovar_item, name='aprovar_item'),
     path('compras/recusar/<int:id>/', views.recusar_item, name='recusar_item'),
     path('compras/status/<int:id>/', views.alternar_status_compra, name='status_item'),
