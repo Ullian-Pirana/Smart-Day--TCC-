@@ -192,7 +192,8 @@ def atualizar_status(request, id):
         tarefa = get_object_or_404(Tarefa, id=id)
         casa = tarefa.casa
 
-        if not (is_responsavel_na_casa(request.user, casa) or tarefa.criado_por == request.user):
+        membro_casa = CasaMembro.objects.filter(casa=casa, usuario=request.user).exists() or casa.dono == request.user
+        if not membro_casa:
             return JsonResponse({"erro": "Sem permissão para alterar status."}, status=403)
 
         tarefa.concluida = not tarefa.concluida
@@ -253,12 +254,11 @@ def criar_casa(request):
 def gerenciar_casa(request, id):
     casa = get_object_or_404(Casa, id=id)
 
-    if not (casa.dono == request.user or casa.membros.filter(id=request.user.id).exists()):
+    if not CasaMembro.objects.filter(casa=casa, usuario=request.user).exists() and casa.dono != request.user:
         messages.error(request, "Você não faz parte desta casa.")
         return redirect('minha_casa')
 
     request.session['casa_ativa_id'] = casa.id
-
     return redirect('minha_casa')
 
 @login_required
