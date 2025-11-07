@@ -10,88 +10,37 @@
 {% endblock %}
 
 {% block body %}
-    <div class="homepage-container">
-        <!-- Primeiro Card -->
-        <div class="homepage-card">
-            <h1 class="titulo-home">Smart Day</h1>
-            <div class="homepage-content">
-                <div class="homepage-text">
-                    <p class="homepage-description">
-                        {% if dados.descricao %}
-                            {{ dados.descricao }}
-                        {% else %}
-                            Bem-vindo ao Smart Day! Sua plataforma inteligente para organizar e otimizar o seu dia a dia. 
-                            Conecte-se com sua família, gerencie tarefas e transforme sua rotina em momentos especiais.
-                        {% endif %}
-                    </p>
-                </div>
-                <div class="homepage-image">
-                    <img src="{% static 'img/logo.png' %}" alt="Smart Day Logo" class="homepage-logo">
-                </div>
-            </div>
-        </div>
-        
-        <!-- Segundo Card - Serviços -->
-        <div class="homepage-card">
-            <h2 class="titulo-home">Nossos Serviços</h2>
-            <div class="homepage-content">
-                <div class="homepage-text">
-                    <ul>
-                        <li>
-                            <strong>📋 TO-DO Inteligente</strong>
-                            Organize suas tarefas com nosso sistema intuitivo e nunca mais perca prazos importantes.
-                        </li>
-                        <li>
-                            <strong>🏠 Minha Casa</strong>
-                            Conecte sua família em um espaço digital seguro para compartilhar momentos e responsabilidades.
-                        </li>
-                        <li>
-                            <strong>📅 Gestão de Rotina</strong>
-                            Planeje seu dia, semana e mês com ferramentas desenvolvidas para simplificar sua vida.
-                        </li>
-                        <li>
-                            <strong>👨‍👩‍👧‍👦 Conexão Familiar</strong>
-                            Mantenha todos na mesma página, compartilhando conquistas e organizando a vida em família.
-                        </li>
-                    </ul>
-                    <div class="homepage-footer">
-                        ✨ Transformando dias comuns em experiências extraordinárias ✨
-                    </div>
-                </div>
-                <div class="homepage-image">
-                    <img src="{% static 'img/services.jpg' %}" alt="Nossos Serviços" class="homepage-logo" onerror="this.style.display='none'">
-                </div>
-            </div>
-        </div>
 
-        <!-- Terceiro Card - Destaques -->
-        <div class="homepage-card">
-            <h2 class="titulo-home">Por que Escolher o Smart Day?</h2>
-            <div class="homepage-content">
-                <div class="homepage-image">
-                    <img src="{% static 'img/features.jpg' %}" alt="Destaques" class="homepage-logo" onerror="this.style.display='none'">
-                </div>
-                <div class="homepage-text">
-                    <ul>
-                        <li>
-                            <strong>🎯 Interface Intuitiva</strong>
-                            Design pensado para facilitar sua experiência desde o primeiro uso.
-                        </li>
-                        <li>
-                            <strong>🔒 Segurança em Primeiro Lugar</strong>
-                            Seus dados e informações familiares protegidos com tecnologia avançada.
-                        </li>
-                        <li>
-                            <strong>📱 Multiplataforma</strong>
-                            Acesse de qualquer dispositivo, a qualquer momento.
-                        </li>
-                        <li>
-                            <strong>🚀 Inovação Constante</strong>
-                            Estamos sempre evoluindo para atender melhor suas necessidades.
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+<!-- =======================
+     PARALLAX DO TÍTULO
+======================= -->
+<section class="hero-parallax no-padding-section">
+    <div class="parallax-title">
+        <span>SMART DAY</span>
     </div>
+</section>
+
+
+<!-- =======================
+     SEÇÃO TEXTO + LOGO
+======================= -->
+<div class="section-conteudo">
+    <div class="conteudo-texto">
+        <h2>Bem-vindo ao Smart Day</h2>
+
+        <p class="homepage-description">
+            {% if dados.descricao %}
+                {{ dados.descricao }}
+            {% else %}
+                Bem-vindo ao Smart Day! Sua plataforma inteligente para organizar e otimizar o seu dia a dia. 
+                Conecte-se com sua família, gerencie tarefas e transforme sua rotina em momentos especiais.
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="conteudo-imagem">
+        <img src="{% static 'img/logo.png' %}" alt="Smart Day Logo" class="logo-smartday">
+    </div>
+</div>
+
 {% endblock %}

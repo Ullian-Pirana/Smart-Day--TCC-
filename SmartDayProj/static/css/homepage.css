@@ -1,306 +1,112 @@
-/* homepage.css - MODERNO & AESTHETIC */
-.homepage-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 60px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
+
+main.page-content {
+    padding-top: 0 !important;
 }
 
-.homepage-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 24px;
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    padding: 50px 40px;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+/* PARALLAX FULL-WIDTH SEM ESPAÇOS */
+.hero-parallax {
     position: relative;
-    overflow: hidden;
-}
-
-.homepage-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #659BB9, #8BB8D6);
-    transform: scaleX(0);
-    transition: transform 0.4s ease;
-}
-
-.homepage-card:hover::before {
-    transform: scaleX(1);
-}
-
-.homepage-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.12),
-        0 8px 16px rgba(0, 0, 0, 0.06);
-}
-
-.titulo-home {
-    color: #2c3e50;
-    font-size: 3rem;
-    margin-bottom: 40px;
-    text-align: center;
-    font-weight: 700;
-    position: relative;
-    background: linear-gradient(135deg, #2c3e50 0%, #659BB9 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.titulo-home::after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 4px;
-    background: linear-gradient(135deg, #659BB9, #8BB8D6);
-    border-radius: 4px;
-    opacity: 0.8;
-}
-
-.homepage-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    align-items: center;
-}
-
-.homepage-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.homepage-description {
-    font-size: 1.3rem;
-    line-height: 1.8;
-    color: #555;
-    margin-bottom: 30px;
-    text-align: justify;
-    font-weight: 400;
-    letter-spacing: 0.2px;
-}
-
-.homepage-text ul {
-    list-style: none;
-    padding: 0;
+    width: 100vw;
+    height: 80vh; /* antes 70vh — aumentando remove o espaço branco */
     margin: 0;
-}
+    padding: 0;
 
-.homepage-text li {
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-    padding: 25px;
-    border-radius: 16px;
-    margin-bottom: 20px;
-    border-left: 6px solid #659BB9;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    position: relative;
-    overflow: hidden;
-}
+    /* Remove efeito de margem herdada */
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
 
-.homepage-text li::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(101, 155, 185, 0.1), transparent);
-    transition: left 0.6s ease;
-}
+    /* imagem */
+    background: url("../img/9e47fefa5a687335cf906882cecfe779.gif") center center/cover no-repeat;
+    background-attachment: fixed;
 
-.homepage-text li:hover::before {
-    left: 100%;
-}
+    /* cor por cima */
+    background-color: rgba(28, 46, 128, 0.45);
+    background-blend-mode: multiply;
 
-.homepage-text li:hover {
-    transform: translateX(8px);
-    box-shadow: 0 8px 25px rgba(101, 155, 185, 0.15);
-}
-
-.homepage-text strong {
-    display: block;
-    font-size: 1.4rem;
-    color: #2c3e50;
-    margin-bottom: 12px;
-    font-weight: 600;
-}
-
-.homepage-footer {
-    margin-top: 40px;
-    padding-top: 25px;
-    border-top: 1px solid rgba(233, 236, 239, 0.8);
-    text-align: center;
-    color: #6c757d;
-    font-size: 1rem;
-    font-style: italic;
-}
-
-.homepage-image {
     display: flex;
-    justify-content: center;
     align-items: center;
-    position: relative;
+    justify-content: center;
 }
 
-.homepage-logo {
-    max-width: 100%;
+/* título */
+.parallax-title span {
+    font-size: 64px;
+    font-weight: 900;
+    color: #fff;
+    padding: 25px 60px;
+
+    border: 4px solid #fff;
+    background: rgba(255, 95, 168, 0.28);
+    backdrop-filter: blur(3px);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+/* Remove qualquer espaço abaixo do parallax */
+.hero-parallax + * {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+
+/* ================================
+   SEÇÃO TEXTO + LOGO (tipo container2)
+================================ */
+.section-conteudo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 8%;
+    gap: 50px;
+    background: var(--bg-primary);
+}
+
+.conteudo-texto {
+    flex: 1;
+    max-width: 520px;
+}
+
+.conteudo-texto h2 {
+    font-size: 2.5rem;
+    color: var(--azul-escuro);
+    margin-bottom: 15px;
+}
+
+.conteudo-texto p {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--text-primary);
+}
+
+/* imagem estilo My Melody */
+.conteudo-imagem {
+    flex: 1;
+    text-align: center;
+}
+
+.logo-smartday {
+    width: 300px;
     height: auto;
+    border: 4px solid var(--azul-escuro);
     border-radius: 20px;
-    box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.1),
-        0 5px 15px rgba(0, 0, 0, 0.07);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    filter: brightness(1.05) contrast(1.1);
+    padding: 10px;
+    box-shadow: 0 8px 0 var(--rosa);
+    background: #fff;
 }
 
-.homepage-logo:hover {
-    transform: scale(1.08) rotate(1deg);
-    box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.15),
-        0 15px 30px rgba(0, 0, 0, 0.1);
+/* Remove o padding do main SOMENTE para esta seção */
+.no-padding-section {
+    margin-top: calc(-1 * var(--page-content-padding, 40px));
 }
 
-/* Efeito de partículas decorativas */
-.homepage-card::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(101, 155, 185, 0.05) 1px, transparent 1px);
-    background-size: 20px 20px;
-    opacity: 0.3;
-    pointer-events: none;
-}
+/* Responsivo */
+@media (max-width: 900px) {
+    .section-conteudo {
+        flex-direction: column;
+        text-align: center;
+    }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .homepage-container {
-        padding: 40px 15px;
-        gap: 40px;
+    .logo-smartday {
+        width: 220px;
     }
-    
-    .homepage-card {
-        padding: 40px 25px;
-        border-radius: 20px;
-    }
-    
-    .titulo-home {
-        font-size: 2.5rem;
-    }
-    
-    .homepage-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-    
-    .homepage-description {
-        font-size: 1.2rem;
-        text-align: left;
-    }
-    
-    .homepage-text li {
-        padding: 20px;
-    }
-    
-    .homepage-logo:hover {
-        transform: scale(1.05);
-    }
-}
-
-@media (max-width: 480px) {
-    .homepage-card {
-        padding: 30px 20px;
-        border-radius: 16px;
-    }
-    
-    .titulo-home {
-        font-size: 2.2rem;
-    }
-    
-    .homepage-description {
-        font-size: 1.1rem;
-    }
-    
-    .homepage-text li {
-        padding: 18px;
-        border-left-width: 4px;
-    }
-    
-    .homepage-text strong {
-        font-size: 1.2rem;
-    }
-}
-
-/* Animações suaves */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.homepage-card {
-    animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.homepage-card:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.homepage-card:nth-child(3) {
-    animation-delay: 0.4s;
-}
-
-/* Scroll suave */
-.homepage-container {
-    scroll-behavior: smooth;
-}
-
-/* Melhorias de tipografia */
-.homepage-description,
-.homepage-text li {
-    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-}
-
-.titulo-home {
-    font-family: 'Poppins', 'Inter', sans-serif;
-    letter-spacing: -0.5px;
-}
-
-/* Efeito de brilho sutil nos cards */
-.homepage-card {
-    position: relative;
-}
-
-.homepage-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(ellipse at top right, rgba(101, 155, 185, 0.03) 0%, transparent 50%);
-    pointer-events: none;
-    border-radius: 24px;
 }
