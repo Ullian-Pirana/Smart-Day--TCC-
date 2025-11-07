@@ -11,48 +11,58 @@
 
 {% block body %}
 
-<div class="finance-container">
+<div class="finance-page">
 
-    <h2 class="titulo">ECONÔMICO</h2>
+    <div class="top-info">
+        <h2 class="titulo">FINANÇAS DA CASA</h2>
 
-    <div class="cards">
-        <div class="saldo-geral">
-            <h3>Saldo</h3>
-            <p class="valor-saldo">R$ {{ saldo }}</p>
+        <div class="cards">
+            <div class="saldo-card">
+                <h3>Saldo do Mês</h3>
+                <p class="saldo-valor">R$ {{ saldo }}</p>
+            </div>
+
+            <div class="detalhes-card">
+                <p class="entrada">Entradas: R$ {{ total_renda }}</p>
+                <p class="saida">Saídas: R$ {{ total_gastos }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL: gráfico + lista lateral -->
+    <div class="conteudo-financas">
+
+        <!-- GRÁFICO -->
+        <div class="grafico-box">
+            <canvas id="graficoDiario"></canvas>
         </div>
 
-        <div class="detalhes">
-            <p class="renda">ENTRADA: R$ {{ total_renda }}</p>
-            <p class="gastos">SAÍDA: R$ {{ total_gastos }}</p>
+        <!-- LISTA DE TRANSAÇÕES -->
+        <div class="transacoes-box">
+            <h3>Transações</h3>
+            <div id="listaTransacoes" class="lista-transacoes">
+            </div>
         </div>
+
     </div>
 
-    <div class="grafico-box">
-        <canvas id="graficoDiario"></canvas>
+    <!-- BOTÃO PARA RESPONSÁVEIS -->
+    {% if is_responsavel %}
+    <div class="acoes-financas">
+        <button id="btnTransacao" class="btn-transacao">Adicionar Transação</button>
     </div>
-
-    <div class="botoes-acoes">
-        <button id="btnTransacao">Adicionar Transação</button>
-    </div>
+    {% endif %}
 
 </div>
 
-
-<!-- Modal Único -->
 <div id="modalFinanceiro" class="modal">
     <div class="modal-content">
-        <h3 id="modalTitulo">Adicionar Transação</h3>
+        <h3>Adicionar Transação</h3>
 
-        <input id="valorInput" type="number" min="0" placeholder="Valor em R$" />
-
-        <!-- Campo local opcional -->
-        <input id="localInput" placeholder="Local (opcional)" />
-
-        <!-- Data obrigatória -->
-        <input id="dataInput" type="date" />
-
-        <!-- Observação opcional -->
-        <textarea id="notaInput" placeholder="Observação (opcional)"></textarea>
+        <input id="valorInput" type="number" placeholder="Valor R$">
+        <input id="localInput" type="text" placeholder="Local (opcional)">
+        <input id="dataInput" type="date">
+        <textarea id="notaInput" placeholder="Descrição (opcional)"></textarea>
 
         <div class="categorias">
             <label><input type="radio" name="cat" value="renda" checked> Entrada</label>
@@ -66,7 +76,28 @@
     </div>
 </div>
 
+<div id="modalEditar" class="modal">
+    <div class="modal-content">
+        <h3>Editar Transação</h3>
 
-<div id="toastSucesso" class="toast">Enviado com sucesso ✅</div>
+        <input id="editValor" type="number">
+        <input id="editLocal" type="text" placeholder="Local (opcional)">
+        <input id="editData" type="date">
+        <textarea id="editNota" placeholder="Descrição (opcional)"></textarea>
+
+        <div class="categorias">
+            <label><input type="radio" name="editCat" value="renda"> Entrada</label>
+            <label><input type="radio" name="editCat" value="gasto"> Saída</label>
+        </div>
+
+        <div class="modal-actions">
+            <button id="cancelarEdit">Cancelar</button>
+            <button id="confirmarEdit">Salvar</button>
+        </div>
+    </div>
+</div>
+
+
+<div id="toastSucesso" class="toast">Sucesso ✅</div>
 
 {% endblock %}

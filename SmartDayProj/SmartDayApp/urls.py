@@ -38,4 +38,7 @@ urlpatterns = [
     path('financas/', views.financas_page, name='financas'),
     path('financas/salvar-transacao/', views.salvar_transacao, name='salvar_transacao'),
     path('financas/grafico-mensal/', views.grafico_mensal, name='grafico_mensal'),
+    path('financas/listar/', views.listar_transacoes, name='listar_transacoes'),
+    path('financas/excluir/<int:id>/', views.excluir_transacao, name='excluir_transacao'),
+    path('financas/editar/<int:id>/', views.editar_transacao, name='editar_transacao'),
 ]

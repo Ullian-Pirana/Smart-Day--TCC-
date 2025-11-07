@@ -1,13 +1,12 @@
-.finance-container {
+.finance-page {
     padding: 2rem;
     background: #0f2b55;
     min-height: 100vh;
-    color: white;
-    text-align: center;
+    color: #fff;
 }
 
 .titulo {
-    font-size: 2rem;
+    text-align: center;
     margin-bottom: 1rem;
 }
 
@@ -17,69 +16,157 @@
     gap: 2rem;
 }
 
-.saldo-geral {
+.saldo-card {
     background: white;
-    color: #133C74;
-    padding: 1.5rem;
+    color: #153567;
+    padding: 1.2rem;
     border-radius: 12px;
-    width: 280px;
-    font-size: 1.3rem;
+    width: 260px;
+    text-align: center;
+}
+
+.saldo-valor {
+    font-size: 1.6rem;
     font-weight: bold;
 }
 
-.detalhes {
+.detalhes-card {
     background: #092040;
-    padding: 1.5rem;
+    padding: 1.2rem;
     border-radius: 12px;
     width: 220px;
     color: white;
 }
 
-.renda {
+.entrada {
     color: #00ff00;
     font-weight: bold;
 }
 
-.gastos {
-    color: #ff4444;
+.saida {
+    color: #ff4a4a;
     font-weight: bold;
 }
 
+/* --- Estrutura principal --- */
+
+.conteudo-financas {
+    display: flex;
+    margin-top: 2rem;
+    gap: 2rem;
+}
+
+/* --- GRAFICO --- */
 .grafico-box {
     background: #153567;
-    margin-top: 2rem;
     padding: 1rem;
+    border-radius: 12px;
+    flex: 2;
+}
+
+/* --- LISTA LATERAL --- */
+.transacoes-box {
+    flex: 1;
+    background: #0a1d3a;
+    padding: 1rem;
+    border-radius: 12px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.transacoes-box h3 {
+    text-align: center;
+    margin-bottom: .5rem;
+}
+
+.item-transacao {
+    background: #133C74;
+    padding: .8rem;
     border-radius: 10px;
+    margin-bottom: .7rem;
 }
 
-.botoes-acoes {
-    margin-top: 2rem;
+.item-header {
+    display: flex;
+    justify-content: space-between;
 }
 
-.botoes-acoes button {
-    background: #6a5acd;
-    color: white;
-    padding: 0.8rem 1.4rem;
+.valor-entrada {
+    color: #00ff00;
+    font-weight: bold;
+}
+
+.valor-saida {
+    color: #ff4a4a;
+    font-weight: bold;
+}
+
+.item-btns {
+    display: flex;
+    justify-content: end;
+    gap: .5rem;
+}
+
+.btn-edit, .btn-del {
+    padding: .3rem .7rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
 }
 
+.btn-edit {
+    background: orange;
+}
+
+.btn-del {
+    background: red;
+    color: white;
+}
+
+/* --- BOTÃO PRINCIPAL --- */
+
+.btn-transacao {
+    background: #6a5acd;
+    border: none;
+    padding: .8rem 1.4rem;
+    color: white;
+    border-radius: 10px;
+    display: block;
+    margin: 2rem auto;
+    cursor: pointer;
+}
+
+/* --- MODAL --- */
 .modal {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,.6);
+    background: rgba(0,0,0,.7);
     justify-content: center;
     align-items: center;
 }
 
 .modal-content {
-    background: #133C74;
-    padding: 1.5rem;
+    background: #153567;
+    padding: 1rem;
     border-radius: 12px;
     width: 300px;
     color: white;
+}
+
+.modal-content input,
+.modal-content textarea {
+    width: 100%;
+    padding: .5rem;
+    margin-bottom: .7rem;
+    border-radius: 8px;
+    border: none;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
 }
 
 .toast {

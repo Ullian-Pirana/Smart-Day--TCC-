@@ -16,10 +16,6 @@ from .forms import *
 import json, calendar
 
 def is_responsavel(user):
-    """
-    Retorna True se o usuário pertencer a um grupo 'Responsavel', 
-    'Responsaveis' ou 'Responsáveis' (ignorando maiúsculas/minúsculas e acentos).
-    """
     grupos = user.groups.values_list('name', flat=True)
     for nome in grupos:
         nome_normalizado = nome.lower().replace("í", "i").replace("é", "e").replace("ê", "e")
@@ -520,29 +516,41 @@ def excluir_item(request, id):
 
 @login_required
 def financas_page(request):
-    casa_id = request.session.get('casa_ativa_id')
-    casa = Casa.objects.get(id=casa_id)
+    casa = get_casa_ativa(request)
+    if not casa:
+        messages.error(request, "Selecione uma casa primeiro.")
+        return redirect('minha_casa')
 
-    entradas = Gasto.objects.filter(casa=casa, categoria="renda")
-    saidas = Gasto.objects.filter(casa=casa, categoria="gasto")
+    # permissões
+    is_resp = is_responsavel_na_casa(request.user, casa)
 
-    total_renda = sum(x.valor for x in entradas)
-    total_gastos = sum(x.valor for x in saidas)
+    # cálculos financeiros
+    entradas_qs = Gasto.objects.filter(casa=casa, categoria="renda")
+    saidas_qs = Gasto.objects.filter(casa=casa, categoria="gasto")
+
+    total_renda = sum(g.valor for g in entradas_qs)
+    total_gastos = sum(g.valor for g in saidas_qs)
     saldo = total_renda - total_gastos
 
     return render(request, "financas.html", {
         "saldo": saldo,
         "total_renda": total_renda,
         "total_gastos": total_gastos,
+        "is_responsavel": is_resp,
     })
-
 
 @require_POST
 @login_required
 def salvar_transacao(request):
-    data = json.loads(request.body)
+    casa = get_casa_ativa(request)
+    if not casa:
+        return JsonResponse({"erro": "Nenhuma casa ativa selecionada."}, status=400)
 
-    casa = Casa.objects.get(id=request.session.get('casa_ativa_id'))
+    # apenas responsáveis
+    if not is_responsavel_na_casa(request.user, casa):
+        return JsonResponse({"erro": "Apenas responsáveis podem registrar transações."}, status=403)
+
+    data = json.loads(request.body)
 
     Gasto.objects.create(
         casa=casa,
@@ -556,15 +564,78 @@ def salvar_transacao(request):
 
     return JsonResponse({"mensagem": "Transação registrada!"})
 
+@login_required
+def excluir_transacao(request, id):
+    casa = get_casa_ativa(request)
+    if not casa:
+        return JsonResponse({"erro": "Nenhuma casa ativa selecionada."}, status=400)
+
+    if not is_responsavel_na_casa(request.user, casa):
+        return JsonResponse({"erro": "Sem permissão."}, status=403)
+
+    transacao = Gasto.objects.filter(id=id, casa=casa).first()
+    if not transacao:
+        return JsonResponse({"erro": "Transação não encontrada."}, status=404)
+
+    transacao.delete()
+    return JsonResponse({"mensagem": "Transação removida!"})
+
+@login_required
+def editar_transacao(request, id):
+    casa = get_casa_ativa(request)
+    if not casa:
+        return JsonResponse({"erro": "Nenhuma casa ativa selecionada."}, status=400)
+
+    if not is_responsavel_na_casa(request.user, casa):
+        return JsonResponse({"erro": "Sem permissão."}, status=403)
+
+    transacao = Gasto.objects.filter(id=id, casa=casa).first()
+    if not transacao:
+        return JsonResponse({"erro": "Transação não encontrada."}, status=404)
+
+    data = json.loads(request.body)
+
+    transacao.valor = data["valor"]
+    transacao.data = data["data"]
+    transacao.local = data.get("local", "")
+    transacao.nota = data.get("nota", "")
+    transacao.categoria = data["categoria"]
+    transacao.save()
+
+    return JsonResponse({"mensagem": "Transação atualizada!"})
+
+@login_required
+def listar_transacoes(request):
+    casa = get_casa_ativa(request)
+    if not casa:
+        return JsonResponse({"erro": "Nenhuma casa ativa selecionada."}, status=400)
+
+    transacoes = Gasto.objects.filter(casa=casa).order_by("-data", "-id")
+
+    lista = [
+        {
+            "id": t.id,
+            "valor": float(t.valor),
+            "data": str(t.data),
+            "local": t.local,
+            "nota": t.nota,
+            "categoria": t.categoria,
+        }
+        for t in transacoes
+    ]
+
+    return JsonResponse(lista, safe=False)
 
 @login_required
 def grafico_mensal(request):
-    casa = Casa.objects.get(id=request.session.get('casa_ativa_id'))
+    casa = get_casa_ativa(request)
+    if not casa:
+        return JsonResponse({"erro": "Nenhuma casa ativa selecionada."}, status=400)
 
-    today = datetime.date.today()
+    today = date.today()
     dias_mes = calendar.monthrange(today.year, today.month)[1]
 
-    dias = list(range(1, dias_mes + 1))
+    labels = list(range(1, dias_mes + 1))
     entradas = [0] * dias_mes
     saidas = [0] * dias_mes
 
@@ -575,14 +646,14 @@ def grafico_mensal(request):
     )
 
     for t in transacoes:
-        dia = t.data.day - 1
+        dia_idx = t.data.day - 1
         if t.categoria == "renda":
-            entradas[dia] += float(t.valor)
+            entradas[dia_idx] += float(t.valor)
         else:
-            saidas[dia] += float(t.valor)
+            saidas[dia_idx] += float(t.valor)
 
     return JsonResponse({
-        "labels": dias,
+        "labels": labels,
         "entradas": entradas,
         "saidas": saidas
     })
