@@ -67,11 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         if (resp.ok) {
-            toast.style.display = "block";
-            setTimeout(() => toast.style.display = "none", 2000);
-            fecharModal();
-            carregarTransacoes();
-            carregarGrafico();
+            location.reload();
         }
     }
 
@@ -95,19 +91,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         if (resp.ok) {
-            toast.style.display = "block";
-            setTimeout(() => toast.style.display = "none", 2000);
-            fecharModalEditar();
-            carregarTransacoes();
-            carregarGrafico();
+            location.reload();
         }
     }
 
     async function excluirTransacao(id) {
         const resp = await fetch(`/financas/excluir/${id}/`);
         if (resp.ok) {
-            carregarTransacoes();
-            carregarGrafico();
+            location.reload();
         }
     }
 
