@@ -741,3 +741,36 @@ def perfil_atualizar(request):
     perfil.save()
 
     return JsonResponse({"mensagem": "Perfil atualizado!", "foto_url": perfil.foto.url if perfil.foto else None})
+
+# Funções para a pagina de Configurações
+
+@login_required
+def configuracoes_page(request):
+    casa = get_casa_ativa(request)
+    perfil = getattr(request.user, "perfil", None)
+
+    return render(request, "configuracoes.html", {
+        "usuario": request.user,
+        "dark_mode": request.session.get("dark_mode", False),
+        "casa": casa,
+        "perfil": perfil,
+    })
+
+
+@login_required
+@require_POST
+def alterar_senha(request):
+    senha_atual = request.POST.get("senha_atual")
+    nova_senha = request.POST.get("nova_senha")
+    confirmar_senha = request.POST.get("confirmar_senha")
+
+    if not request.user.check_password(senha_atual):
+        return JsonResponse({"erro": "Senha atual incorreta."}, status=400)
+
+    if nova_senha != confirmar_senha:
+        return JsonResponse({"erro": "As senhas não coincidem."}, status=400)
+
+    request.user.set_password(nova_senha)
+    request.user.save()
+
+    return JsonResponse({"mensagem": "Senha alterada com sucesso!"})

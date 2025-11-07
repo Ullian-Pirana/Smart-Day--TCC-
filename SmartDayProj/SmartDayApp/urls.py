@@ -43,7 +43,12 @@ urlpatterns = [
     path('financas/excluir/<int:id>/', views.excluir_transacao, name='excluir_transacao'),
     path('financas/editar/<int:id>/', views.editar_transacao, name='editar_transacao'),
 
-    # Perfil do usuário
+    #   Perfil do usuário
     path('perfil/', views.perfil_page, name='perfil'),
     path('perfil/atualizar/', views.perfil_atualizar, name='perfil_atualizar'),
+
+    #   Configurações
+    path('configuracoes/', views.configuracoes_page, name='configuracoes'),
+    path('configuracoes/alterar-senha/', views.alterar_senha, name='alterar_senha'),
+    path('configuracoes/toggle-theme/', views.toggle_theme, name='toggle_theme'),
 ]
