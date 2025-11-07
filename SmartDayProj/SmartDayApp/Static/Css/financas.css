@@ -1,0 +1,96 @@
+.finance-container {
+    padding: 2rem;
+    background: #0f2b55;
+    min-height: 100vh;
+    color: white;
+    text-align: center;
+}
+
+.titulo {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.saldo-geral {
+    background: white;
+    color: #133C74;
+    padding: 1.5rem;
+    border-radius: 12px;
+    width: 280px;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.detalhes {
+    background: #092040;
+    padding: 1.5rem;
+    border-radius: 12px;
+    width: 220px;
+    color: white;
+}
+
+.renda {
+    color: #00ff00;
+    font-weight: bold;
+}
+
+.gastos {
+    color: #ff4444;
+    font-weight: bold;
+}
+
+.grafico-box {
+    background: #153567;
+    margin-top: 2rem;
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.botoes-acoes {
+    margin-top: 2rem;
+}
+
+.botoes-acoes button {
+    background: #6a5acd;
+    color: white;
+    padding: 0.8rem 1.4rem;
+    border: none;
+    border-radius: 8px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #133C74;
+    padding: 1.5rem;
+    border-radius: 12px;
+    width: 300px;
+    color: white;
+}
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #16c34c;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    color: white;
+    display: none;
+}

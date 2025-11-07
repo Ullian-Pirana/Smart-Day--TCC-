@@ -1,0 +1,67 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}Finanças{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/financas.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/financas.js' %}" defer></script>
+{% endblock %}
+
+{% block body %}
+
+<div class="finance-container">
+
+    <h2 class="titulo">ECONÔMICO</h2>
+
+    <div class="cards">
+        <div class="saldo-geral">
+            <h3>Saldo</h3>
+            <p class="valor-saldo">R$ {{ saldo }}</p>
+        </div>
+
+        <div class="detalhes">
+            <p class="renda">ENTRADA: R$ {{ total_renda }}</p>
+            <p class="gastos">SAÍDA: R$ {{ total_gastos }}</p>
+        </div>
+    </div>
+
+    <div class="grafico-box">
+        <canvas id="graficoDiario"></canvas>
+    </div>
+
+    <div class="botoes-acoes">
+        <button id="btnAddRenda">Adicionar Renda</button>
+        <button id="btnAddGasto">Adicionar Gasto</button>
+    </div>
+
+</div>
+
+
+<!-- Modal (renda/gasto) -->
+<div id="modalFinanceiro" class="modal">
+    <div class="modal-content">
+        <h3 id="modalTitulo">Adicionar</h3>
+
+        <input id="valorInput" type="number" placeholder="R$" />
+        <input id="localInput" placeholder="Local do gasto" />
+        <textarea id="notaInput" placeholder="Observação (opcional)"></textarea>
+
+        <div class="categorias">
+            <label><input type="radio" name="cat" value="renda"> Renda</label>
+            <label><input type="radio" name="cat" value="gasto"> Gasto</label>
+            <label><input type="radio" name="cat" value="investimento"> Investimento</label>
+        </div>
+
+        <div class="modal-actions">
+            <button id="cancelar">Cancelar</button>
+            <button id="confirmar">Confirmar</button>
+        </div>
+    </div>
+</div>
+
+
+<div id="toastSucesso" class="toast">Enviado com sucesso ✅</div>
+
+{% endblock %}

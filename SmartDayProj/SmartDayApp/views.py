@@ -515,3 +515,89 @@ def excluir_item(request, id):
 
     item.delete()
     return JsonResponse({'mensagem': 'Item excluído com sucesso!'})
+
+# Funcionalidades para paginas de Finanças
+
+@login_required
+def financas_page(request):
+    casa_id = request.session.get('casa_ativa_id')
+
+    if not casa_id:
+        messages.error(request, "Selecione uma casa primeiro.")
+        return redirect('minha_casa')
+
+    casa = Casa.objects.get(id=casa_id)
+
+    # Cálculos
+    total_renda = sum(r.valor for r in RendaMensal.objects.filter(casa=casa))
+    total_gastos = sum(g.valor for g in Gasto.objects.filter(casa=casa, categoria='gasto'))
+
+    saldo = total_renda - total_gastos
+
+    return render(request, "financas.html", {
+        "saldo": saldo,
+        "total_renda": total_renda,
+        "total_gastos": total_gastos,
+    })
+
+@require_POST
+@login_required
+def salvar_renda(request):
+    data = json.loads(request.body)
+    valor = data.get("valor")
+
+    casa_id = request.session.get('casa_ativa_id')
+    if not casa_id:
+        return JsonResponse({"erro": "Nenhuma casa selecionada"}, status=400)
+
+    casa = Casa.objects.get(id=casa_id)
+
+    RendaMensal.objects.create(
+        casa=casa,
+        usuario=request.user,
+        valor=valor
+    )
+
+    return JsonResponse({"mensagem": "Renda registrada!"})
+
+@require_POST
+@login_required
+def salvar_gasto(request):
+    data = json.loads(request.body)
+
+    casa_id = request.session.get('casa_ativa_id')
+    if not casa_id:
+        return JsonResponse({"erro": "Nenhuma casa selecionada"}, status=400)
+
+    casa = Casa.objects.get(id=casa_id)
+
+    Gasto.objects.create(
+        casa=casa,
+        usuario=request.user,
+        valor=data.get("valor"),
+        data=data.get("data"),
+        local=data.get("local"),
+        nota=data.get("nota", ""),
+        categoria=data.get("categoria")
+    )
+
+    return JsonResponse({"mensagem": "Gasto registrado!"})
+
+@login_required
+def grafico_mensal(request):
+    casa_id = request.session.get('casa_ativa_id')
+    casa = Casa.objects.get(id=casa_id)
+
+    gastos = (
+        Gasto.objects.filter(casa=casa)
+        .values("data")
+        .order_by("data")
+    )
+
+    dados = {}
+    for g in gastos:
+        dia = g["data"].day
+        dados.setdefault(dia, 0)
+        dados[dia] += float(Gasto.objects.get(data=g["data"]).valor)
+
+    return JsonResponse(dados)
