@@ -36,7 +36,6 @@ urlpatterns = [
 
     #   Finanças
     path('financas/', views.financas_page, name='financas'),
-    path('financas/salvar-renda/', views.salvar_renda, name='salvar_renda'),
-    path('financas/salvar-gasto/', views.salvar_gasto, name='salvar_gasto'),
+    path('financas/salvar-transacao/', views.salvar_transacao, name='salvar_transacao'),
     path('financas/grafico-mensal/', views.grafico_mensal, name='grafico_mensal'),
 ]

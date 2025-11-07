@@ -32,26 +32,31 @@
     </div>
 
     <div class="botoes-acoes">
-        <button id="btnAddRenda">Adicionar Renda</button>
-        <button id="btnAddGasto">Adicionar Gasto</button>
+        <button id="btnTransacao">Adicionar Transação</button>
     </div>
 
 </div>
 
 
-<!-- Modal (renda/gasto) -->
+<!-- Modal Único -->
 <div id="modalFinanceiro" class="modal">
     <div class="modal-content">
-        <h3 id="modalTitulo">Adicionar</h3>
+        <h3 id="modalTitulo">Adicionar Transação</h3>
 
-        <input id="valorInput" type="number" placeholder="R$" />
-        <input id="localInput" placeholder="Local do gasto" />
+        <input id="valorInput" type="number" min="0" placeholder="Valor em R$" />
+
+        <!-- Campo local opcional -->
+        <input id="localInput" placeholder="Local (opcional)" />
+
+        <!-- Data obrigatória -->
+        <input id="dataInput" type="date" />
+
+        <!-- Observação opcional -->
         <textarea id="notaInput" placeholder="Observação (opcional)"></textarea>
 
         <div class="categorias">
-            <label><input type="radio" name="cat" value="renda"> Renda</label>
-            <label><input type="radio" name="cat" value="gasto"> Gasto</label>
-            <label><input type="radio" name="cat" value="investimento"> Investimento</label>
+            <label><input type="radio" name="cat" value="renda" checked> Entrada</label>
+            <label><input type="radio" name="cat" value="gasto"> Saída</label>
         </div>
 
         <div class="modal-actions">

@@ -3,28 +3,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     const modal = document.getElementById("modalFinanceiro");
     const toast = document.getElementById("toastSucesso");
 
-    const btnRenda = document.getElementById("btnAddRenda");
-    const btnGasto = document.getElementById("btnAddGasto");
+    const btnTransacao = document.getElementById("btnTransacao");
     const confirmar = document.getElementById("confirmar");
     const cancelar = document.getElementById("cancelar");
 
     const valorInput = document.getElementById("valorInput");
     const localInput = document.getElementById("localInput");
     const notaInput = document.getElementById("notaInput");
-
-    let modo = "renda";
+    const dataInput = document.getElementById("dataInput");
 
     function csrf() {
         let cookie = document.cookie.split(";").find(x => x.trim().startsWith("csrftoken="));
         return cookie ? cookie.split("=")[1] : "";
     }
 
-    function abrirModal(tipo) {
-        modo = tipo;
+    function abrirModal() {
         modal.style.display = "flex";
-
-        document.getElementById("modalTitulo").textContent =
-            tipo === "renda" ? "Registrar Renda" : "Registrar Gasto";
     }
 
     function fecharModal() {
@@ -32,27 +26,29 @@ document.addEventListener("DOMContentLoaded", async () => {
         valorInput.value = "";
         localInput.value = "";
         notaInput.value = "";
+        dataInput.value = "";
     }
 
     async function enviar() {
         let valor = valorInput.value;
+        let data = dataInput.value;
 
-        if (!valor) {
-            alert("Digite um valor.");
+        if (!valor || !data) {
+            alert("Informe o valor e a data.");
             return;
         }
+
+        let categoria = document.querySelector('input[name="cat"]:checked').value;
 
         let body = {
             valor: valor,
             local: localInput.value,
             nota: notaInput.value,
-            categoria: modo,
-            data: new Date().toISOString().slice(0,10)
+            categoria: categoria,
+            data: data,
         };
 
-        let url = modo === "renda" ? "/financas/salvar-renda/" : "/financas/salvar-gasto/";
-
-        const resp = await fetch(url, {
+        const resp = await fetch("/financas/salvar-transacao/", {
             method: "POST",
             headers: {
                 "X-CSRFToken": csrf(),
@@ -69,14 +65,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    btnRenda.onclick = () => abrirModal("renda");
-    btnGasto.onclick = () => abrirModal("gasto");
-
+    btnTransacao.onclick = abrirModal;
     confirmar.onclick = enviar;
     cancelar.onclick = fecharModal;
 
     // ============================
-    //   GRÁFICO
+    //   GRÁFICO DIÁRIO
     // ============================
 
     const ctx = document.getElementById("graficoDiario");
@@ -87,12 +81,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     new Chart(ctx, {
         type: "line",
         data: {
-            labels: Object.keys(dados),
-            datasets: [{
-                label: "Gastos por dia",
-                data: Object.values(dados),
-                borderWidth: 3
-            }]
+            labels: dados.labels,
+            datasets: [
+                {
+                    label: "Entradas (R$)",
+                    data: dados.entradas,
+                    borderWidth: 3,
+                    borderColor: "green",
+                    tension: 0.3
+                },
+                {
+                    label: "Saídas (R$)",
+                    data: dados.saidas,
+                    borderWidth: 3,
+                    borderColor: "red",
+                    tension: 0.3
+                }
+            ]
         }
     });
 });

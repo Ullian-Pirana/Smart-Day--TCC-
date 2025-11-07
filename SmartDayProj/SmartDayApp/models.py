@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import datetime
 
 class homepage(models.Model):
     titulo = models.CharField(max_length=50)
@@ -75,27 +76,26 @@ class RendaMensal(models.Model):
     casa = models.ForeignKey(Casa, on_delete=models.CASCADE, related_name='rendas')
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     valor = models.DecimalField(max_digits=10, decimal_places=2)
-    criado_em = models.DateTimeField(auto_now_add=True)
+    data = models.DateField(default=datetime.date.today)
+    nota = models.TextField(blank=True)
 
     def __str__(self):
-        return f"Renda - {self.casa.nome}: R${self.valor}"
+        return f"Entrada R${self.valor} - {self.casa.nome}"
 
 
 class Gasto(models.Model):
     CATEGORIAS = [
-        ('renda', 'Renda'),
-        ('gasto', 'Gasto'),
-        ('investimento', 'Investimento'),
+        ('renda', 'Entrada'),
+        ('gasto', 'Saída'),
     ]
 
     casa = models.ForeignKey(Casa, on_delete=models.CASCADE, related_name='gastos')
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     valor = models.DecimalField(max_digits=10, decimal_places=2)
-    data = models.DateField()
-    local = models.CharField(max_length=100)
+    data = models.DateField(default=datetime.date.today)
+    local = models.CharField(max_length=100, blank=True)
     nota = models.TextField(blank=True)
     categoria = models.CharField(max_length=20, choices=CATEGORIAS)
-    criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Gasto - {self.local} - R${self.valor}"
+        return f"{self.categoria} - R${self.valor}"

@@ -13,7 +13,7 @@ from django.db import IntegrityError, transaction
 from datetime import datetime, date
 from .models import *
 from .forms import *
-import json
+import json, calendar
 
 def is_responsavel(user):
     """
@@ -521,17 +521,13 @@ def excluir_item(request, id):
 @login_required
 def financas_page(request):
     casa_id = request.session.get('casa_ativa_id')
-
-    if not casa_id:
-        messages.error(request, "Selecione uma casa primeiro.")
-        return redirect('minha_casa')
-
     casa = Casa.objects.get(id=casa_id)
 
-    # Cálculos
-    total_renda = sum(r.valor for r in RendaMensal.objects.filter(casa=casa))
-    total_gastos = sum(g.valor for g in Gasto.objects.filter(casa=casa, categoria='gasto'))
+    entradas = Gasto.objects.filter(casa=casa, categoria="renda")
+    saidas = Gasto.objects.filter(casa=casa, categoria="gasto")
 
+    total_renda = sum(x.valor for x in entradas)
+    total_gastos = sum(x.valor for x in saidas)
     saldo = total_renda - total_gastos
 
     return render(request, "financas.html", {
@@ -540,64 +536,53 @@ def financas_page(request):
         "total_gastos": total_gastos,
     })
 
-@require_POST
-@login_required
-def salvar_renda(request):
-    data = json.loads(request.body)
-    valor = data.get("valor")
-
-    casa_id = request.session.get('casa_ativa_id')
-    if not casa_id:
-        return JsonResponse({"erro": "Nenhuma casa selecionada"}, status=400)
-
-    casa = Casa.objects.get(id=casa_id)
-
-    RendaMensal.objects.create(
-        casa=casa,
-        usuario=request.user,
-        valor=valor
-    )
-
-    return JsonResponse({"mensagem": "Renda registrada!"})
 
 @require_POST
 @login_required
-def salvar_gasto(request):
+def salvar_transacao(request):
     data = json.loads(request.body)
 
-    casa_id = request.session.get('casa_ativa_id')
-    if not casa_id:
-        return JsonResponse({"erro": "Nenhuma casa selecionada"}, status=400)
-
-    casa = Casa.objects.get(id=casa_id)
+    casa = Casa.objects.get(id=request.session.get('casa_ativa_id'))
 
     Gasto.objects.create(
         casa=casa,
         usuario=request.user,
-        valor=data.get("valor"),
-        data=data.get("data"),
-        local=data.get("local"),
+        valor=data["valor"],
+        data=data["data"],
+        local=data.get("local", ""),
         nota=data.get("nota", ""),
-        categoria=data.get("categoria")
+        categoria=data["categoria"],
     )
 
-    return JsonResponse({"mensagem": "Gasto registrado!"})
+    return JsonResponse({"mensagem": "Transação registrada!"})
+
 
 @login_required
 def grafico_mensal(request):
-    casa_id = request.session.get('casa_ativa_id')
-    casa = Casa.objects.get(id=casa_id)
+    casa = Casa.objects.get(id=request.session.get('casa_ativa_id'))
 
-    gastos = (
-        Gasto.objects.filter(casa=casa)
-        .values("data")
-        .order_by("data")
+    today = datetime.date.today()
+    dias_mes = calendar.monthrange(today.year, today.month)[1]
+
+    dias = list(range(1, dias_mes + 1))
+    entradas = [0] * dias_mes
+    saidas = [0] * dias_mes
+
+    transacoes = Gasto.objects.filter(
+        casa=casa,
+        data__year=today.year,
+        data__month=today.month
     )
 
-    dados = {}
-    for g in gastos:
-        dia = g["data"].day
-        dados.setdefault(dia, 0)
-        dados[dia] += float(Gasto.objects.get(data=g["data"]).valor)
+    for t in transacoes:
+        dia = t.data.day - 1
+        if t.categoria == "renda":
+            entradas[dia] += float(t.valor)
+        else:
+            saidas[dia] += float(t.valor)
 
-    return JsonResponse(dados)
+    return JsonResponse({
+        "labels": dias,
+        "entradas": entradas,
+        "saidas": saidas
+    })
