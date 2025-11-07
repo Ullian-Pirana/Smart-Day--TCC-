@@ -1,8 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* =============================
-           APLICAR TEMA
-    ============================= */
+    function animarClique(elemento) {
+    elemento.classList.remove("btn-click-anim"); // reset caso clique rápido
+    void elemento.offsetWidth; // força reflow
+    elemento.classList.add("btn-click-anim");
+    }
+
+    document.querySelectorAll("button, .config-item").forEach(el => {
+    el.addEventListener("click", () => animarClique(el));
+    });
+
     const toggleTema = document.getElementById("toggleTema");
 
     function aplicarTemaInicial() {
@@ -31,10 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
         window.dispatchEvent(new CustomEvent("themeChanged"));
     });
 
-
-    /* =============================
-          ALTERAR SENHA
-    ============================= */
     const modalSenha = document.getElementById("modalSenha");
     const btnSenha = document.getElementById("btnSenha");
     const cancelarSenha = document.getElementById("cancelarModal");
@@ -73,10 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
         modalSenha.style.display = "none";
     };
 
-
-    /* =============================
-         EXCLUIR CONTA
-    ============================= */
     const modalExcluir = document.getElementById("modalExcluirConta");
     const btnExcluir = document.getElementById("btnExcluirConta");
     const cancelarExcluir = document.getElementById("cancelarExclusao");
@@ -104,10 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-
-    /* =============================
-         ANIMAÇÃO DOS CARDS
-    ============================= */
     const cards = document.querySelectorAll(".config-item");
     cards.forEach((card, i) => {
         setTimeout(() => {

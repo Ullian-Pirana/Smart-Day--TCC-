@@ -226,3 +226,13 @@ button.danger {
 .danger-toast {
     background: var(--toast-danger);
 }
+
+.btn-click-anim {
+    animation: clickPop .25s ease-out;
+}
+
+@keyframes clickPop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(0.92); }
+    100% { transform: scale(1); }
+}
