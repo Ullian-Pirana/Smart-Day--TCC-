@@ -1,136 +1,228 @@
+:root {
+    --bg: #f6f6f6;
+    --bg-card: #ffffff;
+    --text: #222;
+    --text-light: #666;
+    --border: #e0e0e0;
+
+    --toast-success: #4caf50;
+    --toast-danger: #d9534f;
+}
+
+html[data-theme="dark"] {
+    --bg: #0d0f12;
+    --bg-card: #171a1f;
+    --text: #f3f3f3;
+    --text-light: #a5a5a5;
+    --border: #2b2b2b;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+
+/* Container */
 .config-container {
     width: 90%;
-    max-width: 500px;
+    max-width: 520px;
     margin: auto;
     padding: 20px;
+    opacity: 0;
+    animation: fadeIn .6s ease-out forwards;
 }
 
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+
+/* Títulos */
 .titulo {
     font-size: 18px;
-    color: var(--text-strong);
-    margin-bottom: 10px;
-    margin-top: 20px;
+    font-weight: bold;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    opacity: .9;
 }
 
+
+/* Cards */
 .config-item {
     background: var(--bg-card);
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 12px;
+    border: 1px solid var(--border);
+    padding: 16px;
+    border-radius: 14px;
+    margin-bottom: 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
-    transition: .2s;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: .3s;
+}
+
+.config-item.slide-up {
+    animation: slideUp .45s forwards ease-out;
+}
+
+@keyframes slideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .config-item:hover {
-    transform: scale(1.01);
+    transform: translateY(-3px);
 }
 
+/* Conteúdo */
 .left {
     display: flex;
-    gap: 12px;
+    gap: 14px;
     align-items: center;
 }
 
+.left i {
+    font-size: 22px;
+    color: var(--text);
+}
+
 .titulo-opcao {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
 }
 
 .sub {
-    font-size: 13px;
-    opacity: .8;
+    font-size: 12px;
+    color: var(--text-light);
 }
 
 /* Switch */
 .switch {
     position: relative;
-    display: inline-block;
-    width: 48px;
+    width: 50px;
     height: 26px;
 }
 
-.switch input {
-    display: none;
-}
+.switch input { display: none; }
 
 .slider {
     position: absolute;
-    background-color: #aaa;
+    top: 0; left: 0; right: 0; bottom: 0;
     border-radius: 20px;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    background: #777;
     cursor: pointer;
     transition: .3s;
 }
 
 .slider:before {
     content: "";
-    height: 20px;
-    width: 20px;
-    background: #fff;
     position: absolute;
-    left: 3px;
-    bottom: 3px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
+    background: white;
+    bottom: 3px;
+    left: 3px;
     transition: .3s;
 }
 
 input:checked + .slider {
-    background: #4f46e5;
+    background: #694bff;
 }
 
 input:checked + .slider:before {
-    transform: translateX(22px);
+    transform: translateX(24px);
 }
 
 /* Modal */
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,.65);
+    background: rgba(0,0,0,.7);
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 50;
+    z-index: 200;
 }
 
 .modal-content {
     background: var(--bg-card);
-    padding: 20px;
     width: 90%;
     max-width: 360px;
+    padding: 20px;
     border-radius: 14px;
+    border: 1px solid var(--border);
+}
+
+.animate-pop {
+    transform: scale(.7);
+    opacity: 0;
+    animation: pop .25s ease-out forwards;
+}
+
+@keyframes pop {
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .modal-content input {
     width: 100%;
-    padding: 10px;
     margin-top: 10px;
-    background: var(--bg-input);
+    padding: 11px;
     border-radius: 8px;
-    border: none;
-    color: var(--text-normal);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
 }
 
+/* Botões */
 .acoes {
-    margin-top: 15px;
     display: flex;
     justify-content: space-between;
+    margin-top: 18px;
 }
 
+.acoes button {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+}
+
+#cancelarModal,
+#cancelarExclusao {
+    background: #ccc;
+}
+
+#confirmarSenhaBtn {
+    background: #694bff;
+    color: white;
+}
+
+button.danger {
+    background: #d9534f;
+    color: white;
+}
+
+/* Toast */
 .toast {
     position: fixed;
-    bottom: 15px;
+    bottom: 16px;
     left: 50%;
     transform: translateX(-50%);
-    background: #4caf50;
-    color: white;
     padding: 12px 18px;
+    background: var(--toast-success);
+    color: white;
     border-radius: 10px;
+    font-size: 14px;
     display: none;
+}
+
+.danger-toast {
+    background: var(--toast-danger);
 }

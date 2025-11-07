@@ -10,7 +10,7 @@
 
 {% block body %}
 
-<div class="config-container">
+<div class="config-container fade-in">
 
     <h2 class="titulo">OPÇÕES GERAIS</h2>
 
@@ -25,11 +25,10 @@
         </div>
 
         <label class="switch">
-            <input type="checkbox" id="toggleTema" {% if dark_mode %}checked{% endif %}>
+            <input type="checkbox" id="toggleTema">
             <span class="slider"></span>
         </label>
     </div>
-
 
     <hr>
 
@@ -57,6 +56,17 @@
         <i class="bi bi-chevron-right"></i>
     </a>
 
+    <!-- Excluir conta -->
+    <div class="config-item link logout" id="btnExcluirConta">
+        <div class="left">
+            <i class="bi bi-trash"></i>
+            <div>
+                <p class="titulo-opcao">Excluir Conta</p>
+                <p class="sub">Remover permanentemente sua conta</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Logout -->
     <a href="{% url 'logout' %}" class="config-item link logout">
         <div class="left">
@@ -72,7 +82,7 @@
 
 <!-- Modal Alterar Senha -->
 <div id="modalSenha" class="modal">
-    <div class="modal-content">
+    <div class="modal-content animate-pop">
         <h3>Alterar Senha</h3>
 
         <input id="senhaAtual" type="password" placeholder="Senha Atual">
@@ -86,6 +96,24 @@
     </div>
 </div>
 
-<div id="toast" class="toast">Alterado com sucesso ✅</div>
+
+<!-- Modal Excluir Conta -->
+<div class="modal" id="modalExcluirConta">
+    <div class="modal-content animate-pop">
+        <h3>Excluir conta?</h3>
+        <p style="color: var(--text-light); margin-bottom: 10px;">
+            Esta ação é <b>irreversível</b>. Todos os seus dados serão removidos.
+        </p>
+
+        <div class="acoes">
+            <button id="cancelarExclusao">Cancelar</button>
+            <button id="confirmarExcluirBtn" class="danger">Excluir</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toasts -->
+<div id="toastSenha" class="toast">Senha alterada ✅</div>
+<div id="toastExcluido" class="toast danger-toast">Conta excluída ✅</div>
 
 {% endblock %}

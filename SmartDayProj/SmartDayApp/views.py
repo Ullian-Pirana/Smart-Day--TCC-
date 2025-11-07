@@ -774,3 +774,15 @@ def alterar_senha(request):
     request.user.save()
 
     return JsonResponse({"mensagem": "Senha alterada com sucesso!"})
+
+@login_required
+def excluir_conta(request):
+    if request.method != "POST":
+        return JsonResponse({"erro": "Método inválido"}, status=405)
+
+    user = request.user
+
+    logout(request)
+    user.delete()
+
+    return JsonResponse({"mensagem": "Conta excluída com sucesso!"})

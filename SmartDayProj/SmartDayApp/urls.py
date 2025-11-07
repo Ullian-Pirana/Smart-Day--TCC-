@@ -51,4 +51,5 @@ urlpatterns = [
     path('configuracoes/', views.configuracoes_page, name='configuracoes'),
     path('configuracoes/alterar-senha/', views.alterar_senha, name='alterar_senha'),
     path('configuracoes/toggle-theme/', views.toggle_theme, name='toggle_theme'),
+    path('configuracoes/excluir-conta/', views.excluir_conta, name='excluir_conta'),
 ]
