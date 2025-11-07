@@ -81,6 +81,19 @@ section {
     padding: 0;
 }
 
+.nav-menu.show::-webkit-scrollbar {
+    width: 6px;
+}
+
+.nav-menu.show::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 10px;
+}
+
+.nav-menu.show::-webkit-scrollbar-track {
+    background: transparent;
+}
+
 /* Menu quando ativo - visível em todas as telas - OCUPA 40% */
 .nav-menu.show {
     display: flex;
@@ -97,8 +110,12 @@ section {
     padding: 2rem 1rem;
     gap: 0;
     transform: translateX(0);
-    z-index: 999;
+    z-index: 1002;
     box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;  
+    scrollbar-color: var(--accent-color) transparent;
 }
 
 .nav-item {

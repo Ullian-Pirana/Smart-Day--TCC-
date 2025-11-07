@@ -1,0 +1,104 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}Meu Perfil{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/perfil.css' %}">
+<script src="{% static 'js/perfil.js' %}" defer></script>
+{% endblock %}
+
+{% block body %}
+
+<div class="perfil-container">
+
+  <div class="perfil-header">
+    <div class="perfil-foto">
+      {% if perfil.foto %}
+        <img src="{{ perfil.foto.url }}" alt="Foto de {{ usuario.username }}">
+      {% else %}
+        <div class="foto-placeholder">{{ usuario.username|slice:":1"|upper }}</div>
+      {% endif %}
+    </div>
+
+    <div class="perfil-info">
+      <h2>{{ usuario.first_name }} {% if usuario.last_name %}{{ usuario.last_name }}{% else %}{{ usuario.username }}{% endif %}</h2>
+      <p class="email">{{ usuario.email }}</p>
+
+      <button id="btnGerenciar" class="btn-gerenciar">Gerenciar sua conta</button>
+    </div>
+  </div>
+
+  <div class="perfil-body">
+    <aside class="perfil-lateral">
+      <h4>Sobre</h4>
+      <div class="card">
+        <p><strong>Seu cargo</strong><br><span>{{ papel }}</span></p>
+        <p><strong>Sua Organização</strong><br><span>{{ nome_casa|default:"Nenhuma" }}</span></p>
+      </div>
+
+      <h4>Contato</h4>
+      <div class="card">
+        <p>{{ perfil.contato|default:"- (adicione seu contato)" }}</p>
+      </div>
+
+      <h4>Membros</h4>
+      <div class="card">
+        {% if membros %}
+          {% for m in membros %}
+            <div class="membro-item">{{ m }}</div>
+          {% endfor %}
+        {% else %}
+          <p>Nenhum membro na casa ativa</p>
+        {% endif %}
+      </div>
+    </aside>
+
+    <section class="perfil-contribuicoes">
+      <h3>Contribuições</h3>
+      <p class="sub">Tarefas e itens de compras criados por você</p>
+
+      <div class="contrib-list">
+        <h4>Tarefas</h4>
+        {% if tarefas_contribuicoes %}
+          <ul>
+            {% for t in tarefas_contribuicoes %}
+              <li>{{ t.titulo }} — {{ t.data_inicio }} a {{ t.data_fim }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>Você ainda não criou tarefas nesta casa.</p>
+        {% endif %}
+      </div>
+
+      <div class="contrib-list">
+        <h4>Compras</h4>
+        {% if compras_contribuicoes %}
+          <ul>
+            {% for c in compras_contribuicoes %}
+              <li>{{ c.nome }} — R$ {{ c.valor_unitario|default:"-" }} × {{ c.quantidade }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>Você ainda não adicionou itens de compra nesta casa.</p>
+        {% endif %}
+      </div>
+
+      <div class="sobre-editar">
+        <h4>Sobre</h4>
+        <textarea id="sobreInput" placeholder="Escreva algo sobre você...">{{ perfil.sobre }}</textarea>
+
+        <h4>Contato</h4>
+        <input id="contatoInput" value="{{ perfil.contato }}" placeholder="Telefone, WhatsApp, etc.">
+
+        <div class="acoes-perfil">
+          <input id="fotoInput" type="file" accept="image/*">
+          <button id="salvarPerfil">Salvar</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+</div>
+
+{% endblock %}

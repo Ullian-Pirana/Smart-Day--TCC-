@@ -1,4 +1,6 @@
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 import datetime
 
@@ -9,6 +11,30 @@ class homepage(models.Model):
 
     def __str__(self):
         return self.titulo
+
+#   Classe para configurações do perfil do usuario
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="perfil")
+    foto = models.ImageField(upload_to="perfil/", blank=True, null=True)
+    contato = models.CharField(max_length=120, blank=True)
+    sobre = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"Perfil: {self.user.username}"
+
+@receiver(post_save, sender=User)
+def criar_perfil_usuario(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def salvar_perfil_usuario(sender, instance, **kwargs):
+    try:
+        instance.perfil.save()
+    except Exception:
+        # se não existir, criar
+        UserProfile.objects.get_or_create(user=instance)
 
 # Models da funcionalidade de CASAS
 

@@ -41,4 +41,8 @@ urlpatterns = [
     path('financas/listar/', views.listar_transacoes, name='listar_transacoes'),
     path('financas/excluir/<int:id>/', views.excluir_transacao, name='excluir_transacao'),
     path('financas/editar/<int:id>/', views.editar_transacao, name='editar_transacao'),
+
+    # Perfil do usuário
+    path('perfil/', views.perfil_page, name='perfil'),
+    path('perfil/atualizar/', views.perfil_atualizar, name='perfil_atualizar'),
 ]

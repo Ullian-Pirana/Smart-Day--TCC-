@@ -5,6 +5,8 @@ from django.contrib.auth import logout, authenticate, login
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_http_methods
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 from django.utils.dateparse import parse_date
 from django.http import HttpResponse, JsonResponse
 from django.utils.timezone import now
@@ -657,3 +659,63 @@ def grafico_mensal(request):
         "entradas": entradas,
         "saidas": saidas
     })
+
+# Funções para a pagina de Perfil Do usuario
+
+@login_required
+def perfil_page(request):
+    casa = get_casa_ativa(request)
+
+    # perfil do usuário (garante criação automática pela signal)
+    perfil = getattr(request.user, "perfil", None)
+    if perfil is None:
+        perfil, _ = UserProfile.objects.get_or_create(user=request.user)
+
+    papel = None
+    membros = []
+    nome_casa = None
+    if casa:
+        if casa.dono == request.user:
+            papel = "Dono"
+        else:
+            cm = CasaMembro.objects.filter(casa=casa, usuario=request.user).first()
+            papel = cm.papel if cm else "Usuário"
+        nome_casa = casa.nome
+        membros_qs = CasaMembro.objects.filter(casa=casa).select_related('usuario').order_by('usuario__username')
+        membros = [m.usuario.username for m in membros_qs]
+
+    # contribuições do usuário (apenas na casa ativa)
+    tarefas = Tarefa.objects.filter(criado_por=request.user, casa=casa).order_by('-criado_em') if casa else []
+    compras = ItemCompra.objects.filter(criado_por=request.user, casa=casa).order_by('-data_criacao') if casa else []
+
+    return render(request, "perfil.html", {
+        "perfil": perfil,
+        "usuario": request.user,
+        "papel": papel,
+        "nome_casa": nome_casa,
+        "membros": membros,
+        "tarefas_contribuicoes": tarefas,
+        "compras_contribuicoes": compras,
+    })
+
+
+@login_required
+@require_http_methods(["POST"])
+def perfil_atualizar(request):
+    perfil = getattr(request.user, "perfil", None)
+    if perfil is None:
+        perfil, _ = UserProfile.objects.get_or_create(user=request.user)
+
+    # arquivo de imagem (opcional)
+    foto = request.FILES.get("foto")
+    contato = request.POST.get("contato", "").strip()
+    sobre = request.POST.get("sobre", "").strip()
+
+    if foto:
+        perfil.foto.save(foto.name, foto, save=False)
+
+    perfil.contato = contato
+    perfil.sobre = sobre
+    perfil.save()
+
+    return JsonResponse({"mensagem": "Perfil atualizado!", "foto_url": perfil.foto.url if perfil.foto else None})
