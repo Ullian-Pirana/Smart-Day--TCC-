@@ -29,6 +29,8 @@ def Homepage(request):
     context = {'dados_home': homepage.objects.all()}
     return render(request, 'homepage.html', context)
 
+#   Funções relacionadas a acesso do usuario
+
 def Login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -43,6 +45,26 @@ def Login(request):
             return render(request, 'Login.html')
     return render(request, 'Login.html')
 
+def Registro(request):
+    if request.method == "POST":
+        form = RegistroForm(request.POST)
+        if form.is_valid():
+            try:
+                user = User.objects.create_user(
+                    username=form.cleaned_data['username'],
+                    email=form.cleaned_data['email'],
+                    password=form.cleaned_data['password']
+                )
+                messages.success(request, "Conta criada com sucesso! Faça login para continuar.")
+                return redirect('login')
+            except IntegrityError:
+                messages.error(request, "Este usuário já existe.")
+        else:
+            messages.error(request, "Corrija os erros no formulário.")
+    else:
+        form = RegistroForm()
+
+    return render(request, "registro.html", {"form": form})
 
 @login_required
 def Sair(request):

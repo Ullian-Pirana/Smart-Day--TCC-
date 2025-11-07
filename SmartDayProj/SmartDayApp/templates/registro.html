@@ -1,0 +1,70 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}Cadastro{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="corpo">
+    <div class="login-container">
+        <h2>Criar Conta</h2>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <label>Usuário</label>
+                <input type="text" name="username" required>
+            </div>
+
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" required>
+            </div>
+
+            <div class="input-group">
+                <label>Senha</label>
+                <input type="password" name="password" id="password" required>
+                <button type="button" class="password-toggle" id="passwordToggle"></button>
+            </div>
+
+            <div class="input-group">
+                <label>Confirmar Senha</label>
+                <input type="password" name="confirm_password" id="confirm_password" required>
+                <button type="button" class="password-toggle" id="confirmPasswordToggle"></button>
+            </div>
+
+            <div class="form_submit">
+                <a href="{% url 'login' %}" class="link_a">Já tenho conta</a>
+                <button type="submit">Cadastrar</button>
+            </div>
+
+            {% for message in messages %}
+                <p class="warn">{{ message }}</p>
+            {% endfor %}
+        </form>
+    </div>
+</div>
+
+<script src="{% static 'Js/login_senha.js' %}"></script>
+<script>
+    // Duplicar funcionalidade do toggle de senha para confirm password
+    const confirmInput = document.getElementById("confirm_password");
+    const confirmToggle = document.getElementById("confirmPasswordToggle");
+
+    if (confirmInput && confirmToggle) {
+        confirmToggle.addEventListener("click", () => {
+            if (confirmInput.type === "password") {
+                confirmInput.type = "text";
+                confirmToggle.classList.add("show-password");
+            } else {
+                confirmInput.type = "password";
+                confirmToggle.classList.remove("show-password");
+            }
+        });
+    }
+</script>
+{% endblock %}
