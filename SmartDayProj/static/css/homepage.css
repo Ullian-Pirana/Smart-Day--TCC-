@@ -1,64 +1,106 @@
+/* ================================
+   HOMEPAGE.CSS - Smart Day
+   Estilos específicos para a homepage
+   Baseado na paleta de cores azuis
+======================== */
 
-main.page-content {
-    padding-top: 0 !important;
-}
-
-/* PARALLAX FULL-WIDTH SEM ESPAÇOS */
+/* ================================
+   PARALLAX DO TÍTULO - ESTILO APERFEIÇOADO
+======================== */
 .hero-parallax {
     position: relative;
     width: 100vw;
-    height: 80vh; /* antes 70vh — aumentando remove o espaço branco */
+    height: 80vh;
     margin: 0;
     padding: 0;
-
-    /* Remove efeito de margem herdada */
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
-
-    /* imagem */
-    background: url("../img/9e47fefa5a687335cf906882cecfe779.gif") center center/cover no-repeat;
+    
+    /* Remove qualquer margem superior */
+    margin-top: 0 !important;
+    
+    /* Gradiente em tons de azul */
+    background: 
+        linear-gradient(135deg, 
+            rgba(91, 109, 182, 0.25) 0%, 
+            rgba(101, 155, 185, 0.35) 50%, 
+            rgba(101, 155, 185, 0.45) 100%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%235b6db6"/><path d="M0 0L100 100M100 0L0 100" stroke="%23659BB9" stroke-width="2"/></svg>');
+    background-size: cover;
+    background-position: center;
     background-attachment: fixed;
-
-    /* cor por cima */
-    background-color: rgba(28, 46, 128, 0.45);
-    background-blend-mode: multiply;
 
     display: flex;
     align-items: center;
     justify-content: center;
+    
+    /* Efeito de brilho sutil */
+    box-shadow: inset 0 0 100px rgba(255, 255, 255, 0.15);
 }
 
-/* título */
-.parallax-title span {
-    font-size: 64px;
-    font-weight: 900;
-    color: #fff;
-    padding: 25px 60px;
-
-    border: 4px solid #fff;
-    background: rgba(255, 95, 168, 0.28);
-    backdrop-filter: blur(3px);
-    text-transform: uppercase;
-    letter-spacing: 4px;
-}
-
-/* Remove qualquer espaço abaixo do parallax */
-.hero-parallax + * {
+/* Remove qualquer espaço entre a nav e o parallax */
+.no-padding-section {
     margin-top: 0 !important;
     padding-top: 0 !important;
 }
 
+/* Garante que não haja margem no elemento anterior ao parallax */
+body, main, .main-content {
+    margin: 0;
+    padding: 0;
+}
+
+/* Título principal com estilo moderno */
+.parallax-title span {
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--branco);
+    padding: 30px 70px;
+    
+    /* Borda com gradiente azul */
+    border: 3px solid transparent;
+    background: 
+        linear-gradient(var(--bg-primary), var(--bg-primary)) padding-box,
+        linear-gradient(135deg, var(--azul-escuro), var(--azul), var(--azul)) border-box;
+    
+    /* Efeito de vidro */
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    
+    /* Animação sutil */
+    animation: float 6s ease-in-out infinite;
+    transition: all 0.4s ease;
+}
+
+/* Efeito de flutuação para o título */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Efeito hover no título */
+.parallax-title span:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(91, 109, 182, 0.4);
+}
 
 /* ================================
-   SEÇÃO TEXTO + LOGO (tipo container2)
-================================ */
+   SEÇÃO TEXTO + LOGO - ESTILO APERFEIÇOADO
+======================== */
 .section-conteudo {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 60px 8%;
-    gap: 50px;
+    padding: 80px 8%;
+    gap: 60px;
     background: var(--bg-primary);
+    
+    /* Gradiente sutil de fundo em tons claros */
+    background: linear-gradient(135deg, var(--bg-primary) 0%, rgba(255, 252, 239, 0.9) 100%);
 }
 
 .conteudo-texto {
@@ -67,46 +109,242 @@ main.page-content {
 }
 
 .conteudo-texto h2 {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     color: var(--azul-escuro);
-    margin-bottom: 15px;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+/* Sublinhado decorativo para o título em azul */
+.conteudo-texto h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--azul-escuro), var(--azul));
+    border-radius: 2px;
 }
 
 .conteudo-texto p {
-    font-size: 1.15rem;
-    line-height: 1.7;
+    font-size: 1.2rem;
+    line-height: 1.8;
     color: var(--text-primary);
+    margin-bottom: 20px;
 }
 
-/* imagem estilo My Melody */
+/* Destaque para a descrição em tons azuis suaves */
+.homepage-description {
+    background: linear-gradient(135deg, 
+        rgba(91, 109, 182, 0.05), 
+        rgba(101, 155, 185, 0.08));
+    padding: 25px;
+    border-radius: 16px;
+    border-left: 4px solid var(--azul);
+    box-shadow: var(--sombra-suave);
+}
+
+/* Estilo da imagem/logo */
 .conteudo-imagem {
     flex: 1;
     text-align: center;
+    position: relative;
 }
 
 .logo-smartday {
-    width: 300px;
+    width: 320px;
     height: auto;
-    border: 4px solid var(--azul-escuro);
-    border-radius: 20px;
-    padding: 10px;
-    box-shadow: 0 8px 0 var(--rosa);
-    background: #fff;
+    
+    /* Borda com gradiente azul */
+    border: 4px solid transparent;
+    background: 
+        linear-gradient(var(--branco), var(--branco)) padding-box,
+        linear-gradient(135deg, var(--azul-escuro), var(--azul), var(--azul)) border-box;
+    
+    border-radius: 24px;
+    padding: 15px;
+    box-shadow: 
+        0 12px 0 var(--azul),
+        0 20px 40px rgba(91, 109, 182, 0.2);
+    
+    background: var(--branco);
+    transition: all 0.4s ease;
+    
+    /* Efeito de flutuação */
+    animation: float-logo 8s ease-in-out infinite;
 }
 
-/* Remove o padding do main SOMENTE para esta seção */
-.no-padding-section {
-    margin-top: calc(-1 * var(--page-content-padding, 40px));
+/* Animação diferente para a logo */
+@keyframes float-logo {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-8px) rotate(1deg); }
+    66% { transform: translateY(-5px) rotate(-1deg); }
 }
 
-/* Responsivo */
+/* Efeito hover na logo */
+.logo-smartday:hover {
+    transform: scale(1.05) rotate(2deg);
+    box-shadow: 
+        0 15px 0 var(--azul),
+        0 25px 50px rgba(91, 109, 182, 0.3);
+}
+
+/* Elemento decorativo atrás da logo em azul suave */
+.conteudo-imagem::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, 
+        rgba(101, 155, 185, 0.15) 0%, 
+        transparent 70%);
+    z-index: -1;
+    opacity: 0.6;
+    border-radius: 50%;
+}
+
+/* ================================
+   DARK MODE - Ajustes específicos
+======================== */
+[data-theme="dark"] .hero-parallax {
+    background: 
+        linear-gradient(135deg, 
+            rgba(91, 109, 182, 0.35) 0%, 
+            rgba(101, 155, 185, 0.45) 50%, 
+            rgba(101, 155, 185, 0.3) 100%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%233B3B3B"/><path d="M0 0L100 100M100 0L0 100" stroke="%23659BB9" stroke-width="2"/></svg>');
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .parallax-title span {
+    background-color: rgba(59, 59, 59, 0.3);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .section-conteudo {
+    background: linear-gradient(135deg, 
+        var(--bg-primary) 0%, 
+        rgba(59, 59, 59, 0.9) 100%);
+}
+
+[data-theme="dark"] .homepage-description {
+    background: linear-gradient(135deg, 
+        rgba(91, 109, 182, 0.1), 
+        rgba(101, 155, 185, 0.15));
+    border-left: 4px solid var(--accent-color);
+}
+
+[data-theme="dark"] .logo-smartday {
+    background: var(--bg-secondary);
+    box-shadow: 
+        0 12px 0 var(--accent-color),
+        0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .conteudo-imagem::before {
+    background: radial-gradient(circle, 
+        rgba(101, 155, 185, 0.25) 0%, 
+        transparent 70%);
+}
+
+/* ================================
+   RESPONSIVIDADE
+======================== */
 @media (max-width: 900px) {
     .section-conteudo {
         flex-direction: column;
         text-align: center;
+        padding: 60px 5%;
+        gap: 40px;
     }
-
+    
+    .conteudo-texto h2::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
     .logo-smartday {
-        width: 220px;
+        width: 250px;
     }
+    
+    .conteudo-imagem::before {
+        width: 280px;
+        height: 280px;
+    }
+    
+    .parallax-title span {
+        font-size: 3.5rem;
+        padding: 20px 40px;
+        letter-spacing: 4px;
+    }
+}
+
+@media (max-width: 600px) {
+    .parallax-title span {
+        font-size: 2.5rem;
+        padding: 15px 30px;
+        letter-spacing: 2px;
+    }
+    
+    .conteudo-texto h2 {
+        font-size: 2.2rem;
+    }
+    
+    .conteudo-texto p {
+        font-size: 1.1rem;
+    }
+    
+    .logo-smartday {
+        width: 200px;
+    }
+    
+    .conteudo-imagem::before {
+        width: 230px;
+        height: 230px;
+    }
+}
+
+/* ================================
+   ANIMAÇÕES ADICIONAIS
+======================== */
+/* Fade-in suave para o conteúdo */
+.section-conteudo {
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Efeito de partículas sutil no parallax em azul */
+.hero-parallax::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(101, 155, 185, 0.2) 2px, transparent 0),
+        radial-gradient(circle at 80% 70%, rgba(91, 109, 182, 0.15) 2px, transparent 0),
+        radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.1) 2px, transparent 0);
+    background-size: 300px 300px, 400px 400px, 500px 500px;
+    animation: particles 20s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes particles {
+    from { transform: translateY(0); }
+    to { transform: translateY(-300px); }
 }

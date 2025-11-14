@@ -1,143 +1,406 @@
+/* ================================
+   CONTAINER PRINCIPAL
+======================== */
 .minha-casa-container {
-    max-width: 900px;
-    margin: 40px auto;
-    text-align: center;
-    padding: 20px;
+    min-height: calc(100vh - 80px);
+    padding: 2rem;
+    background: var(--bg-primary);
+    color: var(--text-primary);
 }
 
+.minha-casa-container h2 {
+    color: var(--text-primary);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* ================================
+   INFO CASA ATIVA
+======================== */
+.minha-casa-container > p {
+    background: var(--bg-secondary);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--accent-color);
+    box-shadow: var(--shadow);
+}
+
+/* ================================
+   LISTA DE CASAS
+======================== */
 .lista-casas {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
 }
 
 .casa-card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    padding: 20px;
-    width: 250px;
-    transition: transform 0.2s ease;
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    position: relative;
 }
 
 .casa-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
 }
 
-.btn-criar-casa,
-.btn-add-user,
-.btn-remover,
-.btn-primary {
-    margin-top: 10px;
-    padding: 8px 14px;
+.casa-card h3 {
+    color: var(--text-primary);
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.casa-card p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+/* ================================
+   BOTÕES
+======================== */
+.btn {
+    padding: 0.8rem 1.5rem;
     border: none;
     border-radius: 8px;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: bold;
-    transition: 0.2s;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--accent-color);
+    color: white;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
 }
 
 .btn-criar-casa {
-    background-color: #5e9cff;
+    background: var(--accent-color);
     color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: block;
+    margin: 0 auto 3rem auto;
+    font-size: 1rem;
+    box-shadow: var(--shadow);
 }
 
-.btn-add-user {
-    background-color: #4CAF50;
-    color: white;
+.btn-criar-casa:hover {
+    background: var(--primary-hover);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
 }
 
 .btn-remover {
-    background-color: #e74c3c;
+    background: var(--danger-color);
     color: white;
-    margin-left: 8px;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.btn-primary {
-    background-color: #007bff;
+.btn-remover:hover {
+    background: #c62828;
+    transform: scale(1.05);
+}
+
+.btn-add-user {
+    background: var(--success-color);
     color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.btn-criar-casa:hover,
-.btn-add-user:hover,
-.btn-remover:hover,
-.btn-primary:hover {
-    opacity: 0.9;
+.btn-add-user:hover {
+    background: #388e3c;
+    transform: translateY(-2px);
 }
 
-/* Modal */
+/* ================================
+   MODAL
+======================== */
 .modal {
-    display: none;
     position: fixed;
-    z-index: 10;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
 .modal-content {
-    background: #fff;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 12px;
-    width: 300px;
+    background: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: var(--shadow-hover);
+    animation: modalFadeIn 0.3s ease;
+}
+
+.modal-content h3 {
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
     text-align: center;
+    font-size: 1.4rem;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    box-sizing: border-box;
+}
+
+.modal-content input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(86, 124, 141, 0.1);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
 }
 
 .modal-actions button {
-    margin: 8px;
-    padding: 6px 12px;
+    padding: 0.8rem 1.5rem;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
 }
 
-/* ================= GERENCIAMENTO ================= */
+.modal-actions button:first-child {
+    background: var(--accent-color);
+    color: white;
+}
+
+.modal-actions button:first-child:hover {
+    background: var(--primary-hover);
+}
+
+.modal-actions button:last-child {
+    background: var(--text-light);
+    color: white;
+}
+
+.modal-actions button:last-child:hover {
+    background: #5d6d7e;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ================================
+   SEÇÃO GERENCIAR CASA
+======================== */
 .gerenciar-casa {
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    padding: 25px;
-    margin-top: 30px;
-    text-align: left;
+    background: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    margin-top: 2rem;
 }
 
 .gerenciar-casa h3 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
 }
 
 .gerenciar-casa h4 {
-    color: #444;
-    margin-top: 20px;
+    color: var(--text-primary);
+    margin: 1.5rem 0 1rem 0;
+    font-size: 1.2rem;
 }
 
+.gerenciar-casa hr {
+    border: none;
+    height: 1px;
+    background: var(--border-color);
+    margin: 2rem 0;
+}
+
+/* ================================
+   EDIÇÃO DE CASA
+======================== */
+.editar-casa {
+    background: var(--bg-primary);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.editar-casa input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+}
+
+.editar-casa input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+/* ================================
+   LISTA DE MEMBROS
+======================== */
 .gerenciar-casa ul {
     list-style: none;
     padding: 0;
-    margin: 0;
 }
 
 .gerenciar-casa li {
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
+    background: var(--bg-primary);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.8rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
-.gerenciar-casa select {
-    margin-top: 10px;
-    padding: 6px;
+.gerenciar-casa li strong {
+    color: var(--text-primary);
+}
+
+.gerenciar-casa li small {
+    color: var(--text-light);
+}
+
+.papel-select {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    border: 1px solid #ccc;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    cursor: pointer;
 }
 
-#btnAddUsuario {
-    margin-left: 10px;
+/* ================================
+   ADICIONAR MEMBRO
+======================== */
+.gerenciar-casa select {
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
+/* ================================
+   MENSAGEM VAZIA
+======================== */
+.minha-casa-container > p:last-child {
+    text-align: center;
+    color: var(--text-light);
+    font-style: italic;
+    padding: 2rem;
+}
+
+/* ================================
+   RESPONSIVIDADE
+======================== */
+@media (max-width: 768px) {
+    .minha-casa-container {
+        padding: 1rem;
+    }
+    
+    .lista-casas {
+        grid-template-columns: 1fr;
+    }
+    
+    .gerenciar-casa li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .modal-content {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .minha-casa-container h2 {
+        font-size: 1.5rem;
+    }
+    
+    .casa-card {
+        padding: 1rem;
+    }
+    
+    .gerenciar-casa {
+        padding: 1rem;
+    }
+    
+    .btn-criar-casa {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
 }

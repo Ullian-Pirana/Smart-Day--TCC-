@@ -2,16 +2,16 @@
    PALETA PRINCIPAL — estilo portfólio
    ================================ */
 :root {
-  --azul-escuro: #1c2e80;
-  --azul: #3553c7;
-  --rosa: #1c2e80;
-  --rosa-claro: #9982ff;
-  --fundo-claro: #f9f6f7;
+  --azul-escuro: #5b6db6;
+  --azul: #659BB9;
+  --rosa: #659BB9;
+  --rosa-claro: #ffffff;
+  --fundo-claro: #FFFCEF;
 
   /* Variáveis globais da sua estrutura */
   --bg-primary: var(--fundo-claro);
   --bg-secondary: #ffffff;
-  --bg-tertiary: #eceaf3;
+  --bg-tertiary: #5d5e60;
 
   --text-primary: var(--azul-escuro);
   --text-secondary: #3b3b3b;
@@ -21,8 +21,8 @@
 
   --border-color: var(--azul-escuro);
 
-  --warn-bg: #ffe2ef;
-  --warn-text: #ff3d77;
+  --warn-bg: #ffffff;
+  --warn-text: #ffffff;
   
 }
 
@@ -30,20 +30,20 @@
    DARK MODE — paleta adaptada
    ================================ */
 [data-theme="dark"] {
-  --bg-primary: #131528;
-  --bg-secondary: #1b1d33;
-  --bg-tertiary: #232542;
+  --bg-primary: #3B3B3B;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #5d5e60;
 
   --text-primary: #ffffff;
   --text-secondary: #d6d6d6;
 
-  --accent-color: #a182ff;
-  --accent-hover: #a3a6ff;
+  --accent-color: #659BB9 ;
+  --accent-hover: #3a3b56;
 
-  --border-color: #a882ff;
+  --border-color: #9a96a6;
 
-  --warn-bg: #231c3b;
-  --warn-text: #8c82ff;
+  --warn-bg: #6b6b6b9c;
+  --warn-text: #ffffff;
 }
 
 /* ================================
@@ -78,4 +78,27 @@ body {
   color: var(--rosa);
   font-size: 22px;
   opacity: 0.6;
+}
+
+
+/* ================================
+   NAVIGATION FIX
+   ================================ */
+nav {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Para dark mode específico com cor azul */
+[data-theme="dark"] nav {
+  background-color: #659BB9;
+  color: white;
+}
+
+/* Se estiver usando classes específicas */
+.navbar,
+.header-nav,
+.main-navigation {
+  background-color: var(--bg-secondary);
 }
