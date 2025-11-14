@@ -5,7 +5,7 @@
     min-height: calc(100vh - 80px);
     padding: 2rem;
     background: var(--bg-primary);
-    color: var(--text-primary);
+    color: var(--text-secondary);
 }
 
 .minha-casa-container h2 {
@@ -26,6 +26,11 @@
     margin-bottom: 2rem;
     border-left: 4px solid var(--accent-color);
     box-shadow: var(--shadow);
+    color: var(--text-primary);
+}
+
+.minha-casa-container > p strong {
+    color: var(--text-primary);
 }
 
 /* ================================
@@ -39,11 +44,11 @@
 }
 
 .casa-card {
-    background: var(--bg-secondary);
+    background: #5D5C5C; /* Cor específica solicitada para light mode */
     padding: 1.5rem;
     border-radius: 16px;
     box-shadow: var(--shadow);
-    border: 1px solid var(--border-color);
+    border: 1px solid #6b6a6a;
     transition: all 0.3s ease;
     position: relative;
 }
@@ -51,19 +56,49 @@
 .casa-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-hover);
+    background: #6b6a6a; /* Tom levemente mais claro no hover */
 }
 
 .casa-card h3 {
-    color: var(--text-primary);
+    color: white; /* Texto branco para contraste com fundo escuro */
     font-size: 1.3rem;
     margin-bottom: 0.5rem;
     font-weight: 600;
 }
 
 .casa-card p {
-    color: var(--text-secondary);
+    color: #e0e0e0; /* Cinza claro para melhor legibilidade */
     margin-bottom: 1rem;
     font-size: 0.95rem;
+}
+
+.casa-card p strong {
+    color: white; /* Texto branco para elementos strong */
+}
+
+/* ================================
+   DARK MODE - CARDS
+======================== */
+[data-theme="dark"] .casa-card {
+    background: #659BB9; /* Cor azul para dark mode */
+    border: 1px solid #7aa9c7;
+}
+
+[data-theme="dark"] .casa-card:hover {
+    background: #7aa9c7; /* Tom mais claro no hover */
+    border-color: #8bb8d4;
+}
+
+[data-theme="dark"] .casa-card h3 {
+    color: white; /* Mantém branco para contraste */
+}
+
+[data-theme="dark"] .casa-card p {
+    color: #f0f0f0; /* Branco mais suave */
+}
+
+[data-theme="dark"] .casa-card p strong {
+    color: white; /* Mantém branco */
 }
 
 /* ================================
@@ -146,7 +181,7 @@
 }
 
 /* ================================
-   MODAL
+   MODAL - CENTRALIZADA
 ======================== */
 .modal {
     position: fixed;
@@ -159,6 +194,7 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    place-items: center;
 }
 
 .modal-content {
@@ -169,6 +205,11 @@
     max-width: 400px;
     box-shadow: var(--shadow-hover);
     animation: modalFadeIn 0.3s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
 }
 
 .modal-content h3 {
@@ -188,6 +229,10 @@
     font-size: 1rem;
     margin-bottom: 1.5rem;
     box-sizing: border-box;
+}
+
+.modal-content input::placeholder {
+    color: var(--text-light);
 }
 
 .modal-content input:focus {
@@ -214,7 +259,7 @@
 
 .modal-actions button:first-child {
     background: var(--accent-color);
-    color: white;
+    color: rgb(255, 255, 255);
 }
 
 .modal-actions button:first-child:hover {
@@ -222,22 +267,23 @@
 }
 
 .modal-actions button:last-child {
-    background: var(--text-light);
-    color: white;
+    background: #6c757d; /* Cinza para o botão cancelar */
+    color: rgb(0, 0, 0); /* Texto branco para contraste */
 }
 
 .modal-actions button:last-child:hover {
-    background: #5d6d7e;
+    background: #5a6268; /* Tom mais escuro no hover */
+    transform: translateY(-2px);
 }
 
 @keyframes modalFadeIn {
     from {
         opacity: 0;
-        transform: scale(0.9);
+        transform: translate(-50%, -50%) scale(0.9);
     }
     to {
         opacity: 1;
-        transform: scale(1);
+        transform: translate(-50%, -50%) scale(1);
     }
 }
 
@@ -250,6 +296,7 @@
     border-radius: 16px;
     box-shadow: var(--shadow);
     margin-top: 2rem;
+    color: var(--text-primary);
 }
 
 .gerenciar-casa h3 {
@@ -262,6 +309,14 @@
     color: var(--text-primary);
     margin: 1.5rem 0 1rem 0;
     font-size: 1.2rem;
+}
+
+.gerenciar-casa p {
+    color: var(--text-secondary);
+}
+
+.gerenciar-casa p strong {
+    color: var(--text-primary);
 }
 
 .gerenciar-casa hr {
@@ -279,6 +334,12 @@
     padding: 1.5rem;
     border-radius: 12px;
     margin-bottom: 2rem;
+    color: var(--text-primary);
+}
+
+.editar-casa h4 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
 }
 
 .editar-casa input {
@@ -291,6 +352,10 @@
     font-size: 1rem;
     margin-bottom: 1rem;
     box-sizing: border-box;
+}
+
+.editar-casa input::placeholder {
+    color: var(--text-light);
 }
 
 .editar-casa input:focus {
@@ -316,6 +381,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 0.5rem;
+    color: var(--text-primary);
 }
 
 .gerenciar-casa li strong {
@@ -348,6 +414,11 @@
     cursor: pointer;
 }
 
+.gerenciar-casa select option {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
 /* ================================
    MENSAGEM VAZIA
 ======================== */
@@ -356,6 +427,25 @@
     color: var(--text-light);
     font-style: italic;
     padding: 2rem;
+}
+
+/* ================================
+   TEXTOS GERAIS
+======================== */
+.minha-casa-container {
+    color: var(--text-primary);
+}
+
+.minha-casa-container p {
+    color: var(--text-primary);
+}
+
+.minha-casa-container strong {
+    color: var(--text-primary);
+}
+
+.minha-casa-container small {
+    color: var(--text-light);
 }
 
 /* ================================
@@ -379,6 +469,7 @@
     .modal-content {
         margin: 1rem;
         padding: 1.5rem;
+        width: calc(100% - 2rem);
     }
     
     .modal-actions {
@@ -402,5 +493,9 @@
     .btn-criar-casa {
         width: 100%;
         margin-bottom: 2rem;
+    }
+    
+    .modal-content {
+        padding: 1.25rem;
     }
 }
