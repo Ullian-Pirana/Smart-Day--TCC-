@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_object_or_404
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth import logout, authenticate, login, update_session_auth_hash
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_http_methods
@@ -14,6 +14,7 @@ from django.utils.timezone import now
 from django.db.utils import IntegrityError
 from django.db import IntegrityError, transaction
 from datetime import datetime, date
+from django.urls import reverse
 from .models import *
 from .forms import *
 import json, calendar, uuid
@@ -814,7 +815,6 @@ def configuracoes_page(request):
         "perfil": perfil,
     })
 
-
 @login_required
 @require_POST
 def alterar_senha(request):
@@ -828,8 +828,11 @@ def alterar_senha(request):
     if nova_senha != confirmar_senha:
         return JsonResponse({"erro": "As senhas não coincidem."}, status=400)
 
-    request.user.set_password(nova_senha)
-    request.user.save()
+    user = request.user
+    user.set_password(nova_senha)
+    user.save()
+
+    update_session_auth_hash(request, user)
 
     return JsonResponse({"mensagem": "Senha alterada com sucesso!"})
 
