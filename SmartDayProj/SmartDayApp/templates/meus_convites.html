@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}Meus Convites{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/minha_casa.css' %}">
+<script src="{% static 'js/meus_convites.js' %}" defer></script>
+{% endblock %}
+
+{% block body %}
+<div class="convites-container">
+    <h2>Convites Recebidos</h2>
+    <ul>
+    {% for convite in convites %}
+        <li>
+            <strong>{{ convite.casa.nome }}</strong>
+            <small>Enviado por: {{ convite.criado_por.username }} — {{ convite.criado_em|date:"d/m/Y H:i" }}</small>
+            <div>
+                {% if convite.status == 'pending' %}
+                    <button class="aceitar-btn" data-id="{{ convite.id }}">Aceitar</button>
+                    <button class="recusar-btn" data-id="{{ convite.id }}">Recusar</button>
+                {% else %}
+                    <em>Status: {{ convite.get_status_display }}</em>
+                {% endif %}
+            </div>
+        </li>
+    {% empty %}
+        <li>Nenhum convite recebido.</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

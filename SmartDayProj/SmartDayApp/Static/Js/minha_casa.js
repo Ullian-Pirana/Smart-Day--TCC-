@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     const csrftoken = getCSRF();
 
-    /* --- Modal criação --- */
     const btnCriar = document.getElementById('btnCriarCasa');
     const modal = document.getElementById('modalCriarCasa');
     const btnCancelar = document.getElementById('cancelarCasa');
@@ -33,29 +32,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    /* --- Adicionar usuário --- */
     const btnAdd = document.getElementById('btnAddUsuario');
     if (btnAdd) {
         btnAdd.addEventListener('click', async () => {
-            const select = document.getElementById('usuarioSelect');
-            const usuario_id = select ? select.value : null;
+            const input = document.getElementById('usuarioUsername');
+            const username = input ? (input.value || '').trim() : '';
             const casaId = btnAdd.dataset.casaId;
-            if (!usuario_id) return alert('Selecione um usuário.');
+            if (!username) return alert('Digite o nome de usuário.');
 
             try {
                 const res = await fetch(`/casa/${casaId}/adicionar_usuario/`, {
                     method: 'POST',
                     headers: {'Content-Type':'application/json','X-CSRFToken': csrftoken},
-                    body: JSON.stringify({ usuario_id })
+                    body: JSON.stringify({ username })
                 });
                 const data = await res.json();
-                alert(data.mensagem || data.erro);
-                if (res.ok) window.location.reload();
+                if (res.ok) {
+                    alert(data.mensagem || 'Convite enviado.');
+                    window.location.reload();
+                } else {
+                    alert(data.erro || 'Erro ao enviar convite.');
+                }
             } catch (err) { console.error(err); alert('Erro de rede.'); }
         });
     }
 
-    /* --- Remover usuário --- */
     document.querySelectorAll('.btn-remover').forEach(btn => {
         btn.addEventListener('click', async () => {
             if (!confirm('Remover este usuário da casa?')) return;
@@ -74,7 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    /* --- Editar nome da casa --- */
     const btnEditar = document.getElementById('btnEditarCasa');
     if (btnEditar) {
         btnEditar.addEventListener('click', async () => {
@@ -95,7 +95,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    /* --- Excluir casa --- */
     const btnExcluir = document.getElementById('btnExcluirCasa');
     if (btnExcluir) {
         btnExcluir.addEventListener('click', async () => {
@@ -114,7 +113,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    /* --- Definir papel --- */
     document.querySelectorAll('.papel-select').forEach(select => {
         select.addEventListener('change', async () => {
             const casaId = select.dataset.casaId;

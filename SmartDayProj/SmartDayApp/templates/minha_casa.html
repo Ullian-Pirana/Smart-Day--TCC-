@@ -30,8 +30,14 @@
         {% endfor %}
     </div>
 
-    <button class="btn-criar-casa" id="btnCriarCasa">+ Criar Casa</button>
->
+    <div class="botoes-acoes">
+        <button class="btn-criar-casa" id="btnCriarCasa">+ Criar Casa</button>
+
+        <form action="{% url 'minhas_convites' %}" method="get" style="display: inline;">
+            <button type="submit" class="btn-convites">Convites</button>
+        </form>
+    </div>
+
     <div id="modalCriarCasa" class="modal">
         <div class="modal-content">
             <h3>Criar Nova Casa</h3>
@@ -53,8 +59,17 @@
         <div class="editar-casa">
             <h4>Editar Casa</h4>
             <input id="novoNomeCasa" placeholder="Novo nome" value="{{ casa_ativa.nome }}">
-            <button id="btnEditarCasa" data-casa-id="{{ casa_ativa.id }}" class="btn-primary">Salvar</button>
-            <button id="btnExcluirCasa" data-casa-id="{{ casa_ativa.id }}" class="btn-remover">Excluir</button>
+
+            <div class="expandido-botoes">
+                <button id="btnEditarCasa" data-casa-id="{{ casa_ativa.id }}" class="btn-salvar">
+                    Salvar
+                </button>
+
+                <button id="btnExcluirCasa" data-casa-id="{{ casa_ativa.id }}" class="btn-excluir">
+                    Excluir
+                </button>
+            </div>
+
         </div>
         {% endif %}
 
@@ -81,13 +96,10 @@
         </ul>
 
         {% if usuarios_disponiveis and request.user == casa_ativa.dono %}
-        <h4>Adicionar Membro</h4>
-        <select id="usuarioSelect">
-            {% for user in usuarios_disponiveis %}
-            <option value="{{ user.id }}">{{ user.username }}</option>
-            {% endfor %}
-        </select>
-        <button id="btnAddUsuario" data-casa-id="{{ casa_ativa.id }}" class="btn-add-user">Adicionar</button>
+            <h3>Convidar Membro</h3>
+            <input id="usuarioUsername" placeholder="Nome de usuário (ex: joao123)" />
+            <button id="btnAddUsuario" data-casa-id="{{ casa_ativa.id }}" class="btn-add-user">Convidar</button>
+            <p class="nota">O usuário receberá um convite e deverá aceitar para entrar na casa.</p>
         {% endif %}
     </div>
     {% endif %}

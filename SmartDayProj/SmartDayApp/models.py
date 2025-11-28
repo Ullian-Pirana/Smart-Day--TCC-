@@ -2,7 +2,8 @@ from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
-import datetime
+import datetime, uuid
+
 
 class homepage(models.Model):
     titulo = models.CharField(max_length=50)
@@ -62,6 +63,27 @@ class CasaMembro(models.Model):
 
     def __str__(self):
         return f'{self.usuario.username} - {self.casa.nome} ({self.papel})'
+
+class ConviteCasa(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pendente'),
+        ('accepted', 'Aceito'),
+        ('declined', 'Recusado'),
+    ]
+
+    casa = models.ForeignKey(Casa, on_delete=models.CASCADE, related_name='convites')
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='convites_recebidos')
+    criado_por = models.ForeignKey(User, on_delete=models.CASCADE, related_name='convites_enviados')
+    token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('casa', 'usuario')  # evita convites duplicados (usar checagem adicional para aceitar/rejeitar)
+
+    def __str__(self):
+        return f'Convite: {self.usuario.username} -> {self.casa.nome} [{self.status}]'
     
 # Models para funcionalidades da pagina To-Do
 

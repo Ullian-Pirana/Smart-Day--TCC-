@@ -9,13 +9,14 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.utils.dateparse import parse_date
 from django.http import HttpResponse, JsonResponse
+from django.utils import timezone
 from django.utils.timezone import now
 from django.db.utils import IntegrityError
 from django.db import IntegrityError, transaction
 from datetime import datetime, date
 from .models import *
 from .forms import *
-import json, calendar
+import json, calendar, uuid
 
 #Funções a nivel de projeto
 
@@ -293,12 +294,66 @@ def adicionar_usuario_casa(request, id):
     if casa.dono != request.user:
         return JsonResponse({'erro': 'Sem permissão.'}, status=403)
 
-    data = json.loads(request.body)
-    usuario_id = data.get('usuario_id')
-    usuario = get_object_or_404(User, id=usuario_id)
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'erro': 'JSON inválido.'}, status=400)
 
-    CasaMembro.objects.get_or_create(casa=casa, usuario=usuario, defaults={'papel': 'Usuarios'})
-    return JsonResponse({'mensagem': f'{usuario.username} foi adicionado como Usuário.'})
+    username = (data.get('username') or '').strip()
+    if not username:
+        return JsonResponse({'erro': 'Informe o nome de usuário.'}, status=400)
+
+    try:
+        usuario = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return JsonResponse({'erro': 'Usuário não encontrado.'}, status=404)
+
+    if CasaMembro.objects.filter(casa=casa, usuario=usuario).exists() or casa.dono == usuario:
+        return JsonResponse({'erro': 'Este usuário já faz parte da casa.'}, status=400)
+
+    ConviteCasa.objects.filter(casa=casa, usuario=usuario).delete()
+
+    convite = ConviteCasa.objects.create(
+        casa=casa,
+        usuario=usuario,
+        criado_por=request.user
+    )
+
+    return JsonResponse({
+        'mensagem': f'Convite enviado para {usuario.username}.',
+        'convite_id': convite.id
+    })
+
+@login_required
+def meus_convites(request):
+    convites = ConviteCasa.objects.filter(usuario=request.user).order_by('-criado_em')
+    return render(request, 'meus_convites.html', {'convites': convites})
+
+@login_required
+@require_POST
+def aceitar_convite(request, convite_id):
+    convite = get_object_or_404(ConviteCasa, id=convite_id, usuario=request.user)
+    if convite.status != 'pending':
+        return JsonResponse({'erro': 'Convite já não está pendente.'}, status=400)
+
+    with transaction.atomic():
+        CasaMembro.objects.get_or_create(casa=convite.casa, usuario=request.user, defaults={'papel': 'Usuarios'})
+        convite.atualizado_em = timezone.now()
+        convite.delete()
+
+    return JsonResponse({'mensagem': f'Você aceitou o convite para a casa {convite.casa.nome}.'})
+
+@login_required
+@require_POST
+def recusar_convite(request, convite_id):
+    convite = get_object_or_404(ConviteCasa, id=convite_id, usuario=request.user)
+    if convite.status != 'pending':
+        return JsonResponse({'erro': 'Convite já não está pendente.'}, status=400)
+
+    convite.status = 'declined'
+    convite.atualizado_em = timezone.now()
+    convite.save()
+    return JsonResponse({'mensagem': f'Você recusou o convite para a casa {convite.casa.nome}.'})
 
 @login_required
 @require_POST
