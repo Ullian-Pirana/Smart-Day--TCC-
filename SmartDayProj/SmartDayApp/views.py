@@ -17,6 +17,18 @@ from .models import *
 from .forms import *
 import json, calendar
 
+#Funções a nivel de projeto
+
+def get_casa_ativa(request):
+    casa_id = request.session.get('casa_ativa_id')
+    if not casa_id:
+        return None
+    return Casa.objects.filter(id=casa_id).first()
+
+def is_responsavel_na_casa(user, casa):
+    membro = CasaMembro.objects.filter(usuario=user, casa=casa).first()
+    return membro and membro.papel == "Responsavel"
+
 def is_responsavel(user):
     grupos = user.groups.values_list('name', flat=True)
     for nome in grupos:
@@ -75,23 +87,16 @@ def Sair(request):
 #funções relacionadas a pagina To-Do
 @login_required
 def todo_page(request):
-    casa_ativa = None
     casa_id = request.session.get('casa_ativa_id')
+    casa = get_casa_ativa(request)
+    if not casa:
+        messages.error(request, "Selecione uma casa primeiro.")
+        return redirect('minha_casa')
     if casa_id:
         from SmartDayApp.models import Casa
         casa_ativa = Casa.objects.filter(id=casa_id).first()
 
     return render(request, 'todo.html', {'casa_ativa': casa_ativa})
-
-def get_casa_ativa(request):
-    casa_id = request.session.get('casa_ativa_id')
-    if not casa_id:
-        return None
-    return Casa.objects.filter(id=casa_id).first()
-
-def is_responsavel_na_casa(user, casa):
-    membro = CasaMembro.objects.filter(usuario=user, casa=casa).first()
-    return membro and membro.papel == "Responsavel"
 
 @login_required
 def listar_tarefas(request):
@@ -688,7 +693,6 @@ def grafico_mensal(request):
 def perfil_page(request):
     casa = get_casa_ativa(request)
 
-    # perfil do usuário (garante criação automática pela signal)
     perfil = getattr(request.user, "perfil", None)
     if perfil is None:
         perfil, _ = UserProfile.objects.get_or_create(user=request.user)
@@ -706,7 +710,6 @@ def perfil_page(request):
         membros_qs = CasaMembro.objects.filter(casa=casa).select_related('usuario').order_by('usuario__username')
         membros = [m.usuario.username for m in membros_qs]
 
-    # contribuições do usuário (apenas na casa ativa)
     tarefas = Tarefa.objects.filter(criado_por=request.user, casa=casa).order_by('-criado_em') if casa else []
     compras = ItemCompra.objects.filter(criado_por=request.user, casa=casa).order_by('-data_criacao') if casa else []
 

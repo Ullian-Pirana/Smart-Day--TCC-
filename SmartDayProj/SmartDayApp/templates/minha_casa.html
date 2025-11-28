@@ -16,7 +16,6 @@
         <p><strong>Casa atual:</strong> {{ casa_ativa.nome }}</p>
     {% endif %}
 
-    <!-- Lista de casas -->
     <div class="lista-casas">
         {% for casa in casas %}
         <div class="casa-card">
@@ -32,8 +31,7 @@
     </div>
 
     <button class="btn-criar-casa" id="btnCriarCasa">+ Criar Casa</button>
-
-    <!-- Modal de criação -->
+>
     <div id="modalCriarCasa" class="modal">
         <div class="modal-content">
             <h3>Criar Nova Casa</h3>
@@ -45,7 +43,6 @@
         </div>
     </div>
 
-    <!-- Seção de gerenciamento -->
     {% if casa_ativa %}
     <hr>
     <div class="gerenciar-casa">
