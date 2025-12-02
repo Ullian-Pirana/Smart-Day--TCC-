@@ -138,7 +138,7 @@ Para organização, planejamento de tarefas e acompanhamento das etapas do proje
 
  
 
-![image.png](attachment:8d2ef789-1271-4b79-b66e-5db8533b2e67:image.png)
+  ![Image](https://github.com/user-attachments/assets/af0fec75-ec1a-4084-84e4-25ddfb59e83d)
 
 O processo representado no diagrama BPMN descreve o fluxo completo de interação entre os principais componentes do sistema, desde a camada de interface até os serviços internos responsáveis pelo suporte às funcionalidades. 
 
