@@ -205,10 +205,8 @@ MOBILE_TCC-MAIN
 └── README.md
 
 ```
-
-![image.png](attachment:0c37281c-9d2d-444a-ac6a-6e632638632e:image.png)
-
-![image.png](attachment:65d2ee9a-0894-4633-bd92-5da72611b5aa:image.png)
+<img width="212" height="564" alt="Image" src="https://github.com/user-attachments/assets/1051ef65-91fe-4121-aa8c-fb1bf48db229" />
+<img width="204" height="262" alt="Image" src="https://github.com/user-attachments/assets/1869a467-3778-443f-91b6-fd13c92a962c" />
 
 ### 📁 **Estrutura de Pastas Web**
 
@@ -290,9 +288,8 @@ SMARTDAY-TCC-MAIN/
 
 ```
 
-![image.png](attachment:933640e2-d6bf-4454-960f-33c0d86db21c:image.png)
-
-![image.png](attachment:bd3a6415-f7f4-4c2e-af7d-91fc902acce2:image.png)
+<img width="174" height="593" alt="Image" src="https://github.com/user-attachments/assets/eecdadfc-cae1-4055-b3d5-1d9a74393d46" /> 
+<img width="169" height="579" alt="Image" src="https://github.com/user-attachments/assets/82aaa766-c89f-4da6-ba81-42c36105a741" />
 
 ---
 
