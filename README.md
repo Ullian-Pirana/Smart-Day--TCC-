@@ -1,3 +1,5 @@
+# **DOCUMENTAÇÃO TÉCNICA – SmartDayProj**
+
 ---
 
 ## 1. **Visão Geral do Projeto**
@@ -79,24 +81,134 @@ Para organização, planejamento de tarefas e acompanhamento das etapas do proje
     
     No desenvolvimento do projeto, foi utilizado para organizar documentações importantes, incluindo os pitches, a documentação técnica, além de referências e pesquisas relevantes. Por ser altamente personalizável e colaborativa, a ferramenta contribuiu para manter todas as informações essenciais reunidas em um único ambiente, acessível e organizado para toda a equipe.
     
+    ### Levantamento de requisitos
+    
+    Requisitos funcionais: 
+    
+    [RF001] O sistema deve permitir o login de usuários (administrador e membros) por e-mail e senha.
+    
+    [RF002] O Administrador pode criar um grupo e convidar usuários já cadastrados na plataforma.
+    
+    [RF003] O sistema deve permitir que qualquer usuário registre uma nova despesa, informando: valor, categoria, data, descrição (opcional) e responsável (usuário).
+    
+    [RF004] Os membros podem visualizar as compras e despesas registradas pelo grupo, com indicação de valor, categoria, data e responsável.
+    
+    [RF005] O sistema deve permitir que o usuário cadastre novas tarefas domésticas com: nome, descrição, responsável, prazo e status (pendente/em andamento/concluída).
+    
+    [RF006] O sistema deve compartilhar automaticamente as informações adicionadas entre os membros do mesmo grupo — atualizações em tempo real (sincronização) e envio de notificações os membros afetados.
+    
+    [RF007] Os membros podem deixar recados (mensagens) no mural do grupo para lembretes e comunicados urgentes; mensagens devem registrar autor e data/hora.
+    
+    [RF008] O sistema deve exibir pop-ups e mensagens de sistema de forma clara e responsiva, sem travamentos, garantindo boa legibilidade em diferentes tamanhos de tela.
+    
+    [RF009] O sistema deve permitir que o usuário crie eventos, informando título, descrição, data, horário e responsável.
+    
+    [RF010] O usuário deve poder visualizar seu histórico de finanças (despesas e receitas) filtrável por data e categoria.
+    
+    [RF011] O sistema deve apresentar o saldo atual do grupo.
+    
+    Requisitos não funcionais: 
+    
+    [RNF001] O sistema deve ser desenvolvido em Flutter e Python.
+    
+    [RNF002] Acesso a grupos criados apenas as pessoas adicionadas.
+    
+    [RNF003] A interface deve ser simples e de fácil uso.
+    
+    [RNF004] A aplicação deve ter proteção de dados e acesso por meio de autenticação.
+    
+    [RNF005] O sistema deve ter o mínimo possível de ocorrências de falhas.
+    
+    [RNF006] O pop-up deve ser exibido de forma clara, responsiva e sem travamentos, garantindo boa legibilidade em diferentes tamanhos de tela.
+    
+    [RNF007] O sistema deve ser compatível com desktop (web) e dispositivos móveis (Android e iOS).
+    
+    [RNF008] O tempo de resposta para a atualização de informações não deve ultrapassar 10 segundos.
+    
+    [RNF009] Todas as informações financeiras devem ser armazenadas de forma criptografada. O acesso deve exigir autenticação do usuário (ex.: login e senha).
+    
 
 ---
 
 ## 2. **Arquitetura do Projeto**
 
+### Caso de uso
+
+### Diagrama de BPMN (diagrama do processo do projeto)
+
+ 
+
+![image.png](attachment:8d2ef789-1271-4b79-b66e-5db8533b2e67:image.png)
+
+O processo representado no diagrama BPMN descreve o fluxo completo de interação entre os principais componentes do sistema, desde a camada de interface até os serviços internos responsáveis pelo suporte às funcionalidades. 
+
+Inicialmente, o usuário acessa a aplicação, seja pela versão web desenvolvida em Django ou pelo aplicativo mobile. A partir dessa interação, diversas ações podem ser iniciadas, como autenticação, gerenciamento de perfil, acesso a calendários, finanças, listas de compras ou informações relacionadas às casas cadastradas. Cada uma dessas ações desencadeia tarefas internas que envolvem chamadas a serviços especializados, incluindo gerenciamento de temas, internacionalização, formatação de dados e notificações. Em paralelo, a camada de backend realiza operações sobre o modelo de dados, efetua consultas, processa eventos, executa migrations e utiliza o painel administrativo quando necessário. 
+
+O processo também abrange o tratamento de arquivos estáticos e uploads, além da comunicação com o banco SQLite durante o desenvolvimento. Todo o fluxo é orquestrado de forma integrada, garantindo que as informações circulem entre as plataformas web, mobile e os serviços de apoio, proporcionando uma experiência consistente e centralizada para o usuário.
+
 ### 📁 **Estrutura de Pastas Mobile**
 
 ```
-SmartDayProj/
- ├── SmartDayApp/         # Aplicação principal
- ├── SmartDayProj/        # Configurações do projeto (settings, urls, wsgi)
- ├── media/               # Arquivos enviados pelos usuários
- ├── static/              # Arquivos estáticos (CSS, JS, imagens)
- ├── templates/           # Arquivos HTML
- ├── db.sqlite3           # Banco de dados SQLite
- └── manage.py            # Ferramenta de gerenciamento Django
+MOBILE_TCC-MAIN
+├── android/
+├── flutterfire_cli/
+├── ios/
+├── lib/
+│   ├── acesso/
+│   │   ├── auth_service.dart
+│   │   ├── cadastro.dart
+│   │   └── esqueci_senha.dart
+│   │
+│   ├── assets/
+│   │   └── images/
+│   │       └── (imagens do projeto)
+│   │
+│   ├── calendario/
+│   │   └── calendario.dart
+│   │
+│   ├── economic/
+│   │   ├── economico.dart
+│   │   └── historico.dart
+│   │
+│   ├── provider/
+│   │   └── app_provider.dart
+│   │
+│   ├── services/
+│   │   ├── currency_formatter_service.dart
+│   │   ├── date_formatter_service.dart
+│   │   ├── formatting_service.dart
+│   │   ├── tarefa_service.dart
+│   │   ├── theme_service.dart
+│   │   └── user_service.dart
+│   │
+│   ├── config.dart
+│   ├── home.dart
+│   ├── lista_compras.dart
+│   ├── main.dart
+│   ├── meu_casas.dart
+│   ├── perfil.dart
+│   └── usuarios.dart
+│
+├── linux/
+├── macos/
+├── test/
+├── web/
+├── windows/
+│
+├── .gitignore
+├── .metadata
+├── analysis_options.yaml
+├── devtools_options.yaml
+├── flutterfire.bat
+├── pubspec.lock
+├── pubspec.yaml
+└── README.md
 
 ```
+
+![image.png](attachment:0c37281c-9d2d-444a-ac6a-6e632638632e:image.png)
+
+![image.png](attachment:65d2ee9a-0894-4633-bd92-5da72611b5aa:image.png)
 
 ### 📁 **Estrutura de Pastas Web**
 
@@ -182,75 +294,100 @@ SMARTDAY-TCC-MAIN/
 
 ![image.png](attachment:bd3a6415-f7f4-4c2e-af7d-91fc902acce2:image.png)
 
-### Instalação WEB
+---
 
-**Passo 1: Instalar o Git (se ainda não tiver)**
+## **Instalação – Sistema Web**
 
-- **Windows:** https://git-scm.com/downloads
+### **Passo 1: Instalar o Git (se ainda não tiver)**
 
-Caso seja Linux: 
+**Windows:**
 
-- **Linux (Ubuntu):**
+https://git-scm.com/downloads
 
-```html
+**Linux (Ubuntu):**
+
+```bash
 sudo apt install git
 ```
 
-Passo 2: 
+---
 
-- No terminal do Vscode clone o repositório.
-- Navegue até o diretório que deseja clonar o projeto
+### **Passo 2: Clonar o repositório**
 
-```html
-cd caminho/para/o/diretorio 
+- Abra o terminal do VS Code.
+- Navegue até o diretório onde deseja clonar o projeto:
+
+```bash
+cd caminho/para/o/diretorio
 ```
 
-- Clone o repositório digitando o seguinte comando no terminal:
+- Clone o repositório:
 
-```html
+```bash
 git clone https://github.com/Ullian-Pirana/Smart-Day--TCC-.git
 ```
 
-Também é possível baixar o arquivo zipado do projeto como outra opção: 
+**Também é possível baixar o projeto em formato `.zip`:**
 
-![image.png](attachment:da2b80ea-60d3-40b6-bc62-4df3d0ca39b5:image.png)
+*(imagem ilustrativa aqui)*
 
-Passo 3: 
+---
 
-- Acesse o diretório principal:
+### **Passo 3: Acessar o diretório do projeto**
 
-```html
-cd SmartDayProj
+```bash
+cd SmartDayPro
 ```
 
-- Crie um ambiente virtual  e o acesse:
+---
 
-```html
-#Windows 
-python -m venv venv #Criar ambiente
-.\venv\Scripts\Activate.ps1 #Acessar
+### **Passo 4: Criar e ativar um ambiente virtual**
 
-#Linux
-python3 -m venv .venv 
-. .venv/bin/activate
-```
-
-Passo 4:
-
-- ***Instalação do Django:*** O Django pode ser instalado facilmente através do comando “ **`pip`"** dentro do seu ambiente virtual.
-- Além disso, instale uma biblioteca cujo código necessita para seu funcionamento correto:
-
-No terminal, confirme de que seu ambiente virtual está ativo e execute os seguintes códigos:
+### **Windows**
 
 ```powershell
+python -m venv venv      # Cria o ambiente virtual
+.\venv\Scripts\Activate.ps1   # Ativa o ambiente
+```
+
+### **Linux**
+
+```bash
+python3 -m venv .venv     # Cria o ambiente
+source .venv/bin/activate # Ativa o ambiente
+```
+
+---
+
+### **Passo 5: Instalar dependências**
+
+No terminal (com o ambiente virtual ativo), execute:
+
+```bash
 pip install Django
 pip install pillow
 ```
 
-Passo 5: 
+---
 
-- O sistema está pronto para a execução do servidor de desenvolvimento:
+### **Passo 6: Executar o servidor de desenvolvimento**
 
-```powershell
+Com todas as dependências instaladas, execute:
+
+```bash
 python manage.py runserver
 ```
+
+O terminal exibirá um endereço semelhante a:
+
+```
+http://127.0.0.1:8000/
+```
+
+Acesse esse endereço no navegador para abrir o sistema.
+
+---
+
+## **Instalação – Sistema Mobile**
+
+##
