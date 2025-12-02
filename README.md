@@ -1,5 +1,3 @@
-# **SmartDayProj**
-
 ---
 
 ## 1. **Visão Geral do Projeto**
@@ -86,9 +84,7 @@ Para organização, planejamento de tarefas e acompanhamento das etapas do proje
 
 ## 2. **Arquitetura do Projeto**
 
-A arquitetura do SmartDayProj segue o padrão de organização de projetos Django, estruturada de forma modular para facilitar manutenção, escalabilidade e clareza do código.
-
-### 📁 **Estrutura de Pastas**
+### 📁 **Estrutura de Pastas Mobile**
 
 ```
 SmartDayProj/
@@ -102,115 +98,159 @@ SmartDayProj/
 
 ```
 
----
-
-### **1. Pasta “SmartDayApp”**
-
-Aplicativo principal do sistema, contendo:
-
-- **views.py** – processamento de requisições e respostas (lógica de apresentação).
-- **urls.py** – rotas específicas da aplicação.
-- **templates/** – páginas HTML da interface.
-- **forms.py** – formulários e validações.
-- **admin.py** – registro de modelos no painel administrativo.
-- **apps.py** – configuração do aplicativo no Django.
-
-> Função principal: Implementar a lógica do sistema e a interação com o usuário.
-> 
-
----
-
-### **2. Pasta “SmartDayProj”**
-
-Núcleo do projeto Django, contendo configurações essenciais.
-
-Inclui:
-
-- **settings.py** – configurações globais (banco, apps instalados, diretórios).
-- **urls.py** – mapeamento das rotas principais.
-- **wsgi.py / asgi.py** – interfaces para deploy.
-- **__init__.py** – identifica o diretório como pacote Python.
-
-> Função principal: Gerenciar configurações e estrutura geral do projeto.
-> 
-
----
-
-### **3. Pasta “media”**
-
-Armazena arquivos enviados pelos usuários, como:
-
-- Fotos
-- Documentos
-- Uploads diversos
-
-> Função principal: Manter arquivos dinâmicos.
-> 
-
----
-
-### **4. Pasta “static”**
-
-Contém arquivos fixos utilizados no frontend:
-
-- CSS
-- JavaScript
-- Imagens
-- Fontes
-
-Estrutura comum:
+### 📁 **Estrutura de Pastas Web**
 
 ```
-static/
-   css/
-   js/
-   img/
+SMARTDAY-TCC-MAIN/
+│
+├── SmartDayProj/
+│   ├── SmartDayApp/
+│   │   ├── forms.py
+│   │   ├── models.py
+│   │   ├── signals.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   ├── views.py
+│   │   ├── migrations/
+│   │   └── templates/ (na outra parte da imagem)
+│   │
+│   ├── SmartDayProj/
+│   │   ├── __pycache__/
+│   │   ├── __init__.py
+│   │   ├── asgi.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   ├── wsgi.py
+│   │
+│   ├── media/
+│   │   └── perfil/ (imagens de usuários)
+│   │
+│   ├── static/
+│   │   ├── css/
+│   │   │   ├── homepage.css
+│   │   │   ├── index.css
+│   │   │   ├── login.css
+│   │   │   ├── nav.css
+│   │   │   ├── style_footer.css
+│   │   │   ├── configuracoes.css
+│   │   │   ├── financas.css
+│   │   │   ├── lista_compras.css
+│   │   │   ├── minha_casa.css
+│   │   │   ├── perfil.css
+│   │   │   └── todo.css
+│   │   │
+│   │   ├── img/
+│   │   │   ├── *.png
+│   │   │   ├── *.gif
+│   │   │   └── logo.png
+│   │   │
+│   │   ├── js/
+│   │   │   ├── darkmode.js
+│   │   │   ├── menu.js
+│   │   │   ├── configuracoes.js
+│   │   │   ├── financas.js
+│   │   │   ├── lista_compras.js
+│   │   │   ├── login_senha.js
+│   │   │   ├── meus_convites.js
+│   │   │   ├── minha_casa.js
+│   │   │   ├── perfil.js
+│   │   │   └── todo.js
+│   │
+│   ├── templates/
+│   │   ├── footer.html
+│   │   ├── index.html
+│   │   ├── nav.html
+│   │   ├── configuracoes.html
+│   │   ├── financas.html
+│   │   ├── homepage.html
+│   │   ├── lista_compras.html
+│   │   ├── Login.html
+│   │   ├── meus_convites.html
+│   │   ├── minha_casa.html
+│   │   ├── perfil.html
+│   │   ├── registro.html
+│   │   └── todo.html
+│
+├── db.sqlite3
+├── manage.py
+├── .gitignore
+└── README.md
 
 ```
 
-> Função principal: Armazenar recursos visuais e funcionais não dinâmicos.
-> 
+![image.png](attachment:933640e2-d6bf-4454-960f-33c0d86db21c:image.png)
 
----
+![image.png](attachment:bd3a6415-f7f4-4c2e-af7d-91fc902acce2:image.png)
 
-### **5. Pasta “templates”**
+### Instalação WEB
 
-Contém os arquivos HTML que compõem o frontend do sistema.
+**Passo 1: Instalar o Git (se ainda não tiver)**
 
-> Função principal: Fornecer as interfaces de usuário renderizadas pelo Django.
-> 
+- **Windows:** https://git-scm.com/downloads
 
----
+Caso seja Linux: 
 
-### **6. Arquivo “db.sqlite3”**
+- **Linux (Ubuntu):**
 
-Banco de dados padrão fornecido pelo Django.
-
-Armazena:
-
-- Usuários
-- Tarefas
-- Metas
-- Registros financeiros
-- Outras entidades do sistema
-
-> Função principal: Persistência dos dados da aplicação.
-> 
-
----
-
-### **7. Arquivo “manage.py”**
-
-Ferramenta principal para executar comandos Django, como:
-
+```html
+sudo apt install git
 ```
+
+Passo 2: 
+
+- No terminal do Vscode clone o repositório.
+- Navegue até o diretório que deseja clonar o projeto
+
+```html
+cd caminho/para/o/diretorio 
+```
+
+- Clone o repositório digitando o seguinte comando no terminal:
+
+```html
+git clone https://github.com/Ullian-Pirana/Smart-Day--TCC-.git
+```
+
+Também é possível baixar o arquivo zipado do projeto como outra opção: 
+
+![image.png](attachment:da2b80ea-60d3-40b6-bc62-4df3d0ca39b5:image.png)
+
+Passo 3: 
+
+- Acesse o diretório principal:
+
+```html
+cd SmartDayProj
+```
+
+- Crie um ambiente virtual  e o acesse:
+
+```html
+#Windows 
+python -m venv venv #Criar ambiente
+.\venv\Scripts\Activate.ps1 #Acessar
+
+#Linux
+python3 -m venv .venv 
+. .venv/bin/activate
+```
+
+Passo 4:
+
+- ***Instalação do Django:*** O Django pode ser instalado facilmente através do comando “ **`pip`"** dentro do seu ambiente virtual.
+- Além disso, instale uma biblioteca cujo código necessita para seu funcionamento correto:
+
+No terminal, confirme de que seu ambiente virtual está ativo e execute os seguintes códigos:
+
+```powershell
+pip install Django
+pip install pillow
+```
+
+Passo 5: 
+
+- O sistema está pronto para a execução do servidor de desenvolvimento:
+
+```powershell
 python manage.py runserver
-python manage.py migrate
-python manage.py createsuperuser
-
 ```
-
-> Função principal: Gerenciar rotinas administrativas e operacionais do projeto.
-> 
-
----
