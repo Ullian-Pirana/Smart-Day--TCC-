@@ -698,5 +698,10 @@ build/app/outputs/bundle/release/app-release.aab
 ---
 
 
-gh repo collaborators Ullian-Pirana/Smart-Day--TCC-
+## 👥 Contribuidores
+
+<a href="https://github.com/SEU-USER/SEU-REPO/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=SEU-USER/SEU-REPO" />
+</a>
+
 
