@@ -134,6 +134,14 @@ Para organização, planejamento de tarefas e acompanhamento das etapas do proje
 
 ### Caso de uso
 
+<img width="394" height="608" alt="image" src="https://github.com/user-attachments/assets/9243bc0e-50e2-4317-80d6-3fd2ab53c673" />
+
+O diagrama de caso de uso do sistema demonstra de forma clara como cada usuário interage com as funcionalidades disponíveis, organizando os papéis em torno de dois atores principais: **Administrador da Casa** e **Membro da Casa**.
+
+- **Ações Compartilhadas:** ambos os usuários podem **criar, editar e concluir tarefas diárias**, **registrar despesas e receitas**, **gerenciar listas de compras**, **visualizar o calendário familiar** e **editar seus próprios dados de perfil**, garantindo colaboração na rotina geral da casa.
+- **Ações Exclusivas do Administrador:** o Administrador possui maior controle sobre o sistema, sendo responsável por **gerenciar perfis de membros**, **definir permissões de acesso**, **criar e administrar orçamentos mensais**, **excluir registros incorretos ou duplicados** e **acessar relatórios e gráficos financeiros completos**, centralizando todas as funções administrativas.
+- **Ações Exclusivas do Membro:** o Membro atua de forma participativa, podendo **sugerir novas tarefas ou itens de compra**, **confirmar presença em eventos**, **registrar metas pessoais**, **consultar seu histórico financeiro**, **visualizar o saldo pessoal atual** e **atualizar informações ao registrar novos ganhos ou gastos**, sem acesso às funções de gestão avançada.
+
 ### Diagrama de BPMN (diagrama do processo do projeto)
 
  
