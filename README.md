@@ -703,17 +703,17 @@ build/app/outputs/bundle/release/app-release.aab
 <table>
   <tr>
     <td align="center">
-      <a href="https://github.com/usuario1">
-        <img src="https://github.com/usuario1.png" width="100px;" alt="Foto"/>
+      <a href="https://github.com/joaopaulo0307">
+        <img src="https://avatars.githubusercontent.com/u/176522625?v=4" width="100px;" alt="Foto"/>
         <br />
-        <sub><b>Nome 1</b></sub>
+        <sub><b>João Paulo</b></sub>
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/usuario2">
-        <img src="https://github.com/usuario2.png" width="100px;" alt="Foto"/>
+      <a href="https://github.com/Ullian-Pirana">
+        <img src="https://avatars.githubusercontent.com/u/176522532?v=4" width="100px;" alt="Foto"/>
         <br />
-        <sub><b>Nome 2</b></sub>
+        <sub><b>Ullian Pirana</b></sub>
       </a>
     </td>
     <td align="center">
@@ -721,6 +721,27 @@ build/app/outputs/bundle/release/app-release.aab
         <img src="https://avatars.githubusercontent.com/u/176701757?v=4" width="100px;" alt="Foto"/>
         <br />
         <sub><b>Isadora Abreu</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Helo-Lops16">
+        <img src="https://avatars.githubusercontent.com/u/177049412?v=4" width="100px;" alt="Foto"/>
+        <br />
+        <sub><b>Heloisa Lopes</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/avmoonlight">
+        <img src="https://avatars.githubusercontent.com/u/179938169?v=4" width="100px;" alt="Foto"/>
+        <br />
+        <sub><b>Ana Lívia Martins</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/BatataRaivosa24">
+        <img src="https://avatars.githubusercontent.com/u/176522944?v=4" width="100px;" alt="Foto"/>
+        <br />
+        <sub><b>Daniel Martins</b></sub>
       </a>
     </td>
   </tr>
