@@ -165,6 +165,9 @@ O processo também abrange o tratamento de arquivos estáticos e uploads, além 
 
 <img width="623" height="529" alt="image" src="https://github.com/user-attachments/assets/f34f7225-98c6-4c76-8572-9faa7147574e" />
 
+<img width="555" height="357" alt="image" src="https://github.com/user-attachments/assets/763cc832-64de-4d3a-bf52-e92f0c3df79e" />
+
+<img width="555" height="353" alt="image" src="https://github.com/user-attachments/assets/196ab5e4-4612-464a-accc-5df33d24cb5b" />
 
 ## Protótipo-Web
 
