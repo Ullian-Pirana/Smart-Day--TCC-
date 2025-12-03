@@ -215,6 +215,20 @@ O processo também abrange o tratamento de arquivos estáticos e uploads, além 
 
 <img width="1115" height="521" alt="image" src="https://github.com/user-attachments/assets/4865fae8-56d5-46ce-b434-5cfa6cbd2161" />
 
+## Protótipo-Web
+
+### Login
+
+<img width="357" height="552" alt="image" src="https://github.com/user-attachments/assets/85849e7c-457c-45ff-9d0e-478e30206430" />
+
+### Recuperar Senha
+
+<img width="354" height="587" alt="image" src="https://github.com/user-attachments/assets/3ba1dd8f-8628-4d3c-8366-080899ef272a" />
+
+### Cadastro
+
+<img width="361" height="528" alt="image" src="https://github.com/user-attachments/assets/c45d34b9-aeaa-4853-95b9-25562159f630" />
+
 
 ### 📁 **Estrutura de Pastas Mobile**
 
