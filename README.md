@@ -698,10 +698,32 @@ build/app/outputs/bundle/release/app-release.aab
 ---
 
 
-## 👥 Contribuidores
+## 👥 Equipe de Desenvolvimento
 
-<a href="https://github.com/SEU-USER/SEU-REPO/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=SEU-USER/SEU-REPO" />
-</a>
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/usuario1">
+        <img src="https://github.com/usuario1.png" width="100px;" alt="Foto"/>
+        <br />
+        <sub><b>Nome 1</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/usuario2">
+        <img src="https://github.com/usuario2.png" width="100px;" alt="Foto"/>
+        <br />
+        <sub><b>Nome 2</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/saturno12345">
+        <img src="https://avatars.githubusercontent.com/u/176701757?v=4" width="100px;" alt="Foto"/>
+        <br />
+        <sub><b>Isadora Abreu</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
 
 
