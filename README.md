@@ -486,4 +486,213 @@ Acesse esse endereço no navegador para abrir o sistema.
 
 ## **Instalação – Sistema Mobile**
 
-##
+### Passo 1: Instalar o Flutter
+
+Baixe o Flutter SDK conforme o sistema operacional:
+
+https://docs.flutter.dev/get-started/install
+
+### Windows
+
+1. Baixe o arquivo `.zip`
+2. Extraia em:
+    
+    ```
+    C:\src\flutter
+    ```
+    
+3. Adicione ao PATH:
+    
+    ```
+    C:\src\flutter\bin
+    ```
+    
+4. Verifique a instalação:
+    
+    ```bash
+    flutter doctor
+    ```
+    
+
+### Linux
+
+1. Baixe o arquivo `.tar.xz`
+2. Extraia:
+    
+    ```bash
+    sudo tar xf flutter_linux_*.tar.xz -C /usr/local
+    ```
+    
+3. Adicione ao PATH:
+    
+    ```bash
+    export PATH="$PATH:/usr/local/flutter/bin"
+    ```
+    
+4. Verifique a instalação:
+    
+    ```bash
+    flutter doctor
+    ```
+    
+
+---
+
+### Passo 2: Clonar o Repositório Mobile
+
+Abra o terminal e navegue até o diretório onde deseja baixar o projeto:
+
+```bash
+cd caminho/para/o/diretorio
+```
+
+Clone o repositório:
+
+```bash
+git clone https://github.com/.../MOBILE_TCC
+```
+
+Também é possível baixar o projeto em formato `.zip` pela interface do GitHub.
+
+---
+
+### Passo 3: Acessar o Diretório do Projeto
+
+```bash
+cd MOBILE_TCC
+```
+
+---
+
+### Passo 4: Instalar Dependências do Flutter
+
+Execute:
+
+```bash
+flutter pub get
+```
+
+Esse comando instala todas as bibliotecas necessárias para o aplicativo.
+
+---
+
+### Passo 5: Configurar o Firebase (se aplicável)
+
+Se o projeto contém `firebase.json`, `firebase/` ou pasta `flutterfire_cli/`, é necessário configurar o Firebase.
+
+Instale o CLI:
+
+```bash
+dart pub global activate flutterfire_cli
+```
+
+Configure:
+
+```bash
+flutterfire configure
+```
+
+O arquivo `firebase_options.dart` será gerado automaticamente em:
+
+```
+lib/firebase/
+```
+
+---
+
+### Passo 6:Configurar o Emulador Android
+
+### Instalar o Android Studio
+
+Baixe em:
+
+https://developer.android.com/studio
+
+Durante a instalação, marque os componentes:
+
+- Android SDK
+- Android SDK Platform
+- Android Virtual Device (AVD)
+
+### Criar o Emulador
+
+1. Abra o Android Studio
+2. Acesse: More Actions → AVD Manager
+3. Crie um novo dispositivo virtual
+4. Escolha um modelo (ex.: Pixel 5)
+5. Escolha a versão Android (API 33 recomendada)
+6. Finalize a criação
+
+### Iniciar o Emulador
+
+```bash
+flutter emulators
+flutter emulators --launch <id-do-emulador>
+```
+
+---
+
+### Passo 7: Executar o Aplicativo
+
+Com o emulador aberto:
+
+```bash
+flutter run
+```
+
+Para listar dispositivos disponíveis:
+
+```bash
+flutter devices
+```
+
+Para rodar em um dispositivo específico:
+
+```bash
+flutter run -d <ID>
+```
+
+---
+
+## Passo 8: Rodar no Celular Físico (opcional)
+
+No aparelho Android, habilite:
+
+- Opções de desenvolvedor
+- Depuração USB
+
+Conecte via cabo USB e execute:
+
+```bash
+flutter run -d android
+```
+
+---
+
+### Passo 9: Gerar APK (Release)
+
+```bash
+flutter build apk --release
+```
+
+O arquivo será gerado em:
+
+```
+build/app/outputs/flutter-apk/app-release.apk
+```
+
+---
+
+### Passo 10:Gerar App Bundle (para Play Store)
+
+```bash
+flutter build appbundle --release
+```
+
+O arquivo será gerado em:
+
+```
+build/app/outputs/bundle/release/app-release.aab
+```
+
+---
