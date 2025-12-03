@@ -154,6 +154,40 @@ Inicialmente, o usuário acessa a aplicação, seja pela versão web desenvolvid
 
 O processo também abrange o tratamento de arquivos estáticos e uploads, além da comunicação com o banco SQLite durante o desenvolvimento. Todo o fluxo é orquestrado de forma integrada, garantindo que as informações circulem entre as plataformas web, mobile e os serviços de apoio, proporcionando uma experiência consistente e centralizada para o usuário.
 
+## Protótipo-Web
+
+### Pagina Inicial
+<img width="687" height="653" alt="image" src="https://github.com/user-attachments/assets/80f938b6-001b-4ec8-8b4f-04aa7af3ce4b" />
+### Cadastro
+<img width="1347" height="626" alt="image" src="https://github.com/user-attachments/assets/ce2f88f9-78af-4e97-b861-bf087ba11406" />
+### Login
+<img width="726" height="335" alt="image" src="https://github.com/user-attachments/assets/e2a59505-3c4b-4e79-ad21-cecdc5ce158e" />
+Home-page
+<img width="805" height="334" alt="image" src="https://github.com/user-attachments/assets/ccb1b633-e3bd-40f2-b023-5fe83e47d113" />
+### Adicionar minhas casas
+<img width="800" height="586" alt="image" src="https://github.com/user-attachments/assets/05e8b8cd-5763-4de0-a5b7-88cbd7399b22" />
+### Calendário
+<img width="946" height="440" alt="image" src="https://github.com/user-attachments/assets/39a65616-6276-4e31-9781-b4baf9cfaeeb" />
+### Criar Tarefas
+<img width="1338" height="626" alt="image" src="https://github.com/user-attachments/assets/f84a1d18-f9b1-49f2-84dc-ac64d17befca" />
+### Finanças
+<img width="1125" height="512" alt="image" src="https://github.com/user-attachments/assets/fde46b27-bf43-45b8-8bf0-7c874eb0c10e" />
+### Lista de Compras
+<img width="719" height="288" alt="image" src="https://github.com/user-attachments/assets/6472d222-3836-47fe-9cac-f356222ec4de" />
+### Itens Aguardados
+<img width="726" height="293" alt="image" src="https://github.com/user-attachments/assets/75d2e2f9-38e3-4fdc-a67a-5a9b730f8d67" />
+### Perfil Usuário
+<img width="1047" height="440" alt="image" src="https://github.com/user-attachments/assets/d272e3ab-e0b1-4771-b0e4-463e88a6c55a" />
+### Pagina de Membros
+<img width="885" height="612" alt="image" src="https://github.com/user-attachments/assets/53da6bed-e4e3-453b-b6cc-06723376d334" />
+### Remover Membro
+<img width="702" height="483" alt="image" src="https://github.com/user-attachments/assets/c28528ad-8537-409f-a132-2520daa27dce" />
+### Adicionar Membro
+<img width="703" height="480" alt="image" src="https://github.com/user-attachments/assets/e3b7e418-a967-4eae-8ae9-5781be5e48ec" />
+###  Opções
+<img width="1115" height="521" alt="image" src="https://github.com/user-attachments/assets/4865fae8-56d5-46ce-b434-5cfa6cbd2161" />
+
+
 ### 📁 **Estrutura de Pastas Mobile**
 
 ```
