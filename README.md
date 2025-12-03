@@ -154,6 +154,9 @@ Inicialmente, o usuário acessa a aplicação, seja pela versão web desenvolvid
 
 O processo também abrange o tratamento de arquivos estáticos e uploads, além da comunicação com o banco SQLite durante o desenvolvimento. Todo o fluxo é orquestrado de forma integrada, garantindo que as informações circulem entre as plataformas web, mobile e os serviços de apoio, proporcionando uma experiência consistente e centralizada para o usuário.
 
+## Fluxo de usuário
+<img width="566" height="447" alt="Image" src="https://github.com/user-attachments/assets/6f5de034-576b-4c19-9f88-6b3718d74308" />
+
 ## Protótipo-Web
 
 ### Pagina Inicial
