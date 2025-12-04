@@ -155,55 +155,53 @@ Inicialmente, o usuário acessa a aplicação, seja pela versão web desenvolvid
 O processo também abrange o tratamento de arquivos estáticos e uploads, além da comunicação com o banco SQLite durante o desenvolvimento. Todo o fluxo é orquestrado de forma integrada, garantindo que as informações circulem entre as plataformas web, mobile e os serviços de apoio, proporcionando uma experiência consistente e centralizada para o usuário.
 
 ## Fluxo de usuário
-<div>
-  <img src="https://github.com/user-attachments/assets/6f5de034-576b-4c19-9f88-6b3718d74308" width="600" style="display: block; margin-bottom: 25px;">
-</div>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/6f5de034-576b-4c19-9f88-6b3718d74308" width="600"/>
+</p>
 
-<div>
-  <img src="https://github.com/user-attachments/assets/8ec00ffc-db0d-4a29-a477-ea9b075ac2db" width="600" style="display: block; margin-bottom: 25px;">
-</div>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8ec00ffc-db0d-4a29-a477-ea9b075ac2db" width="600"/>
+</p>
 
-<div>
-  <img src="https://github.com/user-attachments/assets/748d1602-1e20-447e-923d-ef9e4b47b008" width="600" style="display: block; margin-bottom: 25px;">
-</div>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/748d1602-1e20-447e-923d-ef9e4b47b008" width="600"/>
+</p>
 
-<div>
-  <img src="https://github.com/user-attachments/assets/e9bb7f9f-386c-43d8-ac44-6776eed16992" width="600" style="display: block; margin-bottom: 25px;">
-</div>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e9bb7f9f-386c-43d8-ac44-6776eed16992" width="600"/>
+</p>
 
-<div>
-  <img src="https://github.com/user-attachments/assets/f34f7225-98c6-4c76-8572-9faa7147574e" width="600" style="display: block; margin-bottom: 25px;">
-</div>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f34f7225-98c6-4c76-8572-9faa7147574e" width="600"/>
+</p>
 
-<div>
-  <img src="https://github.com/user-attachments/assets/763cc832-64de-4d3a-bf52-e92f0c3df79e" width="600" style="display: block; margin-bottom: 25px;">
-</div>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/763cc832-64de-4d3a-bf52-e92f0c3df79e" width="600"/>
+</p>
 
-<div>
-  <img src="https://github.com/user-attachments/assets/171db0fd-77a5-4d25-96d4-166aaadeb420" width="600" style="display: block; margin-bottom: 25px;">
-</div>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/171db0fd-77a5-4d25-96d4-166aaadeb420" width="600"/>
+</p>
 
-<div>
-  <img src="https://github.com/user-attachments/assets/e802b879-e5e0-4ecc-94d4-876567d966f4" width="600" style="display: block; margin-bottom: 25px;">
-</div>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e802b879-e5e0-4ecc-94d4-876567d966f4" width="600"/>
+</p>
 
-<div>
-  <img src="https://github.com/user-attachments/assets/60ec000f-6ef6-44bf-ab19-50651a3f2792" width="600" style="display: block; margin-bottom: 25px;">
-</div>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/60ec000f-6ef6-44bf-ab19-50651a3f2792" width="600"/>
+</p>
 
-<div>
-  <img src="https://github.com/user-attachments/assets/c23c0a12-e442-4bcd-bba9-d15051b0a05d" width="600" style="display: block; margin-bottom: 25px;">
-</div>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c23c0a12-e442-4bcd-bba9-d15051b0a05d" width="600"/>
+</p>
 
-<div>
-  <img src="https://github.com/user-attachments/assets/42196095-4c0f-43d1-acb5-f3fdb91b5898" width="600" style="display: block; margin-bottom: 25px;">
-</div>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/42196095-4c0f-43d1-acb5-f3fdb91b5898" width="600"/>
+</p>
 
-<div>
-  <img src="https://github.com/user-attachments/assets/94cca222-addd-4bd5-a942-b5d7c1b33af9" width="600" style="display: block; margin-bottom: 25px;">
-</div>
-
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/94cca222-addd-4bd5-a942-b5d7c1b33af9" width="600"/>
+</p>
 
 
 ## Protótipo-Web
