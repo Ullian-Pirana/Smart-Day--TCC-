@@ -230,7 +230,7 @@ O processo também abrange o tratamento de arquivos estáticos e uploads, além 
 
 <img width="1115" height="521" alt="image" src="https://github.com/user-attachments/assets/4865fae8-56d5-46ce-b434-5cfa6cbd2161" />
 
-## Protótipo-Web
+## Protótipo-Mobile
 
 ### Login
 
@@ -243,6 +243,44 @@ O processo também abrange o tratamento de arquivos estáticos e uploads, além 
 ### Cadastro
 
 <img width="361" height="528" alt="image" src="https://github.com/user-attachments/assets/c45d34b9-aeaa-4853-95b9-25562159f630" />
+
+### Homepage
+<img width="300" height="527" alt="image" src="https://github.com/user-attachments/assets/edbda712-10f7-4314-9b57-7b7972ca46e7" />
+
+### Casas
+<img width="250" height="477" alt="image" src="https://github.com/user-attachments/assets/178e4390-5d35-47dd-8608-896404346d91" />
+
+### Menu
+<img width="323" height="523" alt="image" src="https://github.com/user-attachments/assets/955c5f64-2cfe-410b-91ad-f6129c89bcd5" />
+
+### Membros
+<img width="274" height="456" alt="image" src="https://github.com/user-attachments/assets/4eb3e276-8593-4b94-89e8-2adace8350f9" />
+
+### Adicionar tarefa 
+<img width="267" height="444" alt="image" src="https://github.com/user-attachments/assets/41d6e41f-755b-4b6c-a027-c83d6c729428" />
+
+### To-do e calendário
+<img width="272" height="453" alt="image" src="https://github.com/user-attachments/assets/f5cef971-dd6b-474a-9a30-5b04e02e8000" />
+
+### Lista de compras
+<img width="259" height="493" alt="image" src="https://github.com/user-attachments/assets/9bb4e5b0-85ed-4ce1-86c5-32b8bb698a11" />
+
+### Econômico
+<img width="232" height="427" alt="image" src="https://github.com/user-attachments/assets/8ae6d4cf-6bfa-436d-acc5-258841cc808e" />
+
+
+### Histórico de compras
+<img width="262" height="508" alt="image" src="https://github.com/user-attachments/assets/ee6233ee-c0bd-4996-8b95-9af50066a6c7" />
+
+
+### Perfil
+<img width="357" height="552" alt="image" src="https://github.com/user-attachments/assets/a77b19f9-2dd8-4b72-b36d-307fc0d2085a" />
+
+### Configurações 
+<img width="362" height="551" alt="image" src="https://github.com/user-attachments/assets/3fc515c4-8c8c-40ff-bea3-95fadcb4557b" />
+
+
+
 
 
 ### 📁 **Estrutura de Pastas Mobile**
