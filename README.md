@@ -155,37 +155,33 @@ Inicialmente, o usuário acessa a aplicação, seja pela versão web desenvolvid
 O processo também abrange o tratamento de arquivos estáticos e uploads, além da comunicação com o banco SQLite durante o desenvolvimento. Todo o fluxo é orquestrado de forma integrada, garantindo que as informações circulem entre as plataformas web, mobile e os serviços de apoio, proporcionando uma experiência consistente e centralizada para o usuário.
 
 ## Fluxo de usuário
-<img width="566" height="447" alt="Image" src="https://github.com/user-attachments/assets/6f5de034-576b-4c19-9f88-6b3718d74308" />
+## Fluxo de usuário
 
-<img width="565" height="449" alt="Image" src="https://github.com/user-attachments/assets/8ec00ffc-db0d-4a29-a477-ea9b075ac2db" />
+<table>
+  <tr>
+    <td><img width="320" src="https://github.com/user-attachments/assets/6f5de034-576b-4c19-9f88-6b3718d74308" /></td>
+    <td><img width="320" src="https://github.com/user-attachments/assets/8ec00ffc-db0d-4a29-a477-ea9b075ac2db" /></td>
+    <td><img width="320" src="https://github.com/user-attachments/assets/748d1602-1e20-447e-923d-ef9e4b47b008" /></td>
+  </tr>
 
-<img width="637" height="494" alt="Image" src="https://github.com/user-attachments/assets/748d1602-1e20-447e-923d-ef9e4b47b008" />
+  <tr>
+    <td><img width="320" src="https://github.com/user-attachments/assets/e9bb7f9f-386c-43d8-ac44-6776eed16992" /></td>
+    <td><img width="320" src="https://github.com/user-attachments/assets/f34f7225-98c6-4c76-8572-9faa7147574e" /></td>
+    <td><img width="320" src="https://github.com/user-attachments/assets/763cc832-64de-4d3a-bf52-e92f0c3df79e" /></td>
+  </tr>
 
-<img width="482" height="524" alt="image" src="https://github.com/user-attachments/assets/e9bb7f9f-386c-43d8-ac44-6776eed16992" />
+  <tr>
+    <td><img width="320" src="https://github.com/user-attachments/assets/171db0fd-77a5-4d25-96d4-166aaadeb420" /></td>
+    <td><img width="320" src="https://github.com/user-attachments/assets/e802b879-e5e0-4ecc-94d4-876567d966f4" /></td>
+    <td><img width="320" src="https://github.com/user-attachments/assets/60ec000f-6ef6-44bf-ab19-50651a3f2792" /></td>
+  </tr>
 
-<img width="623" height="529" alt="image" src="https://github.com/user-attachments/assets/f34f7225-98c6-4c76-8572-9faa7147574e" />
-
-<img width="555" height="357" alt="image" src="https://github.com/user-attachments/assets/763cc832-64de-4d3a-bf52-e92f0c3df79e" />
-
-<img width="558" height="356" alt="image" src="https://github.com/user-attachments/assets/171db0fd-77a5-4d25-96d4-166aaadeb420" />
-
-<img width="482" height="524" alt="image" src="https://github.com/user-attachments/assets/e9bb7f9f-386c-43d8-ac44-6776eed16992" />
-
-<img width="623" height="529" alt="image" src="https://github.com/user-attachments/assets/f34f7225-98c6-4c76-8572-9faa7147574e" />
-
-<img width="555" height="357" alt="image" src="https://github.com/user-attachments/assets/763cc832-64de-4d3a-bf52-e92f0c3df79e" />
-
-<img width="558" height="356" alt="image" src="https://github.com/user-attachments/assets/171db0fd-77a5-4d25-96d4-166aaadeb420" />
-
-<img width="368" height="185" alt="image" src="https://github.com/user-attachments/assets/e802b879-e5e0-4ecc-94d4-876567d966f4" />
-
-<img width="369" height="182" alt="image" src="https://github.com/user-attachments/assets/60ec000f-6ef6-44bf-ab19-50651a3f2792" />
-
-<img width="371" height="184" alt="image" src="https://github.com/user-attachments/assets/c23c0a12-e442-4bcd-bba9-d15051b0a05d" />
-
-<img width="368" height="305" alt="image" src="https://github.com/user-attachments/assets/42196095-4c0f-43d1-acb5-f3fdb91b5898" />
-
-<img width="369" height="184" alt="image" src="https://github.com/user-attachments/assets/94cca222-addd-4bd5-a942-b5d7c1b33af9" />
+  <tr>
+    <td><img width="320" src="https://github.com/user-attachments/assets/c23c0a12-e442-4bcd-bba9-d15051b0a05d" /></td>
+    <td><img width="320" src="https://github.com/user-attachments/assets/42196095-4c0f-43d1-acb5-f3fdb91b5898" /></td>
+    <td><img width="320" src="https://github.com/user-attachments/assets/94cca222-addd-4bd5-a942-b5d7c1b33af9" /></td>
+  </tr>
+</table>
 
 
 ## Protótipo-Web
