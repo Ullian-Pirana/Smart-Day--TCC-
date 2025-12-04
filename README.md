@@ -1,4 +1,4 @@
-# **DOCUMENTAÇÃO TÉCNICA – SmartDayProj**
+# **DOCUMENTAÇÃO TÉCNICA – SmartDay**
 
 ---
 
